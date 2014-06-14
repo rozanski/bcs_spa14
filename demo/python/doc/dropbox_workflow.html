@@ -1,0 +1,132 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module dropbox_workflow</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>dropbox_workflow</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/nick/Documents/Author/Conferences/2014-06-SPA/OAuth/demo/python/dropbox_workflow.py">/Users/nick/Documents/Author/Conferences/2014-06-SPA/OAuth/demo/python/dropbox_workflow.py</a></font></td></tr></table>
+    <p><tt>dropbox_workflow.py:&nbsp;methods&nbsp;to&nbsp;implement&nbsp;the&nbsp;Dropbox&nbsp;No-Redirect&nbsp;and&nbsp;Redirect&nbsp;workflows<br>
+&nbsp;<br>
+Dependencies:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;python&nbsp;2.7<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dropbox&nbsp;-&nbsp;Python&nbsp;Dropbox&nbsp;API&nbsp;(https://www.dropbox.com/developers/datastore/sdks/python)<br>
+&nbsp;<br>
+Classes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#DropboxStatus">DropboxStatus</a>:&nbsp;simple&nbsp;class&nbsp;for&nbsp;returning&nbsp;Dropbox&nbsp;status<br>
+&nbsp;<br>
+Global&nbsp;variables:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;logger:&nbsp;used&nbsp;to&nbsp;log&nbsp;error,&nbsp;info&nbsp;and&nbsp;debug&nbsp;messages<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example&nbsp;usage:&nbsp;logger&nbsp;=&nbsp;CC.logger;&nbsp;logger('message')<br>
+&nbsp;<br>
+Methods:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-no_redirect_client_start">no_redirect_client_start</a>():&nbsp;implements&nbsp;the&nbsp;start()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;no_redirect&nbsp;flow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-no_redirect_client_finish_and_save">no_redirect_client_finish_and_save</a>():&nbsp;implements&nbsp;the&nbsp;finish()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;no_redirect&nbsp;flow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-redirect_client_start">redirect_client_start</a>():&nbsp;implements&nbsp;the&nbsp;start()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;redirect&nbsp;flow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-httpd_handle_finish_and_save">httpd_handle_finish_and_save</a>():&nbsp;httpd&nbsp;handler&nbsp;which&nbsp;implements&nbsp;the&nbsp;finish()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;server&nbsp;(redirect)&nbsp;flow</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common_classes.html">common_classes</a><br>
+</td><td width="25%" valign=top><a href="dropbox.html">dropbox</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="dropbox_workflow.html#DropboxStatus">DropboxStatus</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DropboxStatus">class <strong>DropboxStatus</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>simple&nbsp;class&nbsp;for&nbsp;returning&nbsp;Dropbox&nbsp;status<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="DropboxStatus-__init__"><strong>__init__</strong></a>(self, http_status, message<font color="#909090">=''</font>, redirect_url<font color="#909090">=''</font>)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-httpd_handle_finish_and_save"><strong>httpd_handle_finish_and_save</strong></a>(request_path, query_dict)</dt><dd><tt>This&nbsp;httpd&nbsp;handler&nbsp;implements&nbsp;the&nbsp;finish()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;server&nbsp;(redirect)&nbsp;flow<br>
+&nbsp;<br>
+The&nbsp;client&nbsp;has&nbsp;taken&nbsp;the&nbsp;user&nbsp;to&nbsp;the&nbsp;URL&nbsp;returned&nbsp;by&nbsp;start()&nbsp;and&nbsp;they&nbsp;have&nbsp;authorised&nbsp;with&nbsp;Dropbox.<br>
+The&nbsp;Dropbox&nbsp;website&nbsp;has&nbsp;generated&nbsp;an&nbsp;authorisation&nbsp;code&nbsp;which&nbsp;is&nbsp;included&nbsp;in&nbsp;the&nbsp;redirect&nbsp;URL.<br>
+&nbsp;<br>
+The&nbsp;function&nbsp;uses&nbsp;the&nbsp;client&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;created&nbsp;in&nbsp;noRedirectClientStart()&nbsp;to&nbsp;perform&nbsp;the&nbsp;following&nbsp;steps:<br>
+-&nbsp;Call&nbsp;httpd_services.load_httpd_session()&nbsp;to&nbsp;load&nbsp;the&nbsp;session&nbsp;data&nbsp;saved&nbsp;by&nbsp;<a href="#-redirect_client_start">redirect_client_start</a>().<br>
+-&nbsp;Call&nbsp;dropbox.client.DropboxOAuth2Flow.finish()&nbsp;to&nbsp;finish&nbsp;the&nbsp;Oauth&nbsp;workflow.<br>
+-&nbsp;Call&nbsp;AccessData.save()&nbsp;to&nbsp;save&nbsp;the&nbsp;access&nbsp;token&nbsp;returned&nbsp;by&nbsp;finish().<br>
+-&nbsp;Call&nbsp;DropboxTools.createSampleFiles()&nbsp;to&nbsp;create&nbsp;some&nbsp;sample&nbsp;files&nbsp;in&nbsp;the&nbsp;Dropbox&nbsp;app&nbsp;folder.</tt></dd></dl>
+ <dl><dt><a name="-no_redirect_client_finish_and_save"><strong>no_redirect_client_finish_and_save</strong></a>(security_code)</dt><dd><tt>This&nbsp;function&nbsp;implements&nbsp;the&nbsp;finish()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;no_redirect&nbsp;flow<br>
+&nbsp;<br>
+The&nbsp;client&nbsp;has&nbsp;taken&nbsp;the&nbsp;user&nbsp;to&nbsp;the&nbsp;URL&nbsp;returned&nbsp;by&nbsp;start()&nbsp;and&nbsp;they&nbsp;have&nbsp;authorised&nbsp;with&nbsp;Dropbox.<br>
+The&nbsp;Dropbox&nbsp;website&nbsp;has&nbsp;generated&nbsp;an&nbsp;authorisation&nbsp;code&nbsp;which&nbsp;the&nbsp;user&nbsp;has&nbsp;copied&nbsp;to&nbsp;their&nbsp;clipboard<br>
+and&nbsp;pasted&nbsp;into&nbsp;the&nbsp;client&nbsp;when&nbsp;prompted.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;uses&nbsp;the&nbsp;client&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;created&nbsp;in&nbsp;<a href="#-no_redirect_client_start">no_redirect_client_start</a>()&nbsp;to&nbsp;perform&nbsp;the&nbsp;following&nbsp;steps:<br>
+-&nbsp;Call&nbsp;dropbox.client.DropboxOAuth2FlowNoRedirect.finish()&nbsp;to&nbsp;finish&nbsp;the&nbsp;Oauth&nbsp;workflow.<br>
+-&nbsp;Call&nbsp;AccessData.save()&nbsp;to&nbsp;save&nbsp;the&nbsp;access&nbsp;token&nbsp;returned&nbsp;by&nbsp;finish().<br>
+-&nbsp;Call&nbsp;DropboxTools.createSampleFiles()&nbsp;to&nbsp;create&nbsp;some&nbsp;sample&nbsp;files&nbsp;in&nbsp;the&nbsp;Dropbox&nbsp;app&nbsp;folder</tt></dd></dl>
+ <dl><dt><a name="-no_redirect_client_start"><strong>no_redirect_client_start</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;implements&nbsp;the&nbsp;start()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;no_redirect&nbsp;flow<br>
+&nbsp;<br>
+It&nbsp;performs&nbsp;the&nbsp;following&nbsp;steps:<br>
+-&nbsp;Create&nbsp;a&nbsp;dropbox.client.DropboxOAuth2FlowNoRedirect&nbsp;<a href="__builtin__.html#object">object</a>.<br>
+-&nbsp;Call&nbsp;DropboxOAuth2FlowNoRedirect.start()&nbsp;to&nbsp;start&nbsp;the&nbsp;Oauth&nbsp;workflow.<br>
+-&nbsp;Return&nbsp;the&nbsp;URL&nbsp;generated&nbsp;by&nbsp;start()&nbsp;in&nbsp;a&nbsp;<a href="#DropboxStatus">DropboxStatus</a>&nbsp;<a href="__builtin__.html#object">object</a>.<br>
+&nbsp;<br>
+The&nbsp;client&nbsp;will&nbsp;then&nbsp;take&nbsp;the&nbsp;user&nbsp;to&nbsp;the&nbsp;URL&nbsp;returned&nbsp;by&nbsp;start()&nbsp;so&nbsp;they&nbsp;can&nbsp;authorise&nbsp;with&nbsp;Dropbox.<br>
+The&nbsp;Dropbox&nbsp;website&nbsp;will&nbsp;generate&nbsp;an&nbsp;authorisation&nbsp;code&nbsp;which&nbsp;the&nbsp;user&nbsp;must&nbsp;copy&nbsp;to&nbsp;their&nbsp;clipboard<br>
+and&nbsp;paste&nbsp;into&nbsp;the&nbsp;client&nbsp;when&nbsp;prompted.</tt></dd></dl>
+ <dl><dt><a name="-redirect_client_start"><strong>redirect_client_start</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;implements&nbsp;the&nbsp;start()&nbsp;portion&nbsp;of&nbsp;the&nbsp;Dropbox&nbsp;OAuth&nbsp;redirect&nbsp;flow<br>
+&nbsp;<br>
+It&nbsp;performs&nbsp;the&nbsp;following&nbsp;steps:<br>
+-&nbsp;Create&nbsp;a&nbsp;dropbox.client.DropboxOAuth2Flow&nbsp;<a href="__builtin__.html#object">object</a>.<br>
+-&nbsp;Call&nbsp;DropboxOAuth2Flow.start()&nbsp;to&nbsp;start&nbsp;the&nbsp;Oauth&nbsp;workflow.<br>
+-&nbsp;call&nbsp;httpd_services.save_httpd_session()&nbsp;to&nbsp;save&nbsp;the&nbsp;session&nbsp;for&nbsp;use&nbsp;by&nbsp;the&nbsp;HTTP&nbsp;server.<br>
+-&nbsp;Return&nbsp;the&nbsp;URL&nbsp;generated&nbsp;by&nbsp;DropboxOAuth2Flow.start()&nbsp;in&nbsp;a&nbsp;<a href="#DropboxStatus">DropboxStatus</a>&nbsp;<a href="__builtin__.html#object">object</a>.<br>
+&nbsp;<br>
+The&nbsp;client&nbsp;will&nbsp;then&nbsp;take&nbsp;the&nbsp;user&nbsp;to&nbsp;the&nbsp;URL&nbsp;returned&nbsp;by&nbsp;start()&nbsp;so&nbsp;they&nbsp;can&nbsp;authorise&nbsp;with&nbsp;Dropbox.<br>
+The&nbsp;Dropbox&nbsp;website&nbsp;will&nbsp;generate&nbsp;an&nbsp;authorisation&nbsp;code&nbsp;which&nbsp;will&nbsp;be&nbsp;used&nbsp;by&nbsp;finish()&nbsp;to&nbsp;generate&nbsp;the&nbsp;access&nbsp;token.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ACCOUNT_INFO_FILE</strong> = '/account_info.python.txt'<br>
+<strong>REVIEW_DIRECTORY</strong> = '/oauth_session_python'<br>
+<strong>REVIEW_FILE</strong> = '/oauth_session_python/oauth_session_review.python.md'<br>
+<strong>logger</strong> = &lt;logging.Logger object&gt;</td></tr></table>
+</body></html>

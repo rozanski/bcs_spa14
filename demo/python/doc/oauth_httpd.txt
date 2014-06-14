@@ -1,0 +1,203 @@
+Help on module oauth_httpd:
+
+NAME
+    oauth_httpd - httpd.py: simple webserver for use in Dropbox Python OAuth API demo
+
+FILE
+    /Users/nick/Documents/Author/Conferences/2014-06-SPA/OAuth/demo/python/oauth_httpd.py
+
+DESCRIPTION
+    This class implements a simple HTTP server on the computer running the demo.
+    The server listens on host {@code HttpConfig.HTTP_SERVER} and port {@code HttpConfig.HTTP_PORT}.
+    It runs indefinitely until the user presses Enter or interrupts using control-C.
+    
+    It serves various URLs, including:
+    - HttpConfig.HOME_PAGE - display a home page (use this to test that the server is running ok)
+    - HttpConfig.FINISH_PAGE - run the finish step of the Dropbox redirect workflow.
+    
+    Global variables:
+        logger: used to log error, info and debug messages
+            example usage: logger = CC.logger; logger('message')
+    
+    @see http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python
+
+CLASSES
+    BaseHTTPServer.BaseHTTPRequestHandler(SocketServer.StreamRequestHandler)
+        OAuthHTTPRequestHandler
+    
+    class OAuthHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler)
+     |  request handler which will receive redirected OAuth replies
+     |  
+     |  This class performs the necessary interactions between the web browser and the web server.
+     |  
+     |  Methods:
+     |      do_GET(): process an HTTP GET
+     |      handle_dropbox_status(): handle a Dropbox status for do_GET()
+     |      send_http_header(): send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+     |                                also sends headers to prevent caching in the browser
+     |      send_html_content(): send HTML including the given page body to the browser
+     |  
+     |  Method resolution order:
+     |      OAuthHTTPRequestHandler
+     |      BaseHTTPServer.BaseHTTPRequestHandler
+     |      SocketServer.StreamRequestHandler
+     |      SocketServer.BaseRequestHandler
+     |  
+     |  Methods defined here:
+     |  
+     |  do_GET(self)
+     |      process an HTTP GET
+     |  
+     |  handle_dropbox_status(self, dropbox_status)
+     |      handle a Dropbox status for do_GET()
+     |  
+     |  home_page_body(self, request)
+     |      return the body of the home page
+     |  
+     |  send_html_content(self, page_body)
+     |      send HTML including the given page body to the browser
+     |  
+     |  send_http_header(self, url=None)
+     |      send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseHTTPServer.BaseHTTPRequestHandler:
+     |  
+     |  address_string(self)
+     |      Return the client address formatted for logging.
+     |      
+     |      This version looks up the full hostname using gethostbyaddr(),
+     |      and tries to find a name that contains at least one dot.
+     |  
+     |  date_time_string(self, timestamp=None)
+     |      Return the current date and time formatted for a message header.
+     |  
+     |  end_headers(self)
+     |      Send the blank line ending the MIME headers.
+     |  
+     |  handle(self)
+     |      Handle multiple requests if necessary.
+     |  
+     |  handle_one_request(self)
+     |      Handle a single HTTP request.
+     |      
+     |      You normally don't need to override this method; see the class
+     |      __doc__ string for information on how to handle specific HTTP
+     |      commands such as GET and POST.
+     |  
+     |  log_date_time_string(self)
+     |      Return the current time formatted for logging.
+     |  
+     |  log_error(self, format, *args)
+     |      Log an error.
+     |      
+     |      This is called when a request cannot be fulfilled.  By
+     |      default it passes the message on to log_message().
+     |      
+     |      Arguments are the same as for log_message().
+     |      
+     |      XXX This should go to the separate error log.
+     |  
+     |  log_message(self, format, *args)
+     |      Log an arbitrary message.
+     |      
+     |      This is used by all other logging functions.  Override
+     |      it if you have specific logging wishes.
+     |      
+     |      The first argument, FORMAT, is a format string for the
+     |      message to be logged.  If the format string contains
+     |      any % escapes requiring parameters, they should be
+     |      specified as subsequent arguments (it's just like
+     |      printf!).
+     |      
+     |      The client ip address and current date/time are prefixed to every
+     |      message.
+     |  
+     |  log_request(self, code='-', size='-')
+     |      Log an accepted request.
+     |      
+     |      This is called by send_response().
+     |  
+     |  parse_request(self)
+     |      Parse a request (internal).
+     |      
+     |      The request should be stored in self.raw_requestline; the results
+     |      are in self.command, self.path, self.request_version and
+     |      self.headers.
+     |      
+     |      Return True for success, False for failure; on failure, an
+     |      error is sent back.
+     |  
+     |  send_error(self, code, message=None)
+     |      Send and log an error reply.
+     |      
+     |      Arguments are the error code, and a detailed message.
+     |      The detailed message defaults to the short entry matching the
+     |      response code.
+     |      
+     |      This sends an error response (so it must be called before any
+     |      output has been generated), logs the error, and finally sends
+     |      a piece of HTML explaining the error to the user.
+     |  
+     |  send_header(self, keyword, value)
+     |      Send a MIME header.
+     |  
+     |  send_response(self, code, message=None)
+     |      Send the response header and log the response code.
+     |      
+     |      Also send two standard headers with the server software
+     |      version and the current date.
+     |  
+     |  version_string(self)
+     |      Return the server software version string.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseHTTPServer.BaseHTTPRequestHandler:
+     |  
+     |  MessageClass = <class mimetools.Message>
+     |  
+     |  default_request_version = 'HTTP/0.9'
+     |  
+     |  error_content_type = 'text/html'
+     |  
+     |  error_message_format = '<head>\n<title>Error response</title>\n</head>...
+     |  
+     |  monthname = [None, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'A...
+     |  
+     |  protocol_version = 'HTTP/1.0'
+     |  
+     |  responses = {100: ('Continue', 'Request received, please continue'), 1...
+     |  
+     |  server_version = 'BaseHTTP/0.3'
+     |  
+     |  sys_version = 'Python/2.7.5'
+     |  
+     |  weekdayname = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SocketServer.StreamRequestHandler:
+     |  
+     |  finish(self)
+     |  
+     |  setup(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from SocketServer.StreamRequestHandler:
+     |  
+     |  disable_nagle_algorithm = False
+     |  
+     |  rbufsize = -1
+     |  
+     |  timeout = None
+     |  
+     |  wbufsize = 0
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SocketServer.BaseRequestHandler:
+     |  
+     |  __init__(self, request, client_address, server)
+
+DATA
+    logger = <logging.Logger object>
+
+
