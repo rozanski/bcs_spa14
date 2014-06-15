@@ -68,16 +68,30 @@ def oauth_authorise_no_redirect():
     @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2FlowNoRedirect
     """
 
+    # INSERT CODE HERE:
+    #  - delete the access token file (use CO.AccessData.*)
+    #  - start the Dropbox no-redirect workflow (use DW.*)
+    #  - store the returned information in dropbox_status
+    # SPA14_OAUTH_START
     CO.AccessData.delete_access_token_file()
     dropbox_status = DW.no_redirect_client_start()
+    # SPA14_OAUTH_FINISH
 
     __print_workflow_prompts(
             'Press Enter to start no_redirect() authorisation',
             ' 4. Copy the provided authorisation code to the clipboard')
 
+    # INSERT CODE HERE:
+    #  - open a browser window at the URL returned by the Dropbox start step (use CO.HttpService)
+    #  - prompt the user to enter the security code displayed by Dropbox
+    #  - store the returned information in security_code
+    #  - finish the Dropbox no-redirect workflow, passing it the security code entered by the user,
+    #    and save the access token (use DW.*)
+    # SPA14_OAUTH_START
     CO.HttpServices.open_browser_window(dropbox_status.redirect_url)
     security_code = raw_input('Enter the Dropbox security code: ').strip()
     access_data = DW.no_redirect_client_finish_and_save(security_code)
+    # SPA14_OAUTH_FINISH
 
     __print_help_message('NO-REDIRECT AUTHORISATION COMPLETED SUCCESSFULLY')
 
@@ -99,15 +113,26 @@ def oauth_authorise_redirect():
     @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow
     """
 
+    # INSERT CODE HERE:
+    #  - delete the access token file (use CO.AccessData.*)
+    #  - start the Dropbox redirect workflow (use DW.*)
+    #  - store the returned information in dropbox_status
+    # SPA14_OAUTH_START
     CO.AccessData.delete_access_token_file()
     dropbox_status = DW.redirect_client_start()
+    # SPA14_OAUTH_FINISH
 
     __print_workflow_prompts('Ensure the HTTP server is running and press enter to start redirect() authorisation')
 
+    # INSERT CODE HERE:
+    #  - open a browser window at the URL returned by the Dropbox start step (use CO.HttpService)
+    #  - wait for the access token to be saved (use CO.AccessData)
+    # SPA14_OAUTH_START
     CO.HttpServices.open_browser_window(dropbox_status.redirect_url)
     CO.AccessData.wait_for_access_token_file()
     access_data = CO.AccessData()
     access_data.load()
+    # SPA14_OAUTH_FINISH
 
     __print_help_message('REDIRECT AUTHORISATION COMPLETED SUCCESSFULLY')
 

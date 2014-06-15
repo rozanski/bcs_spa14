@@ -103,8 +103,14 @@ class AppData(object):
     @see https://www.dropbox.com/developers/apps
     """
 
+    # INSERT CODE HERE:
+    #  - initialise APP_KEY and APP_SECRET for the BCS SPA app
+    #  - see main project README
+    # SPA14_OAUTH_START
     APP_KEY = '3i8xil7ewl5d4el'
     APP_SECRET = '0cf79q7jwrp5sjx'
+    # SPA14_OAUTH_FINISH
+
     logger.debug('Dropbox app key is "{key}", app secret is "{secret}"'.format(key=APP_KEY, secret=APP_SECRET))
 
     APP_NAME= 'bcs_spa_oauth_demo'
@@ -143,6 +149,12 @@ class AccessData(object):
 
     def load(self):
         """load and return access data from access token file (which must exist)"""
+        # INSERT CODE HERE:
+        #  - load JSON data from access token file AccessData.ACCESS_TOKEN_FILE
+        #    hint: use json.load(open(...))
+        #  - assign values to self.access_token, self.user_id, self.save_message from this data
+        #  - you should raise an error if self.access_token or self.user_id is missing from the file
+        # SPA14_OAUTH_START
         config = json.load(open(AccessData.ACCESS_TOKEN_FILE, 'r'))
         self.access_token = config.get('access_token', None).encode('ascii','ignore')
         self.user_id = config.get('user_id', None).encode('ascii','ignore')
@@ -151,16 +163,24 @@ class AccessData(object):
             raise KeyError('access token not present in file %s' % (AccessData.ACCESS_TOKEN_FILE))
         elif self.user_id is None:
             raise KeyError('user id not present in file %s' % (AccessData.ACCESS_TOKEN_FILE))
+        # SPA14_OAUTH_FINISH
+
         logger.debug('loaded access data from token file "{file}"'.format(file=AccessData.ACCESS_TOKEN_FILE))
         logger.debug('loaded token="{token}", secret="{user_id}", message="{message}"'.format(
             token=self.access_token, user_id=self.user_id, message=self.save_message))
 
     def save(self):
         """save given access data to access token file (which will be overwritten)"""
+        # INSERT CODE HERE:
+        #  - save self.access_token, self.user_id, self.save_message to access token file AccessData.ACCESS_TOKEN_FILE
+        #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
+        # SPA14_OAUTH_START
         with open(AccessData.ACCESS_TOKEN_FILE, 'w') as fp:
             json.dump({'access_token': self.access_token, 'user_id': self.user_id,
                 'message': self.save_message, 'creation_time': time_now()}, fp, indent=4)
             fp.write('\n')
+        # SPA14_OAUTH_FINISH
+
         logger.debug('saved access token in file %s' % (AccessData.ACCESS_TOKEN_FILE))
 
     @staticmethod
@@ -241,19 +261,37 @@ class HttpServices(object):
 
     def save_httpd_session(self):
         """save HTTPD session data to session data file (which will be overwritten)"""
+        # EXPLANATION:
+        #  The Dropbox redirect flow generates a token during the start() method,
+        #   which you must supply when calling the finish() method to prevent CSRF attacks
+        #   @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow
+        # INSERT CODE HERE:
+        #  - save self.httpd_session to session data file self.HTTPD_SESSION_FILE
+        #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
+        # SPA14_OAUTH_START
         with open(self.HTTPD_SESSION_FILE, 'w') as fp:
             json.dump(self.httpd_session, fp, indent=4)
             fp.write('\n')
+        # SPA14_OAUTH_FINISH
+
         logger.debug('saved HTTPD session data "{httpd_session}" in file "{session_file}"'.format(
             httpd_session=str(self.httpd_session), session_file=self.HTTPD_SESSION_FILE))
 
     def load_httpd_session(self, expire_session=True):
         """load and return HTTPD session data from session data file (which must exist)"""
+        # INSERT CODE HERE:
+        #  - load self.httpd_session from session data file self.HTTPD_SESSION_FILE
+        #  - if expire_session is True, expire the session as well so that the session token is not longer usable
+        #    hint: use json.load(open(...))
+        #    hint: use the expire function defined just below
+        # SPA14_OAUTH_START
         self.httpd_session = json.load(open(self.HTTPD_SESSION_FILE, 'r'))
-        logger.debug('loaded HTTPD session data "{httpd_session}" from file "{session_file}"'.format(
-            httpd_session=str(self.httpd_session), session_file=self.HTTPD_SESSION_FILE))
         if expire_session:
             self.expire_httpd_session()
+        # SPA14_OAUTH_FINISH
+
+        logger.debug('loaded HTTPD session data "{httpd_session}" from file "{session_file}"'.format(
+            httpd_session=str(self.httpd_session), session_file=self.HTTPD_SESSION_FILE))
 
     def expire_httpd_session(self):
         """expire the sesssion by renaming the session file to HTTPD_SESSION_FILE_EXPIRED"""
@@ -269,7 +307,10 @@ class HttpServices(object):
                 logger.info('deleted file %s' % (filepath))
 
     def save_latest_url(self, url):
-        """save latest URL requested of HTTP server to latest URL file (which will be overwritten)"""
+        """
+        save latest URL requested of HTTP server to latest URL file
+        this is used in testing to see if a URL has been requested of the server
+        """
         with open(self.HTTPD_LATEST_URL_FILE, 'w') as fp:
             fp.write(url + '\n')
             logger.debug('wrote URL %s to latest URL file %s' % (url, self.HTTPD_LATEST_URL_FILE))
@@ -291,7 +332,10 @@ class HttpServices(object):
             logger.debug('deleted latest URL file %s' % (self.HTTPD_LATEST_URL_FILE))
 
     def wait_for_latest_url_file(self, timeout=0):
-        """wait for latest URL file to appear, return True when found or optionally timeout and return False"""
+        """
+        wait for latest URL file to appear, return True when found or optionally timeout and return False
+        this is used in testing to see if a URL has been requested of the server
+        """
         return wait_for_file(self.HTTPD_LATEST_URL_FILE, timeout=timeout)
 
     @staticmethod

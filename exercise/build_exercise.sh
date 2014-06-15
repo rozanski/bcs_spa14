@@ -1,8 +1,12 @@
 #!/bin/bash
 
 function create_skeleton {
-    cp $1 $2
-    # sed '/^[[:space:]]*SPA14_OAUTH_START[[:space:]]*$/,/^[[:space:]]*SPA14_OAUTH_FINISH[[:space:]]*$/d'$1 > $2
+    # cp $1 $2
+    wc1="`wc -l $1 | sed -e 's/ *//' -e 's/ .*//'`"
+    echo " processing $filename ($wc1 lines)..."
+    sed '/^[[:space:]/#]*SPA14_OAUTH_START[[:space:]]*$/,/^[[:space:]/#]*SPA14_OAUTH_FINISH[[:space:]]*$/d' $1 > $2
+    wc2="`wc -l $2 | sed -e 's/ *//' -e 's/ .*//'`"
+    [ "$wc1" -ne "$wc2" ] && echo "   (output contains $wc2 lines)"
 }
 
 export exercise_dir=`dirname $0`
@@ -30,13 +34,11 @@ echo Processing Java source...
 for srcfile in $demo_dir/java/src/oauth_demo/*.java
 do
     filename=`basename $srcfile`
-    echo " processing $filename..."
     create_skeleton $srcfile $exercise_dir/java/src/oauth_demo/$filename
 done
 for testfile in $demo_dir/java/src/oauth_demo/unittest/*.java
 do
     filename=`basename $testfile`
-    echo " processing unittest/$filename..."
     create_skeleton $testfile $exercise_dir/java/src/oauth_demo/unittest/$filename
 done
 

@@ -38,9 +38,22 @@ REVIEW_FILE = '%s/oauth_session_review.python.md' % REVIEW_DIRECTORY
 
 def db_list_directory(path='/'):
     """list the contents of the given Dropbox directory"""
+    # INSERT CODE HERE:
+    #  - create a Dropbox OAuth client object with which to make Dropbox calls
+    #    hint: class is dropbox.client.DropboxClient()
+    #  - this needs to be supplied with the access token
+    #    hint: create a CO.AccessData() object and load() it from file
+    # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
     client = dropbox.client.DropboxClient(access_data.access_token)
+    # SPA14_OAUTH_FINISH
+
+    # INSERT CODE HERE:
+    #  - make a Dropbox client call to get the dropbox directory contents
+    #    hint: Dropbox calls this "folder metadata"
+    #    hint: @see https://www.dropbox.com/developers/core/docs/python (search for metadata())
+    # SPA14_OAUTH_START
     folder_metadata = client.metadata(path)
     print 'DIRECTORIES in %s:' % (path,)
     for entry in folder_metadata['contents']:
@@ -51,9 +64,14 @@ def db_list_directory(path='/'):
 
 def db_print_file(file_path):
     """print the contents of the given file to stdout"""
+    # INSERT CODE HERE:
+    #  - create a Dropbox OAuth client object (same code as above)
+    # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
     client = dropbox.client.DropboxClient(access_data.access_token)
+    # SPA14_OAUTH_FINISH
+
     print 'CONTENTS OF %s:' % (file_path,)
     line_count = 1
     with client.get_file(file_path) as f:
@@ -63,9 +81,14 @@ def db_print_file(file_path):
 
 def db_create_text_file(file_path='', lines=[]):
     """create a file and write some lines of text to it from stdin or lines[]"""
+    # INSERT CODE HERE:
+    #  - create a Dropbox OAuth client object (same code as above)
+    # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
     client = dropbox.client.DropboxClient(access_data.access_token)
+    # SPA14_OAUTH_FINISH
+
     if file_path == '':
         file_path = raw_input('Enter the name of a file to create: ').strip()
     tempfile = NamedTemporaryFile(delete=False)
@@ -80,31 +103,53 @@ def db_create_text_file(file_path='', lines=[]):
             tempfile.write('%s\n' % (line,))
     tempfile.close()
     logger.debug('creating file %s...' % file_path)
+
+    # INSERT CODE HERE:
+    #  - open() the temporary file fname for read
+    #  - pass this file handle to Dropbox put_file() to upload the file
+    #    hint: @see https://www.dropbox.com/developers/core/docs/python (search for put_file())
+    # SPA14_OAUTH_START
     tempfile = open(fname)
     client.put_file(file_path, tempfile, overwrite=True)
     logger.debug('created file %s' % file_path)
+    # SPA14_OAUTH_FINISH
 
 def db_delete_file(file_path=''):
     if file_path == '':
         file_path = raw_input('Enter the name of the file to delete: ').strip()
+    # INSERT CODE HERE:
+    #  - create a Dropbox OAuth client object (same code as above)
+    # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
     client = dropbox.client.DropboxClient(access_data.access_token)
+    # SPA14_OAUTH_FINISH
+
     client.file_delete(file_path)
     logger.debug('deleted file %s' % file_path)
 
 def db_disable_access_token():
+    # INSERT CODE HERE:
+    #  - create a Dropbox OAuth client object (same code as above)
+    # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
     client = dropbox.client.DropboxClient(access_data.access_token)
+    # SPA14_OAUTH_FINISH
+
     client.disable_access_token()
     logger.info('disabled Dropbox access token (access file not deleted)')
 
 def db_create_sample_files():
     """create some files and directories in Dropbox directory"""
+    # INSERT CODE HERE:
+    #  - create a Dropbox OAuth client object (same code as above)
+    # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
     client = dropbox.client.DropboxClient(access_data.access_token)
+    # SPA14_OAUTH_FINISH
+
 
     # save file containing account information
     tempfile = NamedTemporaryFile(delete=False)

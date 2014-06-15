@@ -21,6 +21,13 @@ This is the code you will be editing.
 The code contains comments which guide you to the various API calls you need to make.
 If you ever get stuck, you can refer to the corresponding code in the `demo` directory.
 
+### App Key and Secret
+Your code will need to initialise the Dropbox OAuth 'app key' and 'app secret' where indicated.
+The values to use are:
+
+- OAuth app key: __"`3i8xil7ewl5d4el"`__
+- OAuth app secret: __"`0cf79q7jwrp5sjx"`__
+
 ## PREREQUISITES
 ### Dropbox
 Sign up to **Dropbox** at <https://www.dropbox.com> if you don't already have an account.
