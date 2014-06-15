@@ -7,15 +7,15 @@ developers to offer cloud services to users without requiring them
 to provide their usernames and passwords.
 It uses Dropbox as an example cloud service.
 
-## DIRECTORY STRUCTURE
-### Demo Code
+## WHAT'S IN THE BOX
+### Complete Implementation
 The `demo` directory contains two complete implementations of the code needed for the session, one in Python and one one Java.
 They are functionally equivalent, so you can use whichever language you prefer.
 Each of these directories has its own README with instructions on running the demo and unit tests.
 
 The demo code should run on Windows, Mac and Linux (_not extensively tested on Linux_).
 
-### Code for Today's Exercise
+### Skeleton Code for Today's Exercise
 The `exercise` directory contains code skeletons created from the `demo` directory.
 This is the code you will be editing.
 The code contains comments which guide you to the various API calls you need to make.
@@ -27,21 +27,25 @@ Sign up to **Dropbox** at <https://www.dropbox.com> if you don't already have an
 You do not need to install the Dropbox desktop software onto your computer
 (if you do, to will also be able to view the demo files in your local Dropbox directory `Dropbox/apps/bcs_spa_2014`).
 
-There are a number of Python and Java-specific prerequities too, which are described in the respective `demo` directories.
+There are a number of Python and Java-specific prerequities too, which are described in their respective `demo` directories.
 
 ## INSTALLING THE SOFTWARE
 Create a user-owned and writeable directory into which you will install the software,
-eg `C:\OAUTH_DEMO` or `~/oauth_demo`.
+eg `C:\OAUTH_SESSION` or `~/oauth_session`.
 
 Download the files in my git repository <https://github.com/rozanski/bcs_spa14> into this directory.
-You can download the files directly from the website (click _Download Zip_) or retrieve them using a git tool.
-You should then run the unit tests for your chosen language to make sure everything is installed correctly.
+You can download the files directly from the website (click _Download Zip_) or retrieve them using a `git` tool.
+
+You also need to download the Dropbox library and perform other setup tasks for your chosen language.
+The READMEs in the `demo/python` and `demo/java` directories have detailed installation instructions .
+
+### Running the Unit Tests
+Once you have completed all the installation tasks,
+you should then run the unit tests for your chosen language to make sure everything is working correctly.
 
 ### Viewing the Demo Documentation
-The `doc` directory in the python and java directories contains documentation for the demo code.
+The `python/doc` and `java/doc` directories contain documentation for the demo code.
 You can open the HTML files in a web browser or view them from the home page of the demo HTTP server.
-
-There are more detailed installation and unit test instructions in the READMEs in the `demo/python` and `demo/java` directories.
 
 ## HOW THE DEMO WORKS
 The demo has two parts:
@@ -70,20 +74,20 @@ No-redirect mode is simpler (it does not require a URI handler) but pasting a lo
 Most real applications which use the OAuth "authorisation token" workflow use redirect mode.
 
 ### Authorising with Dropbox
-When running redirect mode, if you are not currently logged in to Dropbox in your browser, you will have to
-enter your Dropbox login and password before the authorisation web page is displayed.
-(This information is not visible to the client program.)
-
-If you have configured Dropbox two-factor authentication, you may also have to enter a code
-which has been sent to your mobile phone.
-
-This is all part of the Dropbox login process, not the OAuth protocol.
-
 Once you have authorised with Dropbox, the access token is saved to a file on disk
 and used in subsequent calls to Dropbox functions.
 
+_Note_: when you authorise with Dropbox,
+you will have to enter your Dropbox login and password in your browser if you are not currently logged in.
+
+If you have configured Dropbox two-factor authentication, you may also have to enter a code
+which will have been sent to your mobile phone.
+
+This is all part of the Dropbox authentication process, not the OAuth protocol.
+The information is only passed between you and Dropbox, and is not visible to the OAuth client program.
+
 ### De-Authorising with Dropbox
-To de-authorise with Dropbox, runt the command or select the option to delete the access token file.
+To de-authorise with Dropbox, run the Python command or select the Java menu option to delete the access token file.
 You will then have to run through either of the authorisation workflows again.
 
 You can authorise and de-authorise any number of times.
