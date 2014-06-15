@@ -2,11 +2,8 @@
 This directory contains Python code for the BCS SPA 2014
 [OAuth session](http://spaconference.org/spa2014/sessions/session576.html).
 
-## Environment
-The session should run on Windows, Mac and Linux.
-
-## Prerequisites
-### Python
+## PYTHON INSTALLATION AND SETUP
+### Install Python
 Install **Python** if you don't already have it.
 You can download Python from the [Python website](https://www.python.org/download/).
 *Note*: The sample code has only been tested with Python 2.7 (not Python 3.x).
@@ -14,7 +11,7 @@ You can download Python from the [Python website](https://www.python.org/downloa
 For Windows, add the path to the Python executable (eg `C:\Python27`) to the Windows
 PATH environment variable using Windows Control Panel.
 
-### pip
+### Install pip
 Install **pip** if you don't already have it. 
 (pip is a tool for downloading and installing packages from PyPI,
 "the default package index for the Python community.")
@@ -29,7 +26,11 @@ For Windows, run:
 
     python -m pip install -U pip
 
-### Dropbox Python Library
+### Install Mock
+You may need to install Mock to run the unit tests.
+You can install Mock using `pip` or `easy_install` (see above)
+
+### Install the Dropbox Python Library
 Install the Dropbox Python library.  For Mac / Linux, run the following at the command line:
 
     pip install dropbox
@@ -38,14 +39,10 @@ For Windows, run:
 
     python -m pip install -U dropbox
 
-### Mock
-You may need to install Mock to run the unit tests.
-You can install Mock using `pip` or `easy_install` (see above)
-
 ### Configure the Demo (Optional)
 Edit the file `python/common_classes.py` if you want to change the browser which is used to run the authorisation workflow.
 
-## Running the Unit Tests
+### Verify Your Setup
 You should run the Python unit tests to make sure everything is installed correctly.
 
 Start the Demo HTTP server as described below, and then in another console run the following command.
@@ -59,7 +56,7 @@ For Windows run one of:
 
 Note that the Dropbox tests take 10 seconds or so to complete.
 
-## Running the Demo
+## RUNNING THE DEMO
 ### Starting the Demo Client
 Change to the `python` directory and start the client.
 For Mac / Linux run one of:
@@ -89,10 +86,9 @@ For Windows run one of:
 The HTTP server will start and respond to any HTTP requests sent to it.
 Test it by browsing to the home page (the HTTP server logs the home page URL to the console in an INFO message).
 
-## Running Demo Tasks
-From the client python prompt, call one of the `oauth_redirect_*()` functions to authorise with Dropbox.
-
-Once you have authorised the demo app with Dropbox, you can run various commands to list, display or create files.
+## RUNNING DEMO TASKS
+The demo includes various functions you can run from the client Python prompt to authorise and interact with Dropbox.
+You can authorise the demo app with Dropbox, and then run various commands to list, display or create files.
 These all call the Dropbox API using the access token you created as part of the
 Dropbox authorisation workflow.
 
