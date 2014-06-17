@@ -38,16 +38,18 @@ REVIEW_FILE = '%s/oauth_session_review.python.md' % REVIEW_DIRECTORY
 
 def db_list_directory(path='/'):
     """list the contents of the given Dropbox directory"""
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create a Dropbox OAuth client object with which to make Dropbox calls
     #    hint: class is dropbox.client.DropboxClient()
     #  - this needs to be supplied with the access token
     #    hint: create a CO.AccessData() object and load() it from file
+# ==> INSERT CODE HERE
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - make a Dropbox client call to get the dropbox directory contents
     #    hint: Dropbox calls this "folder metadata"
     #    hint: @see https://www.dropbox.com/developers/core/docs/python (search for metadata())
+# ==> INSERT CODE HERE
 
     print 'CONTENTS OF %s:' % (file_path,)
     line_count = 1
@@ -58,8 +60,9 @@ def db_list_directory(path='/'):
 
 def db_create_text_file(file_path='', lines=[]):
     """create a file and write some lines of text to it from stdin or lines[]"""
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create a Dropbox OAuth client object (same code as above)
+# ==> INSERT CODE HERE
 
     if file_path == '':
         file_path = raw_input('Enter the name of a file to create: ').strip()
@@ -76,31 +79,35 @@ def db_create_text_file(file_path='', lines=[]):
     tempfile.close()
     logger.debug('creating file %s...' % file_path)
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - open() the temporary file fname for read
     #  - pass this file handle to Dropbox put_file() to upload the file
     #    hint: @see https://www.dropbox.com/developers/core/docs/python (search for put_file())
+# ==> INSERT CODE HERE
 
 def db_delete_file(file_path=''):
     if file_path == '':
         file_path = raw_input('Enter the name of the file to delete: ').strip()
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create a Dropbox OAuth client object (same code as above)
+# ==> INSERT CODE HERE
 
     client.file_delete(file_path)
     logger.debug('deleted file %s' % file_path)
 
 def db_disable_access_token():
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create a Dropbox OAuth client object (same code as above)
+# ==> INSERT CODE HERE
 
     client.disable_access_token()
     logger.info('disabled Dropbox access token (access file not deleted)')
 
 def db_create_sample_files():
     """create some files and directories in Dropbox directory"""
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create a Dropbox OAuth client object (same code as above)
+# ==> INSERT CODE HERE
 
 
     # save file containing account information

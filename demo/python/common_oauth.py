@@ -103,7 +103,7 @@ class AppData(object):
     @see https://www.dropbox.com/developers/apps
     """
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - initialise APP_KEY and APP_SECRET for the BCS SPA app
     #  - see main project README
     # SPA14_OAUTH_START
@@ -149,7 +149,7 @@ class AccessData(object):
 
     def load(self):
         """load and return access data from access token file (which must exist)"""
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - load JSON data from access token file AccessData.ACCESS_TOKEN_FILE
         #    hint: use json.load(open(...))
         #  - assign values to self.access_token, self.user_id, self.save_message from this data
@@ -171,7 +171,7 @@ class AccessData(object):
 
     def save(self):
         """save given access data to access token file (which will be overwritten)"""
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - save self.access_token, self.user_id, self.save_message to access token file AccessData.ACCESS_TOKEN_FILE
         #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
         # SPA14_OAUTH_START
@@ -265,7 +265,7 @@ class HttpServices(object):
         #  The Dropbox redirect flow generates a token during the start() method,
         #   which you must supply when calling the finish() method to prevent CSRF attacks
         #   @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - save self.httpd_session to session data file self.HTTPD_SESSION_FILE
         #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
         # SPA14_OAUTH_START
@@ -279,7 +279,7 @@ class HttpServices(object):
 
     def load_httpd_session(self, expire_session=True):
         """load and return HTTPD session data from session data file (which must exist)"""
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - load self.httpd_session from session data file self.HTTPD_SESSION_FILE
         #  - if expire_session is True, expire the session as well so that the session token is not longer usable
         #    hint: use json.load(open(...))

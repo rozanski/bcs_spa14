@@ -103,9 +103,10 @@ class AppData(object):
     @see https://www.dropbox.com/developers/apps
     """
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - initialise APP_KEY and APP_SECRET for the BCS SPA app
     #  - see main project README
+# ==> INSERT CODE HERE
 
     logger.debug('Dropbox app key is "{key}", app secret is "{secret}"'.format(key=APP_KEY, secret=APP_SECRET))
 
@@ -145,11 +146,12 @@ class AccessData(object):
 
     def load(self):
         """load and return access data from access token file (which must exist)"""
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - load JSON data from access token file AccessData.ACCESS_TOKEN_FILE
         #    hint: use json.load(open(...))
         #  - assign values to self.access_token, self.user_id, self.save_message from this data
         #  - you should raise an error if self.access_token or self.user_id is missing from the file
+# ==> INSERT CODE HERE
 
         logger.debug('loaded access data from token file "{file}"'.format(file=AccessData.ACCESS_TOKEN_FILE))
         logger.debug('loaded token="{token}", secret="{user_id}", message="{message}"'.format(
@@ -157,9 +159,10 @@ class AccessData(object):
 
     def save(self):
         """save given access data to access token file (which will be overwritten)"""
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - save self.access_token, self.user_id, self.save_message to access token file AccessData.ACCESS_TOKEN_FILE
         #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
+# ==> INSERT CODE HERE
 
         logger.debug('saved access token in file %s' % (AccessData.ACCESS_TOKEN_FILE))
 
@@ -245,20 +248,22 @@ class HttpServices(object):
         #  The Dropbox redirect flow generates a token during the start() method,
         #   which you must supply when calling the finish() method to prevent CSRF attacks
         #   @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - save self.httpd_session to session data file self.HTTPD_SESSION_FILE
         #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
+# ==> INSERT CODE HERE
 
         logger.debug('saved HTTPD session data "{httpd_session}" in file "{session_file}"'.format(
             httpd_session=str(self.httpd_session), session_file=self.HTTPD_SESSION_FILE))
 
     def load_httpd_session(self, expire_session=True):
         """load and return HTTPD session data from session data file (which must exist)"""
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - load self.httpd_session from session data file self.HTTPD_SESSION_FILE
         #  - if expire_session is True, expire the session as well so that the session token is not longer usable
         #    hint: use json.load(open(...))
         #    hint: use the expire function defined just below
+# ==> INSERT CODE HERE
 
         logger.debug('loaded HTTPD session data "{httpd_session}" from file "{session_file}"'.format(
             httpd_session=str(self.httpd_session), session_file=self.HTTPD_SESSION_FILE))

@@ -1,10 +1,20 @@
 #!/bin/bash
 
 function create_skeleton {
-    # cp $1 $2
+    # input line count
     wc1="`wc -l $1 | sed -e 's/ *//' -e 's/ .*//'`"
     echo " processing $filename ($wc1 lines)..."
-    sed '/^[[:space:]/#]*SPA14_OAUTH_START[[:space:]]*$/,/^[[:space:]/#]*SPA14_OAUTH_FINISH[[:space:]]*$/d' $1 > $2
+    extension="${1##*.}"
+    if [ "$extension" == py ]; then
+        comment='#'
+    else
+        comment='//'
+    fi
+    # replace each  block of lines delimited by the START and FINISH tokens
+    sed "/SPA14_OAUTH_START/,/SPA14_OAUTH_FINISH/c\\
+$comment ==> INSERT CODE HERE
+" $1 > $2
+    # output line count
     wc2="`wc -l $2 | sed -e 's/ *//' -e 's/ .*//'`"
     [ "$wc1" -ne "$wc2" ] && echo "   (output contains $wc2 lines)"
 }

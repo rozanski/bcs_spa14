@@ -57,7 +57,7 @@ def no_redirect_client_start():
     logger.debug('creating DropboxOAuth2FlowNoRedirect client for app "{app_name}" with key "{key}" and secret "{secret}"'.format(
                 app_name=CO.AppData.APP_NAME, key=CO.AppData.APP_KEY, secret=CO.AppData.APP_SECRET))
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create an OAuth no-redirect object (the class is DropboxOAuth2FlowNoRedirect)
     #    hint: get the app key and secret from CO.AppData
     #  - start the dropbox OAuth no-redirect workflow by calling start()
@@ -89,7 +89,7 @@ def no_redirect_client_finish_and_save(security_code):
     logger.debug('creating DropboxOAuth2FlowNoRedirect client for app "{app_name}" with key "{key}" and secret "{secret}"'.format(
                 app_name=CO.AppData.APP_NAME, key=CO.AppData.APP_KEY, secret=CO.AppData.APP_SECRET))
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create an OAuth no-redirect object (as you did for no_redirect_client_start)
     #    hint: get the app key and secret from CO.AppData
     #  - finish the dropbox OAuth no-redirect workflow by calling finish()
@@ -130,7 +130,7 @@ def redirect_client_start():
                 app_name=CO.AppData.APP_NAME, key=CO.AppData.APP_KEY, secret=CO.AppData.APP_SECRET))
     httpd_services = CO.HttpServices()
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create an OAuth redirect object (the class is DropboxOAuth2Flow)
     #    hint: get the app key and secret from CO.AppData
     #    hint: get the finish URL from the httpd_services object
@@ -168,7 +168,7 @@ def httpd_handle_finish_and_save(request_path, query_dict):
     httpd_services.load_httpd_session()
     logger.debug('finishing Dropbox authorisation (redirect mode), URL query="%s"' % (str(query_dict),))
 
-    # INSERT CODE HERE:
+    # EXERCISE:
     #  - create an OAuth no-redirect object (as you did for redirect_client_start)
     #    hint: get the app key and secret from CO.AppData
     # SPA14_OAUTH_START
@@ -180,7 +180,7 @@ def httpd_handle_finish_and_save(request_path, query_dict):
     # SPA14_OAUTH_FINISH
 
     try:
-        # INSERT CODE HERE:
+        # EXERCISE:
         #  - finish the dropbox OAuth no-redirect workflow by calling finish()
         #    (pass it the URL query dict{} that was used in the redirect to the HTTP server)
         #  - store the returned access token and user id in a CO.AccessData() object
