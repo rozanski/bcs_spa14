@@ -62,7 +62,7 @@ def no_redirect_client_start():
     #    hint: get the app key and secret from CO.AppData
     #  - start the dropbox OAuth no-redirect workflow by calling start()
     #  - save the returned redirect URL in authorise_url
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     logger.info('Dropbox authorisation start successful, got authorisation URL')
     logger.debug('authorisation URL="{url}"'.format(url=authorise_url))
@@ -91,7 +91,7 @@ def no_redirect_client_finish_and_save(security_code):
     #  - finish the dropbox OAuth no-redirect workflow by calling finish()
     #    (pass it the security code that was entered by the user when the visited the Dropbox website)
     #  - store the returned access token and user id in a CO.AccessData() object
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     logger.info('Dropbox authorisation finish successful, access token={access_token}, user id={user_id}'.format(
         access_token=access_data.access_token, user_id=access_data.user_id))
@@ -129,7 +129,7 @@ def redirect_client_start():
     #    hint: the CSRF session key is httpd_services.OAUTH_CSRF_SESSION_KEY
     #  - start the dropbox OAuth redirect workflow by calling start()
     #  - save the returned redirect URL in authorise_url
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     logger.info('Dropbox authorisation start successful, authorisation URL="{url}"'.format(url=authorise_url))
     logger.debug('CSRF token="{token}", HTTP session is "{session}"'.format(
@@ -157,7 +157,7 @@ def httpd_handle_finish_and_save(request_path, query_dict):
     # EXERCISE:
     #  - create an OAuth no-redirect object (as you did for redirect_client_start)
     #    hint: get the app key and secret from CO.AppData
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     try:
         # EXERCISE:
@@ -165,7 +165,7 @@ def httpd_handle_finish_and_save(request_path, query_dict):
         #    (pass it the URL query dict{} that was used in the redirect to the HTTP server)
         #  - store the returned access token and user id in a CO.AccessData() object
         #  - (this demo ignores the "URL state" variable for simplicity)
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
         httpd_services.expire_httpd_session()
         logger.info('Dropbox authorisation finish successful, access token="{access_token}", user id="{user_id}"'.format(

@@ -72,7 +72,7 @@ def oauth_authorise_no_redirect():
     #  - delete the access token file (use CO.AccessData.*)
     #  - start the Dropbox no-redirect workflow (use DW.*)
     #  - store the returned information in dropbox_status
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     __print_workflow_prompts(
             'Press Enter to start no_redirect() authorisation',
@@ -84,7 +84,7 @@ def oauth_authorise_no_redirect():
     #  - store the returned information in security_code
     #  - finish the Dropbox no-redirect workflow, passing it the security code entered by the user,
     #    and save the access token (use DW.*)
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     __print_help_message('NO-REDIRECT AUTHORISATION COMPLETED SUCCESSFULLY')
 
@@ -110,14 +110,14 @@ def oauth_authorise_redirect():
     #  - delete the access token file (use CO.AccessData.*)
     #  - start the Dropbox redirect workflow (use DW.*)
     #  - store the returned information in dropbox_status
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     __print_workflow_prompts('Ensure the HTTP server is running and press enter to start redirect() authorisation')
 
     # EXERCISE:
     #  - open a browser window at the URL returned by the Dropbox start step (use CO.HttpService)
     #  - wait for the access token to be saved (use CO.AccessData)
-# ==> INSERT CODE HERE
+# TODO ==> INSERT CODE HERE <==
 
     __print_help_message('REDIRECT AUTHORISATION COMPLETED SUCCESSFULLY')
 

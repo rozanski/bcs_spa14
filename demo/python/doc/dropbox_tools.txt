@@ -22,7 +22,7 @@ DESCRIPTION
     
     Global variables:
         logger: used to log error, info and debug messages
-            example usage: logger = CC.logger; logger('message')
+            example usage: logger = CO.logger; logger('message')
     
     Methods:
         db_list_directory(): list the contents of the given Dropbox directory
@@ -34,8 +34,14 @@ FUNCTIONS
     db_create_sample_files()
         create some files and directories in Dropbox directory
     
-    db_create_text_file(file_path='')
-        create a file and write some lines of text to it
+    db_create_text_file(file_path='', lines=[])
+        create a file and write some lines of text to it from stdin or lines[]
+    
+    db_delete_file(file_path='')
+        delete the given dropbox file
+    
+    db_disable_access_token()
+        disable the dropbox access token (so authorisation will need to be run again
     
     db_list_directory(path='/')
         list the contents of the given Dropbox directory

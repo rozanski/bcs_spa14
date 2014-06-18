@@ -1,0 +1,219 @@
+Help on module common_oauth:
+
+NAME
+    common_oauth - common_oauth.py: configuration data and common classes and functions for the Dropbox Python OAuth API demo
+
+FILE
+    /Users/nick/Documents/Author/Conferences/2014-06-SPA/OAuth/demo/python/common_oauth.py
+
+DESCRIPTION
+    Classes:
+        AccessData:   defines the Dropbox app key and secret for the demo app
+        AppData:      Dropbox OAuth application data
+        HttpServices: HTTP data and service functions
+    
+    Global constants (you should not need to change any of these):
+        BROWSER_NAME: which web browser is used to authenticate with Dropbox
+            valid browser names include 'windows-default', 'mozilla', 'macosx', 'safari', 'opera', 'konqueror' etc.
+            @see https://docs.python.org/2/library/webbrowser.html
+        BROWSER_NEW_WINDOW: set this to True to open a new browser window, False to try and open a new tab
+        DEMO_DIRECTORY: pathname of demo directory (the directory containing this file)
+            you should not need to change this, but if this does not work, you can enter it explicitly below
+        FILES_DIRECTORY: directory in which access token and session files are saved (DEMO_DIRECTORY/files)
+        DOC_DIRECTORY: directory in which documenation files are saved (DEMO_DIRECTORY/doc)
+    
+    Global variables:
+        logger: used to log error, info and debug messages
+            example usage: logger = CO.logger; logger('message')
+    
+    Methods:
+        time_now():return human-readable representation of the current date and time
+
+CLASSES
+    __builtin__.object
+        AccessData
+        AppData
+        HttpServices
+    
+    class AccessData(__builtin__.object)
+     |  Dropbox OAuth access data (access token and user id)
+     |  
+     |  This class is used to store and manage the Dropbox Oauth access data.
+     |  It includes methods to save the information to disk, and load previously-saved access data.
+     |  It also includes methods to check for the presence of the file on disk.
+     |  
+     |  Attributes:
+     |      ACCESS_TOKEN_FILE: full pathname of file containing details of the Dropbox access token
+     |  
+     |  Methods:
+     |      load(): load and return access data from access token file (which must exist)
+     |      save(): save given access data to access token file (which will be overwritten)
+     |  
+     |  Static Methods:
+     |      access_token_file_exists(): check whether access token data exists (file has previously been saved with access token)
+     |      print_access_token_file(): print contents of access token file
+     |      delete_access_token_file()A: delete the access token file and other control files
+     |      wait_for_access_token_file(): wait indefinitely until the access token file is found
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, save_message='')
+     |  
+     |  load(self)
+     |      load and return access data from access token file (which must exist)
+     |  
+     |  save(self)
+     |      save given access data to access token file (which will be overwritten)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  access_token_file_exists(silent=False)
+     |      check whether access token data exists (file has previously been saved with access token)
+     |  
+     |  delete_access_token_file()
+     |      delete the access token file and other control files
+     |  
+     |  print_access_token_file()
+     |      print contents of access token file
+     |  
+     |  wait_for_access_token_file(message_interval=5)
+     |      wait indefinitely until the access token file is found
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  ACCESS_TOKEN_FILE = '/Users/nick/Documents/Author/Conferences/2014-06-...
+    
+    class AppData(__builtin__.object)
+     |  Dropbox OAuth application data
+     |  
+     |  This class defines the Dropbox app key and secret for the demo app.
+     |  It also defines some other useful information and URLs.
+     |  
+     |  Attributes:
+     |      APP_KEY: Dropbox app key for the demo app
+     |      APP_SECRET: Dropbox app secret for the demo app
+     |      APP_NAME: Dropbox app name for the demo app (used in Dropbox calls)
+     |      APP_WEBSITE: Dropbox developer website for the app
+     |  
+     |  @see https://www.dropbox.com/developers/apps
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  APP_KEY = '3i8xil7ewl5d4el'
+     |  
+     |  APP_NAME = 'bcs_spa_oauth_demo'
+     |  
+     |  APP_SECRET = '0cf79q7jwrp5sjx'
+     |  
+     |  APP_WEBSITE = 'https://www.dropbox.com/developers/apps/info/3i8xil7ewl...
+    
+    class HttpServices(__builtin__.object)
+     |  HTTP data and service functions
+     |  
+     |  This class defines URLs and associated data needed to interact with Dropbox.
+     |  It includes methods to manage the HTTPD session and to open a web browser for the user.
+     |  NOTE THAT THIS DATA MUST MATCH THE INFORMATION ENTERED AT THE dROPBOX DEVELOPER CONSOLE FOR THE APP
+     |  
+     |  Attributes:
+     |      OAUTH_HTTPD_SERVER: hostname for the local HTTPD server
+     |      OAUTH_HTTPD_PORT: port the local HTTPD server is listening on
+     |      OAUTH_CSRF_SESSION_KEY: index into the session structure which contains the session key
+     |      OAUTH_HOME_URL: name of the home page for the local HTTPD server
+     |      OAUTH_FINISH_PAGE: name of the finish page for the local HTTPD server
+     |      OAUTH_FINISH_URL: URL of the finish page for the local HTTPD server
+     |      HTTPD_SESSION_FILE: full pathname of the JSON file in which the session token is stored
+     |      HTTPD_SESSION_FILE_EXPIRED: once the session token is cleared, the session file is renamed to this pathname
+     |      HTTPD_LATEST_URL_FILE: contains the latest URL requested of the HTTP server
+     |      httpd_session: session variable for use by httpd
+     |  
+     |  Methods:
+     |      save_httpd_session(): save HTTPD session data to session data file (which will be overwritten)
+     |      load_httpd_session(): load and return HTTPD session data from session data file (which must exist)
+     |      expire_httpd_session(): expire the sesssion by renaming the session file to HTTPD_SESSION_FILE_EXPIRED
+     |      delete_httpd_session_file(): delete the access token file and other control files
+     |  
+     |  Static Methods:
+     |      open_browser_window(): open a window in the configured web browser
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |  
+     |  clear_latest_url(self)
+     |      clear latest URL requested of HTTP server so next call returns empty string (delete latest URL file)
+     |  
+     |  delete_httpd_session_file(self)
+     |      delete the access token file and other control files
+     |  
+     |  expire_httpd_session(self)
+     |      expire the sesssion by renaming the session file to HTTPD_SESSION_FILE_EXPIRED
+     |  
+     |  load_httpd_session(self, expire_session=True)
+     |      load and return HTTPD session data from session data file (which must exist)
+     |  
+     |  load_latest_url(self)
+     |      load latest URL requested of HTTP server from latest URL file
+     |  
+     |  save_httpd_session(self)
+     |      save HTTPD session data to session data file (which will be overwritten)
+     |  
+     |  save_latest_url(self, url)
+     |      save latest URL requested of HTTP server to latest URL file
+     |      this is used in testing to see if a URL has been requested of the server
+     |  
+     |  wait_for_latest_url_file(self, timeout=0)
+     |      wait for latest URL file to appear, return True when found or optionally timeout and return False
+     |      this is used in testing to see if a URL has been requested of the server
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  open_browser_window(url)
+     |      open a window in the configured web browser
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    time_now()
+        return human-readable representation of the current date and time
+    
+    wait_for_file(file_path, message_interval=5, timeout=0)
+        wait (indefinitely or with timeout) until file_path is found
+
+DATA
+    BROWSER_NAME = 'safari'
+    BROWSER_NEW_WINDOW = False
+    DEMO_DIRECTORY = '/Users/nick/Documents/Author/Conferences/2014-06-SPA...
+    DOC_DIRECTORY = '/Users/nick/Documents/Author/Conferences/2014-06-SPA/...
+    FILES_DIRECTORY = '/Users/nick/Documents/Author/Conferences/2014-06-SP...
+    handler = <logging.StreamHandler object>
+    logger = <logging.Logger object>
+
+

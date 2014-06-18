@@ -26,7 +26,7 @@ Global&nbsp;constants:<br>
 &nbsp;<br>
 Global&nbsp;variables:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;logger:&nbsp;used&nbsp;to&nbsp;log&nbsp;error,&nbsp;info&nbsp;and&nbsp;debug&nbsp;messages<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example&nbsp;usage:&nbsp;logger&nbsp;=&nbsp;CC.logger;&nbsp;logger('message')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example&nbsp;usage:&nbsp;logger&nbsp;=&nbsp;CO.logger;&nbsp;logger('message')<br>
 &nbsp;<br>
 Methods:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#-db_list_directory">db_list_directory</a>():&nbsp;list&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;given&nbsp;Dropbox&nbsp;directory<br>
@@ -40,7 +40,7 @@ Methods:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common_classes.html">common_classes</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common_oauth.html">common_oauth</a><br>
 </td><td width="25%" valign=top><a href="dropbox.html">dropbox</a><br>
 </td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -50,7 +50,9 @@ Methods:<br>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl><dt><a name="-db_create_sample_files"><strong>db_create_sample_files</strong></a>()</dt><dd><tt>create&nbsp;some&nbsp;files&nbsp;and&nbsp;directories&nbsp;in&nbsp;Dropbox&nbsp;directory</tt></dd></dl>
- <dl><dt><a name="-db_create_text_file"><strong>db_create_text_file</strong></a>(file_path<font color="#909090">=''</font>)</dt><dd><tt>create&nbsp;a&nbsp;file&nbsp;and&nbsp;write&nbsp;some&nbsp;lines&nbsp;of&nbsp;text&nbsp;to&nbsp;it</tt></dd></dl>
+ <dl><dt><a name="-db_create_text_file"><strong>db_create_text_file</strong></a>(file_path<font color="#909090">=''</font>, lines<font color="#909090">=[]</font>)</dt><dd><tt>create&nbsp;a&nbsp;file&nbsp;and&nbsp;write&nbsp;some&nbsp;lines&nbsp;of&nbsp;text&nbsp;to&nbsp;it&nbsp;from&nbsp;stdin&nbsp;or&nbsp;lines[]</tt></dd></dl>
+ <dl><dt><a name="-db_delete_file"><strong>db_delete_file</strong></a>(file_path<font color="#909090">=''</font>)</dt><dd><tt>delete&nbsp;the&nbsp;given&nbsp;dropbox&nbsp;file</tt></dd></dl>
+ <dl><dt><a name="-db_disable_access_token"><strong>db_disable_access_token</strong></a>()</dt><dd><tt>disable&nbsp;the&nbsp;dropbox&nbsp;access&nbsp;token&nbsp;(so&nbsp;authorisation&nbsp;will&nbsp;need&nbsp;to&nbsp;be&nbsp;run&nbsp;again</tt></dd></dl>
  <dl><dt><a name="-db_list_directory"><strong>db_list_directory</strong></a>(path<font color="#909090">='/'</font>)</dt><dd><tt>list&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;given&nbsp;Dropbox&nbsp;directory</tt></dd></dl>
  <dl><dt><a name="-db_print_file"><strong>db_print_file</strong></a>(file_path)</dt><dd><tt>print&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;given&nbsp;file&nbsp;to&nbsp;stdout</tt></dd></dl>
 </td></tr></table><p>

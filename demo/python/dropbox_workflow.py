@@ -184,7 +184,7 @@ def httpd_handle_finish_and_save(request_path, query_dict):
         #  - finish the dropbox OAuth no-redirect workflow by calling finish()
         #    (pass it the URL query dict{} that was used in the redirect to the HTTP server)
         #  - store the returned access token and user id in a CO.AccessData() object
-        #  - (this demo ignores the "URL state" variable for simplicity)
+        #  - (this demo ignores the "URL state" variable)
         # SPA14_OAUTH_START
         access_data = CO.AccessData('created using Python dropbox.client.DropboxOAuth2Flow()')
         access_data.access_token, access_data.user_id, url_state = redirect_client.finish(query_dict)

@@ -75,11 +75,11 @@ public class CommonTestDropbox {
         client.delete(dropboxFilePath);
     }
 
-    /*
-     * =================
-     * CUSTOM ASSERTIONS
-     * =================
-     */
+    public boolean dropboxPathExists(String dropboxFilePath) throws IOException, DbxException {
+        DbxClient client = getDropboxClient();
+        DbxEntry entry = client.getMetadata(dropboxFilePath);
+        return (entry != null);
+    }
 
     private DropboxFile dropboxFile;
 

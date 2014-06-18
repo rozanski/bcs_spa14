@@ -40,35 +40,6 @@ public class DropboxTools {
     private DropboxTools() {};
 
     /**
-     * Create a file in the Dropbox app folder (using Dropbox calls, not file I/O).
-     *
-     * @param createpath Dropbox path of the file to create (this will be created under the Dropbox app folder)
-     *
-     * @throws IOException if there is an error creating temporary files
-     * @throws DbxException if a Dropbox error occurs
-     */
-    public static void createFile(String createpath) throws IOException, DbxException {
-        createDbxClient();
-        String tmpFilePath = File.createTempFile(AppData.APP_NAME, "txt").getPath();
-        BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFilePath));
-        System.out.println("Enter file lines, blank line to finish");
-        int lineCount = 0;
-        while(true) {
-            String line = System.console().readLine();
-            if (line.length() == 0) { break; }
-            bw.write(line+"\n");
-            lineCount++;
-        }
-        bw.close();
-        ConsoleLogger.debug("wrote %d lines to temporary file '%s'", lineCount, tmpFilePath);
-        File f = new File(tmpFilePath);
-        ConsoleLogger.debug("requested path is %s", createpath);
-        client.uploadFile(createpath, DbxWriteMode.force(), f.length(), new FileInputStream(f));
-        ConsoleLogger.debug("copied temporary file '%s' to Dropbox path '%s'", tmpFilePath, createpath);
-        f.delete(); 
-    }
-
-    /**
      * Print the contents of a directory in the Dropbox app folder (using Dropbox calls, not file I/O).
      *
      * @param directory Dropbox path of the directory to print
@@ -77,15 +48,29 @@ public class DropboxTools {
      * @throws DbxException if a Dropbox error occurs
      */
     public static void printDirectoryContents(String directory) throws IOException, DbxException {
-        createDbxClient();
         ConsoleLogger.debug("requested directory is %s", directory);
         String output = "\nCONTENTS OF DROPBOX DIRECTORY '"+directory+"': ";
+        // EXERCISE:
+        //  - create a Dropbox client
+        //    hint: a helper function to create the Dropbox client is at the end of this file
+        //  - create a Dropbox metada object which you will use to get the directory contents
+        //    hint: the Dropbox class is DbxEntry.WithChildren
+        //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxEntry.WithChildren.html
+        // SPA14_OAUTH_START
+        createDbxClient();
         DbxEntry.WithChildren metadata = client.getMetadataWithChildren(directory);
+        // SPA14_OAUTH_FINISH
         if (metadata == null) {
             output += "\n<none>";
         }
         else {
+            // EXERCISE:
+            //  - create a Dropbox metada iterator object which you will use to iterate over the sub-directories of this one
+            //    hint: you need to iterate over metadata.children (which are all of type DbxEntry)
+            //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxEntry.WithChildren.html
+            // SPA14_OAUTH_START
             Iterator<DbxEntry> directoryIterator = metadata.children.iterator();
+            // SPA14_OAUTH_FINISH
             while (directoryIterator.hasNext()) {
                 DbxEntry nextEntry = directoryIterator.next();
                 String line = "";
@@ -94,7 +79,11 @@ public class DropboxTools {
                     output += String.format("\n %30s   %s%s", " ", folderEntry.name, "/");
                 }
             }
+            // EXERCISE:
+            //  - create a Dropbox metada iterator object which you will use to iterate over the files in this directory
+            //    hint: same as above
             directoryIterator = metadata.children.iterator();
+            // SPA14_OAUTH_FINISH
             while (directoryIterator.hasNext()) {
                 DbxEntry nextEntry = directoryIterator.next();
                 String line = "";
@@ -116,10 +105,19 @@ public class DropboxTools {
      * @throws DbxException if a Dropbox error occurs
      */
     public static void printFile(String printpath) throws IOException, DbxException {
+        // EXERCISE:
+        //  - create a Dropbox client
+        //    hint: a helper function to create the Dropbox client is at the end of this file
+        //  - get the Dropbox file at printpath using client.getFile()
+        //    hint: you need to create a temporary file into which you will download the Dropbox file
+        //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxClient.html#getFile(java.lang.String, java.lang.String, java.io.OutputStream)
+        // SPA14_OAUTH_START
         createDbxClient();
         File tmpfile = File.createTempFile(AppData.APP_NAME, "txt");
         ConsoleLogger.debug("requested path is %s", printpath);
         client.getFile(printpath, null, new FileOutputStream(tmpfile));
+        // SPA14_OAUTH_FINISH
+
         ConsoleLogger.debug("saved file contents to temporary file '%s'", tmpfile.getPath());
         BufferedReader br = new BufferedReader(new FileReader(tmpfile.getPath()));
         int lineCount = 1;
@@ -131,6 +129,54 @@ public class DropboxTools {
             lineCount++;
         }
         br.close();
+    }
+
+    /**
+     * Create a file in the Dropbox app folder (using Dropbox calls, not file I/O).
+     *
+     * @param createpath Dropbox path of the file to create (this will be created under the Dropbox app folder)
+     *
+     * @throws IOException if there is an error creating temporary files
+     * @throws DbxException if a Dropbox error occurs
+     */
+    public static void createFile(String createpath) throws IOException, DbxException {
+        String tmpFilePath = File.createTempFile(AppData.APP_NAME, "txt").getPath();
+        BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFilePath));
+        System.out.println("Enter file lines, blank line to finish");
+        int lineCount = 0;
+        while(true) {
+            String line = System.console().readLine();
+            if (line.length() == 0) { break; }
+            bw.write(line+"\n");
+            lineCount++;
+        }
+        bw.close();
+        ConsoleLogger.debug("wrote %d lines to temporary file '%s'", lineCount, tmpFilePath);
+        // EXERCISE:
+        //  - create a Dropbox client
+        //    hint: a helper function to create the Dropbox client is at the end of this file
+        //  - upload the temporary file you created above into the Dropbox location createpath
+        //    hint: use Dropbox force mode to overwrite the file if it exists
+        // SPA14_OAUTH_START
+        createDbxClient();
+        File f = new File(tmpFilePath);
+        client.uploadFile(createpath, DbxWriteMode.force(), f.length(), new FileInputStream(f));
+        // SPA14_OAUTH_FINISH
+        ConsoleLogger.debug("copied temporary file '%s' to Dropbox path '%s'", tmpFilePath, createpath);
+        f.delete(); 
+    }
+
+    /**
+     * Create a file in the Dropbox app folder (using Dropbox calls, not file I/O).
+     *
+     * @param deletepath Dropbox path of the file to create (this will be created under the Dropbox app folder)
+     *
+     * @throws IOException if there is an error creating temporary files
+     * @throws DbxException if a Dropbox error occurs
+     */
+    public static void deleteFile(String deletepath) throws IOException, DbxException {
+        createDbxClient();
+        client.delete(deletepath);
     }
 
     /**
@@ -165,7 +211,7 @@ public class DropboxTools {
         client.uploadFile(ACCOUNT_INFO_FILE, DbxWriteMode.force(), f.length(), new FileInputStream(f));
         ConsoleLogger.info("uploaded account info file '%s' to Dropbox path '%s'", tmpFilePath, ACCOUNT_INFO_FILE);
         f.delete();
-        // create directory if it doesn't already exist
+        // create Dropbox review directory if it doesn't already exist
         DbxEntry.Folder folderMetatada = client.createFolder(REVIEW_DIRECTORY);
         if (folderMetatada == null) {
             ConsoleLogger.debug("review folder %s already exists", REVIEW_DIRECTORY);
@@ -210,13 +256,23 @@ public class DropboxTools {
      *
      */
     public static void createDbxClient() throws IOException {
-        if (client == null) {
-            AccessData accessData = new AccessData();
-            accessData.load();
-            DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION,  Locale.getDefault().toString());
-            client = new DbxClient(config, accessData.accessToken);
-            ConsoleLogger.debug("created DbxClient() object for config %s, access token %s", AppData.APP_NAME_VERSION, accessData.accessToken);
-        }
+        // EXERCISE:
+        // - create a Dropbox OAuth client object with which to make Dropbox calls
+        //   hint: class is DbxClient()
+        // - this needs to be supplied with the access token
+        //   hint: create an AccessData() object and load() it from file
+        // - it also needs to be supplied with a Dropbox DbxRequestConfig() object
+        //   hint: use the app name/version from AppData and the default Locale
+        // - return this client to the caller
+        // note how you have not had to provide any user credentials during this process!
+        // SPA14_OAUTH_START
+        AccessData accessData = new AccessData();
+        accessData.load();
+        DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION,  Locale.getDefault().toString());
+        client = new DbxClient(config, accessData.accessToken);
+        // SPA14_OAUTH_FINISH
+
+        ConsoleLogger.debug("created DbxClient() object for config %s, access token %s", AppData.APP_NAME_VERSION, accessData.accessToken);
     }
 }
 

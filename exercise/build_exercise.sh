@@ -6,13 +6,13 @@ function create_skeleton {
     echo " processing $filename ($wc1 lines)..."
     extension="${1##*.}"
     if [ "$extension" == py ]; then
-        comment='#'
+        comment='# TODO'
     else
-        comment='//'
+        comment='// TODO'
     fi
     # replace each  block of lines delimited by the START and FINISH tokens
     sed "/SPA14_OAUTH_START/,/SPA14_OAUTH_FINISH/c\\
-$comment ==> INSERT CODE HERE
+$comment ==> INSERT CODE HERE <==
 " $1 > $2
     # output line count
     wc2="`wc -l $2 | sed -e 's/ *//' -e 's/ .*//'`"

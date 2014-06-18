@@ -105,7 +105,7 @@ class AppData(object):
 
     # EXERCISE:
     #  - initialise APP_KEY and APP_SECRET for the BCS SPA app
-    #  - see main project README
+    #    hint: see main project README
     # SPA14_OAUTH_START
     APP_KEY = '3i8xil7ewl5d4el'
     APP_SECRET = '0cf79q7jwrp5sjx'
@@ -173,7 +173,7 @@ class AccessData(object):
         """save given access data to access token file (which will be overwritten)"""
         # EXERCISE:
         #  - save self.access_token, self.user_id, self.save_message to access token file AccessData.ACCESS_TOKEN_FILE
-        #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
+        #    @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
         # SPA14_OAUTH_START
         with open(AccessData.ACCESS_TOKEN_FILE, 'w') as fp:
             json.dump({'access_token': self.access_token, 'user_id': self.user_id,
@@ -267,7 +267,7 @@ class HttpServices(object):
         #   @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow
         # EXERCISE:
         #  - save self.httpd_session to session data file self.HTTPD_SESSION_FILE
-        #    hint: @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
+        #    @see http://stackoverflow.com/questions/12309269/write-json-data-to-file-in-python
         # SPA14_OAUTH_START
         with open(self.HTTPD_SESSION_FILE, 'w') as fp:
             json.dump(self.httpd_session, fp, indent=4)

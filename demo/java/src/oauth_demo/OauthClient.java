@@ -37,9 +37,10 @@ public class OauthClient {
                 System.out.println(" d. List contents of directory");
                 System.out.println(" p. Print file");
                 System.out.println(" c. Create text file");
+                System.out.println(" x. Delete file");
                 System.out.println(" t. Print access token file");
                 System.out.println(" z. Remove access token file (re-authorisation will be required)");
-                System.out.println(" x. EXIT");
+                System.out.println(" q. EXIT");
             }
             else {
                 System.out.println("\nThe client is not yet authorised with Dropbox (the Dropbox token file does not exist)");
@@ -47,7 +48,7 @@ public class OauthClient {
                 System.out.println(" e. Run accessTokenFileExists() (should return False)");
                 System.out.println(" n. run noredirect authorisation workflow (requires auth code to be entered)");
                 System.out.println(" r. run redirect authorisation workflow (uses HTTP web server to simulate URL schema)");
-                System.out.println(" x. EXIT");
+                System.out.println(" q. EXIT");
             }
 
             try {
@@ -73,7 +74,7 @@ public class OauthClient {
                         oauthAuthoriseNoRedirect();
                         break;
                     case 'p':
-                        String printpath = readDropboxPath("Enter Dropbox file path using forward-slashes");
+                        String printpath = readDropboxPath("Enter Dropbox file path to print using forward-slashes");
                         DropboxTools.printFile(printpath);
                         break;
                     case 'r':
@@ -82,10 +83,14 @@ public class OauthClient {
                     case 't':
                         AccessData.printAccessTokenFile();
                         break;
+                    case 'x':
+                        String deletepath = readDropboxPath("Enter Dropbox file path to delete using forward-slashes");
+                        DropboxTools.deleteFile(deletepath);
+                        break;
                     case 'z':
                         AccessData.deleteAccessTokenFile();
                         break;
-                    case 'x':
+                    case 'q':
                         break outerloop;
                 }
             }
@@ -117,8 +122,14 @@ public class OauthClient {
      * @see DropboxWorkflowNoRedirect
      */
     public static void oauthAuthoriseNoRedirect() throws IOException, URISyntaxException, DbxException {
+        // EXERCISE:
+        //  - delete the access token file (use AccessData)
+        //  - start the Dropbox no-redirect workflow (use DropboxWorkflowNoRedirect)
+        //    store the returned information in dropboxStatus
+        // SPA14_OAUTH_START
         AccessData.deleteAccessTokenFile();
         DropboxStatus dropboxStatus = DropboxWorkflowNoRedirect.noRedirectClientStart();
+        // SPA14_OAUTH_FINISH
 
         printWorkflowPrompts( "4. Copy the provided authorisation code to the clipboard");
         readLine("Press Enter to start no-redirect authorisation");
@@ -147,8 +158,14 @@ public class OauthClient {
      * @see DropboxWorkflowNoRedirect
      */
     public static void oauthAuthoriseRedirect() throws IOException, URISyntaxException {
+        // EXERCISE:
+        //  - delete the access token file (use AccessData)
+        //  - start the Dropbox no-redirect workflow (use DropboxWorkflowRedirect)
+        //    store the returned information in dropboxStatus
+        // SPA14_OAUTH_START
         AccessData.deleteAccessTokenFile();
         DropboxStatus dropboxStatus = DropboxWorkflowRedirect.redirectClientStart();
+        // SPA14_OAUTH_FINISH
 
         printWorkflowPrompts("");
         readLine("Ensure the HTTP server is running and press enter to start redirect authorisation");

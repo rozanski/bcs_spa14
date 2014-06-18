@@ -17,7 +17,7 @@ DESCRIPTION
     
     Global variables:
         logger: used to log error, info and debug messages
-            example usage: logger = CC.logger; logger('message')
+            example usage: logger = CO.logger; logger('message')
     
     @see http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python
 

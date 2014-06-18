@@ -16,7 +16,7 @@ DESCRIPTION
     
     Global variables:
         logger: used to log error, info and debug messages
-            example usage: logger = CC.logger; logger('message')
+            example usage: logger = CO.logger; logger('message')
     
     Methods:
         no_redirect_client_start(): implements the start() portion of the Dropbox OAuth no_redirect flow

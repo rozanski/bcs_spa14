@@ -44,6 +44,7 @@ def __create_dropbox_client():
     #  - this needs to be supplied with the access token
     #    hint: create a CO.AccessData() object and load() it from file
     #  - return this client to the caller
+    # note how you have not had to provide any user credentials during this process!
     # SPA14_OAUTH_START
     access_data = CO.AccessData()
     access_data.load()
@@ -57,7 +58,7 @@ def db_list_directory(path='/'):
     # EXERCISE:
     #  - make a Dropbox client call to get the dropbox directory contents
     #    hint: Dropbox calls this "folder metadata"
-    #    hint: @see https://www.dropbox.com/developers/core/docs/python (search for metadata())
+    #    @see https://www.dropbox.com/developers/core/docs/python (search for metadata())
     # SPA14_OAUTH_START
     folder_metadata = client.metadata(path)
     print 'DIRECTORIES in %s:' % (path,)
@@ -100,7 +101,7 @@ def db_create_text_file(file_path='', lines=[]):
     # EXERCISE:
     #  - open() the temporary file fname for read
     #  - pass this file handle to Dropbox put_file() to upload the file
-    #    hint: @see https://www.dropbox.com/developers/core/docs/python (search for put_file())
+    #    @see https://www.dropbox.com/developers/core/docs/python (search for put_file())
     # SPA14_OAUTH_START
     tempfile = open(fname)
     client.put_file(file_path, tempfile, overwrite=True)

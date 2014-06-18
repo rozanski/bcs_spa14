@@ -77,15 +77,24 @@ public class DropboxTools {
      * @throws DbxException if a Dropbox error occurs
      */
     public static void printDirectoryContents(String directory) throws IOException, DbxException {
-        createDbxClient();
         ConsoleLogger.debug("requested directory is %s", directory);
         String output = "\nCONTENTS OF DROPBOX DIRECTORY '"+directory+"': ";
-        DbxEntry.WithChildren metadata = client.getMetadataWithChildren(directory);
+        // EXERCISE:
+        //  - create a Dropbox client
+        //  - create a Dropbox metada object which you will use to get the directory contents
+        //    hint: a helper function to create the Dropbox client is at the end of this file
+        //    hint: the Dropbox class is DbxEntry.WithChildren
+        //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxEntry.WithChildren.html
+// TODO ==> INSERT CODE HERE <==
         if (metadata == null) {
             output += "\n<none>";
         }
         else {
-            Iterator<DbxEntry> directoryIterator = metadata.children.iterator();
+            // EXERCISE:
+            //  - create a Dropbox metada iterator object which you will use to iterate over the directory contents
+            //    hint: the class is Iterator<DbxEntry>, iterating over metadata.children
+            //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxEntry.WithChildren.html
+// TODO ==> INSERT CODE HERE <==
             while (directoryIterator.hasNext()) {
                 DbxEntry nextEntry = directoryIterator.next();
                 String line = "";
@@ -94,7 +103,10 @@ public class DropboxTools {
                     output += String.format("\n %30s   %s%s", " ", folderEntry.name, "/");
                 }
             }
+            // EXERCISE:
+            //  - recreate the Dropbox metada iterator object (as above)
             directoryIterator = metadata.children.iterator();
+            // SPA14_OAUTH_FINISH
             while (directoryIterator.hasNext()) {
                 DbxEntry nextEntry = directoryIterator.next();
                 String line = "";
@@ -117,9 +129,12 @@ public class DropboxTools {
      */
     public static void printFile(String printpath) throws IOException, DbxException {
         createDbxClient();
-        File tmpfile = File.createTempFile(AppData.APP_NAME, "txt");
-        ConsoleLogger.debug("requested path is %s", printpath);
-        client.getFile(printpath, null, new FileOutputStream(tmpfile));
+        // EXERCISE:
+        //  - get the Dropbox file at printpath
+        //    hint: you need to create a temporary file into which you will download the file
+        //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxClient.html#getFile(java.lang.String, java.lang.String, java.io.OutputStream)
+// TODO ==> INSERT CODE HERE <==
+
         ConsoleLogger.debug("saved file contents to temporary file '%s'", tmpfile.getPath());
         BufferedReader br = new BufferedReader(new FileReader(tmpfile.getPath()));
         int lineCount = 1;
@@ -210,13 +225,13 @@ public class DropboxTools {
      *
      */
     public static void createDbxClient() throws IOException {
-        if (client == null) {
-            AccessData accessData = new AccessData();
-            accessData.load();
-            DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION,  Locale.getDefault().toString());
-            client = new DbxClient(config, accessData.accessToken);
-            ConsoleLogger.debug("created DbxClient() object for config %s, access token %s", AppData.APP_NAME_VERSION, accessData.accessToken);
-        }
+        // EXERCISE:
+        // - make a Dropbox client call to get the dropbox directory contents
+        //   hint: Dropbox calls this "folder metadata"
+        //   hint: @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxRequestConfig.html
+// TODO ==> INSERT CODE HERE <==
+
+        ConsoleLogger.debug("created DbxClient() object for config %s, access token %s", AppData.APP_NAME_VERSION, accessData.accessToken);
     }
 }
 

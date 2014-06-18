@@ -20,7 +20,7 @@ DESCRIPTION
     
     Global variables:
         logger: used to log error, info and debug messages
-            example usage: logger = CC.logger; logger('message')
+            example usage: logger = CO.logger; logger('message')
         dropbox_client: a dropbox.client.DropboxClient() which can be manipulated by the user
     
     Workflow Methods:
