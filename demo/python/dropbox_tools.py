@@ -1,29 +1,8 @@
 """
 dropbox_tools.py: methods for performing some Dropbox actions (creating or printing files etc)
 
-You should import this file as follows so you can call its methods directly:
+You should import this file as follows so you can call its methods directly::
     from dropbox_tools import *
-
-Dependencies:
-    python 2.7
-    dropbox - Python Dropbox API (https://www.dropbox.com/developers/datastore/sdks/python)
-
-Global constants:
-    ACCOUNT_INFO_FILE: This file is created in the Dropbox app folder once the client has authorised with Dropbox
-        It contains information on the Dropbox user account
-    REVIEW_DIRECTORY: This folder is created in the Dropbox app folder once the client has authorised with Dropbox
-    REVIEW_FILE: This file is created in the Dropbox app folder once the client has authorised with Dropbox
-
-Global variables:
-    logger: used to log error, info and debug messages
-        example usage: logger = CO.logger; logger('message')
-
-Methods:
-    db_list_directory(): list the contents of the given Dropbox directory
-    db_print_file(): print the contents of the given file to stdout
-    db_create_text_file(): create a file and write some lines of text to it
-    db_create_sample_files(): create some files and directories in Dropbox directory
-
 """
 
 from tempfile import NamedTemporaryFile
@@ -31,10 +10,22 @@ import dropbox
 
 import common_oauth as CO
 logger = CO.logger
+"""
+used to log error, info and debug messages, for example::
+    logger = CO.logger; logger('message')
+"""
 
 ACCOUNT_INFO_FILE = '/account_info.python.txt'
+"""
+This file is created in the Dropbox app folder once the client has authorised with Dropbox.
+It contains information on the Dropbox user account
+"""
+
 REVIEW_DIRECTORY = '/oauth_session_python'
+"""This folder is created in the Dropbox app folder once the client has authorised with Dropbox"""
+
 REVIEW_FILE = '%s/oauth_session_review.python.md' % REVIEW_DIRECTORY
+"""This file is created in the Dropbox app folder once the client has authorised with Dropbox"""
 
 def __create_dropbox_client():
     """create and return a Dropbox client for use in the functions below"""
@@ -52,7 +43,11 @@ def __create_dropbox_client():
     # SPA14_OAUTH_FINISH
 
 def db_list_directory(path='/'):
-    """list the contents of the given Dropbox directory"""
+    """
+    list the contents of the given Dropbox directory
+    @type path: string
+    @param path: Dropbox path of the directory
+    """
     client, access_data = __create_dropbox_client()
 
     # EXERCISE:
@@ -69,7 +64,11 @@ def db_list_directory(path='/'):
         if not entry['is_dir']: print ' %s   %s (%s)' % (entry['modified'], entry['path'][1:], entry['size'])
 
 def db_print_file(file_path):
-    """print the contents of the given file to stdout"""
+    """
+    print the contents of the given file to stdout
+    @type file_path: string
+    @param file_path: Dropbox path of the file
+    """
     client, access_data = __create_dropbox_client()
 
     print 'CONTENTS OF %s:' % (file_path,)
@@ -80,7 +79,13 @@ def db_print_file(file_path):
             line_count += 1
 
 def db_create_text_file(file_path='', lines=[]):
-    """create a file and write some lines of text to it from stdin or lines[]"""
+    """
+    create a file and write some lines of text to it from stdin or lines[]
+    @type file_path: string
+    @param file_path: Dropbox path of the file to create
+    @type lines: string[]
+    @param lines: lines to write in the file
+    """
     client, access_data = __create_dropbox_client()
 
     if file_path == '':
@@ -109,7 +114,10 @@ def db_create_text_file(file_path='', lines=[]):
     # SPA14_OAUTH_FINISH
 
 def db_delete_file(file_path=''):
-    """delete the given dropbox file"""
+    """delete the given dropbox file
+    @type file_path: string
+    @param file_path: Dropbox path of the file
+    """
     if file_path == '':
         file_path = raw_input('Enter the name of the file to delete: ').strip()
     client, access_data = __create_dropbox_client()

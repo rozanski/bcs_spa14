@@ -3,18 +3,14 @@
 httpd.py: simple webserver for use in Dropbox Python OAuth API demo
 
 This class implements a simple HTTP server on the computer running the demo.
-The server listens on host {@code HttpConfig.HTTP_SERVER} and port {@code HttpConfig.HTTP_PORT}.
+The server listens on host C{HttpConfig.HTTP_SERVER} and port C{HttpConfig.HTTP_PORT}.
 It runs indefinitely until the user presses Enter or interrupts using control-C.
 
 It serves various URLs, including:
-- HttpConfig.HOME_PAGE - display a home page (use this to test that the server is running ok)
-- HttpConfig.FINISH_PAGE - run the finish step of the Dropbox redirect workflow.
+    - C{HttpConfig.HOME_PAGE} - display a home page (use this to test that the server is running ok)
+    - C{HttpConfig.FINISH_PAGE} - run the finish step of the Dropbox redirect workflow.
 
-Global variables:
-    logger: used to log error, info and debug messages
-        example usage: logger = CO.logger; logger('message')
-
-@see http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python
+See U{http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python}
 """
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
@@ -24,23 +20,26 @@ import glob, os.path
 import common_oauth as CO
 import logging
 logger = CO.logger
+"""
+used to log error, info and debug messages, for example::
+    logger = CO.logger; logger('message')
+"""
+
 import dropbox_workflow as DW
 
 class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
-    """ request handler which will receive redirected OAuth replies
+    """
+    Request handler which will receive redirected OAuth replies.
 
     This class performs the necessary interactions between the web browser and the web server.
-
-    Methods:
-        do_GET(): process an HTTP GET
-        handle_dropbox_status(): handle a Dropbox status for do_GET()
-        send_http_header(): send HTTP header, either 200 (success) or 301 (redirect) if url is not None
-                                  also sends headers to prevent caching in the browser
-        send_html_content(): send HTML including the given page body to the browser
     """
 
     def send_http_header(self, url=None):
-        """send HTTP header, either 200 (success) or 301 (redirect) if url is not None"""
+        """
+        send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+        @type url: boolean
+        @param url: optional redirect URL
+        """
         if url is None:
             logger.debug('sending HTTP success (200) header')
             self.send_response(200)
@@ -56,7 +55,11 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def send_html_content(self, page_body):
-        """send HTML including the given page body to the browser"""
+        """
+        send HTML including the given page body to the browser
+        @type page_body: string
+        @param page_body: page body to send back to the browser (do not include <html> or <body> tags)
+        """
         content="""<html>
 <head><title>BCS SPA 2014 OAuth Demo</title></head>
 <body>{body}<p><i>{time_now}</i></p></body>
@@ -64,7 +67,11 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(content)
 
     def handle_dropbox_status(self, dropbox_status):
-        """handle a Dropbox status for do_GET()"""
+        """
+        handle a Dropbox status for do_GET()
+        @type dropbox_status: DropboxStatus
+        @param dropbox_status: Dropbox status
+        """
         if dropbox_status.http_status == 200:
             logger.debug('do_GET.handle_dropbox_status: sending 200 response')
             self.send_http_header()
@@ -134,7 +141,9 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_error(500, 'internal server error (request={request})'.format(request=self.path))
 
     def home_page_body(self, request):
-        """return the body of the home page"""
+        """
+        return the body of the home page
+        """
 
         def make_anchor(url, newWindow=True):
             """return an HTML <a> tag"""

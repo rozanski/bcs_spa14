@@ -58,6 +58,16 @@ elif [ "$script" == pydoc ]; then
     for file in "$docdir/"*.html; do echo "    $file"; done
     echo ''
     for file in "$docdir/"*.txt; do echo "    $file"; done
+elif [ "$script" == epydoc ]; then
+    echo GENERATING MODULE DOCUMENTATION
+    echo ===============================
+    pwd="`pwd`"
+    docdir="`dirname $0`/doc"
+    cd $docdir
+    # epydoc --html  -v --output="/tmp/epydoc" --check --show-imports --name=bcs_spa_2014 --url 'http://home' ../common_oauth.py
+    # epydoc --html  -v --output="$docdir" --show-imports --name=bcs_spa_2014 --url 'http://home' ../*.py
+    epydoc --html  -v --output="$docdir" --show-imports --name=bcs_spa_2014 --url 'http://home' ../*.py
+    rm $pwd/*.pyc
 else
     echo invalid option $script
     run_help_and_exit
