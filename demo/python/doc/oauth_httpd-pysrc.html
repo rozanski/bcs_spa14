@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>oauth_httpd</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://localhost:55510/home">bcs_spa_2014</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Module&nbsp;oauth_httpd
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="oauth_httpd-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="oauth_httpd-module.html">Module oauth_httpd</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#! /usr/bin/python</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">httpd.py: simple webserver for use in Dropbox Python OAuth API demo</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">This class implements a simple HTTP server on the computer running the demo.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">The server listens on host C{HttpConfig.HTTP_SERVER} and port C{HttpConfig.HTTP_PORT}.</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring">It runs indefinitely until the user presses Enter or interrupts using control-C.</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">It serves various URLs, including:</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-docstring">    - C{HttpConfig.HOME_PAGE} - display a home page (use this to test that the server is running ok)</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-docstring">    - C{HttpConfig.FINISH_PAGE} - run the finish step of the Dropbox redirect workflow.</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-docstring">See U{http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python}</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">BaseHTTPServer</tt> <tt class="py-keyword">import</tt> <tt class="py-name">BaseHTTPRequestHandler</tt><tt class="py-op">,</tt> <tt class="py-name">HTTPServer</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">urlparse</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">glob</tt><tt class="py-op">,</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module common_oauth=common_oauth-module.html"><a title="common_oauth" class="py-name" href="#" onclick="return doclink('link-0', 'common_oauth', 'link-0');">common_oauth</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">CO</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">logging</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable common_oauth.logger=common_oauth-module.html#logger,Variable dropbox_tools.logger=dropbox_tools-module.html#logger,Variable dropbox_workflow.logger=dropbox_workflow-module.html#logger,Variable oauth_httpd.logger=oauth_httpd-module.html#logger"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-1', 'logger', 'link-1');">logger</a></tt> <tt class="py-op">=</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-2', 'logger', 'link-1');">logger</a></tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-string">used to log error, info and debug messages, for example::</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-string">    logger = CO.logger; logger('message')</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Module dropbox_workflow=dropbox_workflow-module.html"><a title="dropbox_workflow" class="py-name" href="#" onclick="return doclink('link-3', 'dropbox_workflow', 'link-3');">dropbox_workflow</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">DW</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"> </tt>
+<a name="OAuthHTTPRequestHandler"></a><div id="OAuthHTTPRequestHandler-def"><a name="L30"></a><tt class="py-lineno"> 30</tt> <a class="py-toggle" href="#" id="OAuthHTTPRequestHandler-toggle" onclick="return toggle('OAuthHTTPRequestHandler');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="oauth_httpd.OAuthHTTPRequestHandler-class.html">OAuthHTTPRequestHandler</a><tt class="py-op">(</tt><tt class="py-base-class">BaseHTTPRequestHandler</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="OAuthHTTPRequestHandler-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="OAuthHTTPRequestHandler-expanded"><a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt class="py-docstring">    Request handler which will receive redirected OAuth replies.</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"><tt class="py-docstring">    This class performs the necessary interactions between the web browser and the web server.</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"> </tt>
+<a name="OAuthHTTPRequestHandler.send_http_header"></a><div id="OAuthHTTPRequestHandler.send_http_header-def"><a name="L37"></a><tt class="py-lineno"> 37</tt> <a class="py-toggle" href="#" id="OAuthHTTPRequestHandler.send_http_header-toggle" onclick="return toggle('OAuthHTTPRequestHandler.send_http_header');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_httpd.OAuthHTTPRequestHandler-class.html#send_http_header">send_http_header</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">url</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="OAuthHTTPRequestHandler.send_http_header-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="OAuthHTTPRequestHandler.send_http_header-expanded"><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line"><tt class="py-docstring">        send HTTP header, either 200 (success) or 301 (redirect) if url is not None</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"><tt class="py-docstring">        @type url: boolean</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"><tt class="py-docstring">        @param url: optional redirect URL</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">url</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">            <tt id="link-4" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-4', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'sending HTTP success (200) header'</tt><tt class="py-op">)</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_response</tt><tt class="py-op">(</tt><tt class="py-number">200</tt><tt class="py-op">)</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_header</tt><tt class="py-op">(</tt><tt class="py-string">'Content-type'</tt><tt class="py-op">,</tt> <tt class="py-string">'text/html'</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">            <tt class="py-name">url</tt> <tt class="py-op">=</tt> <tt class="py-name">url</tt><tt class="py-op">.</tt><tt class="py-name">encode</tt><tt class="py-op">(</tt><tt class="py-string">'ascii'</tt><tt class="py-op">,</tt> <tt class="py-string">'ignore'</tt><tt class="py-op">)</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">            <tt id="link-5" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-5', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">"sending HTTP redirect (301) header to URL '%s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">url</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_response</tt><tt class="py-op">(</tt><tt class="py-number">301</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_header</tt><tt class="py-op">(</tt><tt class="py-string">'Location'</tt><tt class="py-op">,</tt> <tt class="py-name">url</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_header</tt><tt class="py-op">(</tt><tt class="py-string">'Cache-Control'</tt><tt class="py-op">,</tt> <tt class="py-string">'no-cache, no-store, must-revalidate'</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_header</tt><tt class="py-op">(</tt><tt class="py-string">'Pragma'</tt><tt class="py-op">,</tt> <tt class="py-string">'no-cache'</tt><tt class="py-op">)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_header</tt><tt class="py-op">(</tt><tt class="py-string">'Expires'</tt><tt class="py-op">,</tt> <tt class="py-string">'0'</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">end_headers</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"> </tt>
+<a name="OAuthHTTPRequestHandler.send_html_content"></a><div id="OAuthHTTPRequestHandler.send_html_content-def"><a name="L57"></a><tt class="py-lineno"> 57</tt> <a class="py-toggle" href="#" id="OAuthHTTPRequestHandler.send_html_content-toggle" onclick="return toggle('OAuthHTTPRequestHandler.send_html_content');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_httpd.OAuthHTTPRequestHandler-class.html#send_html_content">send_html_content</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">page_body</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="OAuthHTTPRequestHandler.send_html_content-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="OAuthHTTPRequestHandler.send_html_content-expanded"><a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"><tt class="py-docstring">        send HTML including the given page body to the browser</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"><tt class="py-docstring">        @type page_body: string</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"><tt class="py-docstring">        @param page_body: page body to send back to the browser (do not include &lt;html&gt; or &lt;body&gt; tags)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-name">content</tt><tt class="py-op">=</tt><tt class="py-string">"""&lt;html&gt;</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-string">&lt;head&gt;&lt;title&gt;BCS SPA 2014 OAuth Demo&lt;/title&gt;&lt;/head&gt;</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"><tt class="py-string">&lt;body&gt;{body}&lt;p&gt;&lt;i&gt;{time_now}&lt;/i&gt;&lt;/p&gt;&lt;/body&gt;</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"><tt class="py-string">&lt;/html&gt;"""</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">body</tt><tt class="py-op">=</tt><tt class="py-name">page_body</tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name" targets="Function common_oauth.time_now()=common_oauth-module.html#time_now"><a title="common_oauth.time_now" class="py-name" href="#" onclick="return doclink('link-6', 'time_now', 'link-6');">time_now</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-7" class="py-name"><a title="common_oauth.time_now" class="py-name" href="#" onclick="return doclink('link-7', 'time_now', 'link-6');">time_now</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">wfile</tt><tt class="py-op">.</tt><tt class="py-name">write</tt><tt class="py-op">(</tt><tt class="py-name">content</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"> </tt>
+<a name="OAuthHTTPRequestHandler.handle_dropbox_status"></a><div id="OAuthHTTPRequestHandler.handle_dropbox_status-def"><a name="L69"></a><tt class="py-lineno"> 69</tt> <a class="py-toggle" href="#" id="OAuthHTTPRequestHandler.handle_dropbox_status-toggle" onclick="return toggle('OAuthHTTPRequestHandler.handle_dropbox_status');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_httpd.OAuthHTTPRequestHandler-class.html#handle_dropbox_status">handle_dropbox_status</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">dropbox_status</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="OAuthHTTPRequestHandler.handle_dropbox_status-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="OAuthHTTPRequestHandler.handle_dropbox_status-expanded"><a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"><tt class="py-docstring">        handle a Dropbox status for do_GET()</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-docstring">        @type dropbox_status: DropboxStatus</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"><tt class="py-docstring">        @param dropbox_status: Dropbox status</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">http_status</tt> <tt class="py-op">==</tt> <tt class="py-number">200</tt><tt class="py-op">:</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">            <tt id="link-8" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-8', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET.handle_dropbox_status: sending 200 response'</tt><tt class="py-op">)</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method oauth_httpd.OAuthHTTPRequestHandler.send_http_header()=oauth_httpd.OAuthHTTPRequestHandler-class.html#send_http_header"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_http_header" class="py-name" href="#" onclick="return doclink('link-9', 'send_http_header', 'link-9');">send_http_header</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">            <tt class="py-name">page_body</tt><tt class="py-op">=</tt><tt class="py-op">(</tt><tt class="py-string">'&lt;h1&gt;Dropbox OAuth Authorisation Successful&lt;/h1&gt;&lt;p&gt;%s&lt;/p&gt;'</tt> <tt class="py-op">%</tt> <tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">message</tt><tt class="py-op">)</tt> \ </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">                    <tt class="py-keyword">if</tt> <tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">message</tt> <tt class="py-op">&lt;&gt;</tt> <tt class="py-string">''</tt> <tt class="py-keyword">else</tt> <tt class="py-string">'(this page intentionally left blank)'</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Method oauth_httpd.OAuthHTTPRequestHandler.send_html_content()=oauth_httpd.OAuthHTTPRequestHandler-class.html#send_html_content"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_html_content" class="py-name" href="#" onclick="return doclink('link-10', 'send_html_content', 'link-10');">send_html_content</a></tt><tt class="py-op">(</tt><tt class="py-name">page_body</tt><tt class="py-op">)</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">http_status</tt> <tt class="py-op">==</tt> <tt class="py-number">301</tt><tt class="py-op">:</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">            <tt id="link-11" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-11', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET.handle_dropbox_status: redirecting to %s'</tt><tt class="py-op">,</tt> <tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">redirect_url</tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_http_header" class="py-name" href="#" onclick="return doclink('link-12', 'send_http_header', 'link-9');">send_http_header</a></tt><tt class="py-op">(</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">redirect_url</tt><tt class="py-op">)</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">            <tt id="link-13" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-13', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET.handle_dropbox_status: returning error {error} "{message}"'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">                <tt class="py-name">error</tt><tt class="py-op">=</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">http_status</tt><tt class="py-op">,</tt> <tt class="py-name">message</tt><tt class="py-op">=</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">message</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_error</tt><tt class="py-op">(</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">http_status</tt><tt class="py-op">,</tt> <tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">message</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"> </tt>
+<a name="OAuthHTTPRequestHandler.do_GET"></a><div id="OAuthHTTPRequestHandler.do_GET-def"><a name="L89"></a><tt class="py-lineno"> 89</tt> <a class="py-toggle" href="#" id="OAuthHTTPRequestHandler.do_GET-toggle" onclick="return toggle('OAuthHTTPRequestHandler.do_GET');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_httpd.OAuthHTTPRequestHandler-class.html#do_GET">do_GET</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="OAuthHTTPRequestHandler.do_GET-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="OAuthHTTPRequestHandler.do_GET-expanded"><a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-docstring">"""process an HTTP GET"""</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">        <tt id="link-14" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-14', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: request is "%s"'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">        <tt class="py-name">http_services</tt> <tt class="py-op">=</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Class common_oauth.HttpServices=common_oauth.HttpServices-class.html"><a title="common_oauth.HttpServices" class="py-name" href="#" onclick="return doclink('link-15', 'HttpServices', 'link-15');">HttpServices</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">        <tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method common_oauth.HttpServices.save_latest_url()=common_oauth.HttpServices-class.html#save_latest_url"><a title="common_oauth.HttpServices.save_latest_url" class="py-name" href="#" onclick="return doclink('link-16', 'save_latest_url', 'link-16');">save_latest_url</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">)</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">            <tt class="py-name">parsed_url</tt> <tt class="py-op">=</tt> <tt class="py-name">urlparse</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">)</tt> <tt class="py-comment"># this is a named tuple</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">            <tt id="link-17" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-17', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: parsed URL is %s'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">parsed_url</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">            <tt class="py-comment"># this code turns the query into a dict of the form 'query_param' : 'query_value'</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">            <tt class="py-name">query_dict</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> <tt class="py-name">query_param</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> <tt class="py-name">query_param</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-keyword">for</tt> <tt class="py-name">query_param</tt> <tt class="py-keyword">in</tt> <tt class="py-name">parse_qs</tt><tt class="py-op">(</tt><tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">query</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">items</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-op">}</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">            <tt id="link-18" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-18', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: query dict is %s'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">query_dict</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_FINISH_PAGE</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">                <tt id="link-19" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-19', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET.finish-handler: path is "{path}", query is "{query}"'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">                    <tt class="py-name">path</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">,</tt> <tt class="py-name">query</tt><tt class="py-op">=</tt><tt class="py-name">query_dict</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">                <tt class="py-name">dropbox_status</tt> <tt class="py-op">=</tt> <tt class="py-name">DW</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Function dropbox_workflow.httpd_handle_finish_and_save()=dropbox_workflow-module.html#httpd_handle_finish_and_save"><a title="dropbox_workflow.httpd_handle_finish_and_save" class="py-name" href="#" onclick="return doclink('link-20', 'httpd_handle_finish_and_save', 'link-20');">httpd_handle_finish_and_save</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">,</tt> <tt class="py-name">query_dict</tt><tt class="py-op">)</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">                <tt id="link-21" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-21', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET.start-handler: dropbox finish() successfully handled'</tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name" targets="Method oauth_httpd.OAuthHTTPRequestHandler.handle_dropbox_status()=oauth_httpd.OAuthHTTPRequestHandler-class.html#handle_dropbox_status"><a title="oauth_httpd.OAuthHTTPRequestHandler.handle_dropbox_status" class="py-name" href="#" onclick="return doclink('link-22', 'handle_dropbox_status', 'link-22');">handle_dropbox_status</a></tt><tt class="py-op">(</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">)</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'favicon.ico'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">                <tt id="link-23" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-23', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: /favicon.ico (not found)'</tt><tt class="py-op">)</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_error</tt><tt class="py-op">(</tt><tt class="py-number">404</tt><tt class="py-op">,</tt> <tt class="py-string">'Not Found'</tt><tt class="py-op">)</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line"> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'home'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">                <tt id="link-24" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-24', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: /home (send home page)'</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_http_header" class="py-name" href="#" onclick="return doclink('link-25', 'send_http_header', 'link-9');">send_http_header</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_html_content" class="py-name" href="#" onclick="return doclink('link-26', 'send_html_content', 'link-10');">send_html_content</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name" targets="Method oauth_httpd.OAuthHTTPRequestHandler.home_page_body()=oauth_httpd.OAuthHTTPRequestHandler-class.html#home_page_body"><a title="oauth_httpd.OAuthHTTPRequestHandler.home_page_body" class="py-name" href="#" onclick="return doclink('link-27', 'home_page_body', 'link-27');">home_page_body</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">'/doc/'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">                <tt id="link-28" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-28', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: /doc (script documentation), path is %s'</tt><tt class="py-op">)</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-op">(</tt><tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt> <tt class="py-op">==</tt> <tt class="py-string">'/doc/'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">                    <tt id="link-29" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-29', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: invalid documentation URL %s, redirecting'</tt><tt class="py-op">,</tt> <tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">)</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_http_header" class="py-name" href="#" onclick="return doclink('link-30', 'send_http_header', 'link-9');">send_http_header</a></tt><tt class="py-op">(</tt><tt class="py-string">'/home'</tt><tt class="py-op">)</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">                    <tt class="py-name">module_path</tt> <tt class="py-op">=</tt> <tt class="py-name">parsed_url</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'/'</tt><tt class="py-op">)</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">                    <tt class="py-name">module_file</tt> <tt class="py-op">=</tt> <tt class="py-name">module_path</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">                    <tt class="py-name">file_type</tt> <tt class="py-op">=</tt> <tt class="py-name">module_file</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">                    <tt id="link-31" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-31', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'do_GET: module path is %s, module file is %s'</tt><tt class="py-op">,</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">module_path</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">module_file</tt><tt class="py-op">)</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name"><a title="oauth_httpd.OAuthHTTPRequestHandler.send_http_header" class="py-name" href="#" onclick="return doclink('link-32', 'send_http_header', 'link-9');">send_http_header</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">                    <tt class="py-comment"># with file('{demodir}/doc/{module_file}'.format(</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">                           <tt class="py-comment">#  demodir=CO.DEMO_DIRECTORY, module_file=module_file)) as f:</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">                    <tt class="py-keyword">with</tt> <tt class="py-name">file</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Variable common_oauth.DOC_DIRECTORY=common_oauth-module.html#DOC_DIRECTORY"><a title="common_oauth.DOC_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-33', 'DOC_DIRECTORY', 'link-33');">DOC_DIRECTORY</a></tt><tt class="py-op">,</tt> <tt class="py-name">module_file</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-keyword">as</tt> <tt class="py-name">f</tt><tt class="py-op">:</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">                        <tt class="py-name">file_content</tt> <tt class="py-op">=</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">read</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">                    <tt class="py-keyword">if</tt> <tt class="py-name">file_type</tt> <tt class="py-op">==</tt> <tt class="py-string">'txt'</tt><tt class="py-op">:</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">                        <tt class="py-name">file_content</tt> <tt class="py-op">=</tt> <tt class="py-string">'&lt;html&gt;&lt;head&gt;&lt;title&gt;BCS SPA 2014 OAuth Demo&lt;/title&gt;&lt;body&gt;&lt;pre&gt;%s&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt; '</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">file_content</tt><tt class="py-op">)</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">wfile</tt><tt class="py-op">.</tt><tt class="py-name">write</tt><tt class="py-op">(</tt><tt class="py-name">file_content</tt><tt class="py-op">)</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line"> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_error</tt><tt class="py-op">(</tt><tt class="py-number">404</tt><tt class="py-op">,</tt> <tt class="py-string">'unsupported request {request}'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line"> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">IOError</tt><tt class="py-op">:</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">send_error</tt><tt class="py-op">(</tt><tt class="py-number">500</tt><tt class="py-op">,</tt> <tt class="py-string">'internal server error (request={request})'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"> </tt>
+<a name="OAuthHTTPRequestHandler.home_page_body"></a><div id="OAuthHTTPRequestHandler.home_page_body-def"><a name="L143"></a><tt class="py-lineno">143</tt> <a class="py-toggle" href="#" id="OAuthHTTPRequestHandler.home_page_body-toggle" onclick="return toggle('OAuthHTTPRequestHandler.home_page_body');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_httpd.OAuthHTTPRequestHandler-class.html#home_page_body">home_page_body</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">request</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="OAuthHTTPRequestHandler.home_page_body-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="OAuthHTTPRequestHandler.home_page_body-expanded"><a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"><tt class="py-docstring">        return the body of the home page</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line"> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-keyword">def</tt> <tt class="py-def-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-param">url</tt><tt class="py-op">,</tt> <tt class="py-param">newWindow</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">            <tt class="py-docstring">"""return an HTML &lt;a&gt; tag"""</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-string">'&lt;a href="{url}" {target}&gt;{url}&lt;/a&gt;'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">                <tt class="py-name">url</tt><tt class="py-op">=</tt><tt class="py-name">url</tt><tt class="py-op">,</tt> <tt class="py-name">target</tt><tt class="py-op">=</tt><tt class="py-op">(</tt><tt class="py-string">'target="_blank"'</tt> <tt class="py-keyword">if</tt> <tt class="py-name">newWindow</tt> <tt class="py-keyword">else</tt> <tt class="py-string">''</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">        <tt class="py-name">page_body</tt><tt class="py-op">=</tt><tt class="py-string">"""</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"><tt class="py-string">&lt;h1&gt;BCS SPA 2014 OAuth Demo&lt;/h1&gt;</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line"><tt class="py-string"> &lt;p&gt;This is the local home page for the OAuth Demo.</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"><tt class="py-string"> If you can read this your Python HTTP server is running successfully.&lt;/p&gt;</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line"><tt class="py-string">&lt;h2&gt;Configuration&lt;/h2&gt;</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line"><tt class="py-string"> APP_NAME: &lt;code&gt;{APP_NAME}&lt;/code&gt;&lt;br&gt;</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"><tt class="py-string"> DEMO_DIRECTORY: &lt;code&gt;{DEMO_DIRECTORY}&lt;/code&gt;&lt;br&gt;</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"><tt class="py-string"> FILES_DIRECTORY: &lt;code&gt;{FILES_DIRECTORY}&lt;/code&gt;&lt;br&gt;</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line"><tt class="py-string"> APP_KEY: &lt;code&gt;{APP_KEY}&lt;/code&gt;&lt;br&gt;</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line"><tt class="py-string"> APP_SECRET: &lt;code&gt;{APP_SECRET}&lt;/code&gt;&lt;br&gt;</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line"><tt class="py-string"> ACCESS_TOKEN_FILE: &lt;code&gt;{ACCESS_TOKEN_FILE}&lt;/code&gt;</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line"><tt class="py-string">&lt;h2&gt;Help&lt;/h2&gt;</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"><tt class="py-string"> &lt;dl&gt;</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line"><tt class="py-string">  &lt;dt&gt;SPA conference session page:&lt;/dt&gt;&lt;dd&gt;{spapage}&lt;/dd&gt;</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"><tt class="py-string">  &lt;dt&gt;Dropbox Python SDK:&lt;/dt&gt;&lt;dd&gt;{apidocs}&lt;/dd&gt;</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line"><tt class="py-string">  &lt;dt&gt;Python language reference:&lt;/dt&gt;&lt;dd&gt;{pythonref}&lt;/dd&gt;</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line"><tt class="py-string">  &lt;dt&gt;Dropbox developer page for demo app:&lt;/dt&gt;&lt;dd&gt;{APP_WEBSITE}&lt;/dd&gt;</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"><tt class="py-string"> &lt;/dl&gt;</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line"><tt class="py-string">&lt;h2&gt;Documentation&lt;/h2&gt;</tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line"><tt class="py-string">"""</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt id="link-34" class="py-name" targets="Variable common_oauth.AppData.APP_NAME=common_oauth.AppData-class.html#APP_NAME"><a title="common_oauth.AppData.APP_NAME" class="py-name" href="#" onclick="return doclink('link-34', 'APP_NAME', 'link-34');">APP_NAME</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Class common_oauth.AppData=common_oauth.AppData-class.html"><a title="common_oauth.AppData" class="py-name" href="#" onclick="return doclink('link-35', 'AppData', 'link-35');">AppData</a></tt><tt class="py-op">.</tt><tt id="link-36" class="py-name"><a title="common_oauth.AppData.APP_NAME" class="py-name" href="#" onclick="return doclink('link-36', 'APP_NAME', 'link-34');">APP_NAME</a></tt><tt class="py-op">,</tt> <tt id="link-37" class="py-name" targets="Variable common_oauth.DEMO_DIRECTORY=common_oauth-module.html#DEMO_DIRECTORY"><a title="common_oauth.DEMO_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-37', 'DEMO_DIRECTORY', 'link-37');">DEMO_DIRECTORY</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name"><a title="common_oauth.DEMO_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-38', 'DEMO_DIRECTORY', 'link-37');">DEMO_DIRECTORY</a></tt><tt class="py-op">,</tt> <tt id="link-39" class="py-name" targets="Variable common_oauth.FILES_DIRECTORY=common_oauth-module.html#FILES_DIRECTORY"><a title="common_oauth.FILES_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-39', 'FILES_DIRECTORY', 'link-39');">FILES_DIRECTORY</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name"><a title="common_oauth.FILES_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-40', 'FILES_DIRECTORY', 'link-39');">FILES_DIRECTORY</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line">                    <tt id="link-41" class="py-name" targets="Variable common_oauth.AppData.APP_KEY=common_oauth.AppData-class.html#APP_KEY"><a title="common_oauth.AppData.APP_KEY" class="py-name" href="#" onclick="return doclink('link-41', 'APP_KEY', 'link-41');">APP_KEY</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-42" class="py-name"><a title="common_oauth.AppData" class="py-name" href="#" onclick="return doclink('link-42', 'AppData', 'link-35');">AppData</a></tt><tt class="py-op">.</tt><tt id="link-43" class="py-name"><a title="common_oauth.AppData.APP_KEY" class="py-name" href="#" onclick="return doclink('link-43', 'APP_KEY', 'link-41');">APP_KEY</a></tt><tt class="py-op">,</tt> <tt id="link-44" class="py-name" targets="Variable common_oauth.AppData.APP_SECRET=common_oauth.AppData-class.html#APP_SECRET"><a title="common_oauth.AppData.APP_SECRET" class="py-name" href="#" onclick="return doclink('link-44', 'APP_SECRET', 'link-44');">APP_SECRET</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-45" class="py-name"><a title="common_oauth.AppData" class="py-name" href="#" onclick="return doclink('link-45', 'AppData', 'link-35');">AppData</a></tt><tt class="py-op">.</tt><tt id="link-46" class="py-name"><a title="common_oauth.AppData.APP_SECRET" class="py-name" href="#" onclick="return doclink('link-46', 'APP_SECRET', 'link-44');">APP_SECRET</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line">                    <tt id="link-47" class="py-name" targets="Variable common_oauth.AccessData.ACCESS_TOKEN_FILE=common_oauth.AccessData-class.html#ACCESS_TOKEN_FILE"><a title="common_oauth.AccessData.ACCESS_TOKEN_FILE" class="py-name" href="#" onclick="return doclink('link-47', 'ACCESS_TOKEN_FILE', 'link-47');">ACCESS_TOKEN_FILE</a></tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-48" class="py-name" targets="Class common_oauth.AccessData=common_oauth.AccessData-class.html"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-48', 'AccessData', 'link-48');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-49" class="py-name"><a title="common_oauth.AccessData.ACCESS_TOKEN_FILE" class="py-name" href="#" onclick="return doclink('link-49', 'ACCESS_TOKEN_FILE', 'link-47');">ACCESS_TOKEN_FILE</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">                    <tt class="py-name">spapage</tt><tt class="py-op">=</tt><tt class="py-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-string">'http://spaconference.org/spa2014/sessions/session576.html'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">                    <tt class="py-name">apidocs</tt><tt class="py-op">=</tt><tt class="py-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-string">'https://www.dropbox.com/developers/core/docs/python'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">                    <tt class="py-name">pythonref</tt><tt class="py-op">=</tt><tt class="py-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-string">'https://docs.python.org/2/reference/index.html'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line">                    <tt id="link-50" class="py-name" targets="Variable common_oauth.AppData.APP_WEBSITE=common_oauth.AppData-class.html#APP_WEBSITE"><a title="common_oauth.AppData.APP_WEBSITE" class="py-name" href="#" onclick="return doclink('link-50', 'APP_WEBSITE', 'link-50');">APP_WEBSITE</a></tt><tt class="py-op">=</tt><tt class="py-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-51" class="py-name"><a title="common_oauth.AppData" class="py-name" href="#" onclick="return doclink('link-51', 'AppData', 'link-35');">AppData</a></tt><tt class="py-op">.</tt><tt id="link-52" class="py-name"><a title="common_oauth.AppData.APP_WEBSITE" class="py-name" href="#" onclick="return doclink('link-52', 'APP_WEBSITE', 'link-50');">APP_WEBSITE</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">          <tt class="py-op">)</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">        <tt class="py-name">page_body</tt> <tt class="py-op">+=</tt> <tt class="py-string">'&lt;dl&gt;&lt;dt&gt;Pydoc HTML format:&lt;/dt&gt;&lt;dd&gt;'</tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">htmlfile</tt> <tt class="py-keyword">in</tt> <tt class="py-name">glob</tt><tt class="py-op">.</tt><tt class="py-name">glob</tt><tt class="py-op">(</tt><tt class="py-string">'{doc_dir}{sep}*.html'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">doc_dir</tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-53" class="py-name"><a title="common_oauth.DOC_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-53', 'DOC_DIRECTORY', 'link-33');">DOC_DIRECTORY</a></tt><tt class="py-op">,</tt> <tt class="py-name">sep</tt><tt class="py-op">=</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">sep</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">            <tt class="py-name">page_body</tt> <tt class="py-op">+=</tt> <tt class="py-string">'%s&lt;br&gt;'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-string">'http://{server}:{port}/doc/{module_name}'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line">                                            <tt class="py-name">server</tt><tt class="py-op">=</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_SERVER</tt><tt class="py-op">,</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line">                                            <tt class="py-name">port</tt><tt class="py-op">=</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_PORT</tt><tt class="py-op">,</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">                                            <tt class="py-name">module_name</tt><tt class="py-op">=</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">basename</tt><tt class="py-op">(</tt><tt class="py-name">htmlfile</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line">        <tt class="py-name">page_body</tt> <tt class="py-op">+=</tt> <tt class="py-string">'&lt;/dd&gt;&lt;dt&gt;Pydoc text format:&lt;/dt&gt;&lt;dd&gt;'</tt> </tt>
+<a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">txtfile</tt> <tt class="py-keyword">in</tt> <tt class="py-name">glob</tt><tt class="py-op">.</tt><tt class="py-name">glob</tt><tt class="py-op">(</tt><tt class="py-string">'{doc_dir}{sep}*.txt'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">doc_dir</tt><tt class="py-op">=</tt><tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name"><a title="common_oauth.DOC_DIRECTORY" class="py-name" href="#" onclick="return doclink('link-54', 'DOC_DIRECTORY', 'link-33');">DOC_DIRECTORY</a></tt><tt class="py-op">,</tt> <tt class="py-name">sep</tt><tt class="py-op">=</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">sep</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">            <tt class="py-name">page_body</tt> <tt class="py-op">+=</tt> <tt class="py-string">'%s&lt;br&gt;'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">make_anchor</tt><tt class="py-op">(</tt><tt class="py-string">'http://{server}:{port}/doc/{module_name}'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line">                                            <tt class="py-name">server</tt><tt class="py-op">=</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_SERVER</tt><tt class="py-op">,</tt> </tt>
+<a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line">                                            <tt class="py-name">port</tt><tt class="py-op">=</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_PORT</tt><tt class="py-op">,</tt> </tt>
+<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line">                                            <tt class="py-name">module_name</tt><tt class="py-op">=</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">basename</tt><tt class="py-op">(</tt><tt class="py-name">txtfile</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">        <tt class="py-name">page_body</tt> <tt class="py-op">+=</tt> <tt class="py-string">'&lt;/dd&gt;&lt;p&gt;'</tt> </tt>
+<a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">page_body</tt> </tt>
+</div></div><a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line"> </tt>
+<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">'__main__'</tt><tt class="py-op">:</tt> </tt>
+<a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line">    <tt class="py-name">http_services</tt> <tt class="py-op">=</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-55" class="py-name"><a title="common_oauth.HttpServices" class="py-name" href="#" onclick="return doclink('link-55', 'HttpServices', 'link-15');">HttpServices</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line">    <tt class="py-name">httpd</tt> <tt class="py-op">=</tt> <tt class="py-name">HTTPServer</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_SERVER</tt><tt class="py-op">,</tt> <tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_PORT</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt id="link-56" class="py-name" targets="Class oauth_httpd.OAuthHTTPRequestHandler=oauth_httpd.OAuthHTTPRequestHandler-class.html"><a title="oauth_httpd.OAuthHTTPRequestHandler" class="py-name" href="#" onclick="return doclink('link-56', 'OAuthHTTPRequestHandler', 'link-56');">OAuthHTTPRequestHandler</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line">    <tt id="link-57" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-57', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'About to start the httpd server on "{server}" listening on port {port}...'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line">        <tt class="py-name">server</tt><tt class="py-op">=</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_SERVER</tt><tt class="py-op">,</tt> <tt class="py-name">port</tt><tt class="py-op">=</tt><tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HTTPD_PORT</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line">    <tt id="link-58" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-58', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'Browse to the home page "%s" to test the server'</tt> <tt class="py-op">%</tt> <tt class="py-name">http_services</tt><tt class="py-op">.</tt><tt class="py-name">OAUTH_HOME_URL</tt><tt class="py-op">)</tt> </tt>
+<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line">    <tt id="link-59" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-59', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'Press &lt;Ctrl-C&gt; to stop the server'</tt><tt class="py-op">)</tt> </tt>
+<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line">        <tt class="py-name">httpd</tt><tt class="py-op">.</tt><tt class="py-name">serve_forever</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">KeyboardInterrupt</tt><tt class="py-op">:</tt> </tt>
+<a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">''</tt> </tt>
+<a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line">        <tt id="link-60" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-60', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'stopping httpd...'</tt><tt class="py-op">)</tt> </tt>
+<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line">    <tt class="py-name">httpd</tt><tt class="py-op">.</tt><tt class="py-name">server_close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://localhost:55510/home">bcs_spa_2014</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Jun 20 07:15:34 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

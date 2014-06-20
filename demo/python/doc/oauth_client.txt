@@ -16,23 +16,6 @@ DESCRIPTION
     
     If the client has not yet been authorised with Dropbox (ie the Dropbox token file does not exist),
     the options allow the user to run either the no-redirect or redirect workflows.
-    
-    
-    Global variables:
-        logger: used to log error, info and debug messages
-            example usage: logger = CO.logger; logger('message')
-        dropbox_client: a dropbox.client.DropboxClient() which can be manipulated by the user
-    
-    Workflow Methods:
-        oauth_authorise_no_redirect(): run noredirect authorisation workflow (requires auth code to be entered)
-        oauth_authorise_redirect(): start redirect authorisation workflow (uses HTTP web server to simulate URL schema)
-    
-    Other Methods:
-        oauth_access_token_file_exists(): print whether the access token file exists
-        oauth_print_access_token_file(): print the access token file
-        oauth_delete_access_token_file(): delete the access token file
-        oauth_help(): display a help message which shows what functions can be called
-        oauth_debug(): enable / disable debugging
 
 FUNCTIONS
     oauth_access_token_file_exists()
@@ -40,32 +23,16 @@ FUNCTIONS
     
     oauth_authorise_no_redirect()
         run noredirect authorisation workflow (requires auth code to be entered)
-        
-        This consists of the following steps:
-        - Delete the access token file if it exists.
-        - Start the workflow by calling DropboxWorkflow.no_redirect_client_start().
-        - Open a browser window at the URL returned by no_redirect_client_start().
-        - Prompt the user to enter the authorisation code displayed by Dropbox in this window.
-        - Finish the workflow, save the access token and generate the sample files
-          by calling DropboxWork.no_redirect_client_finish_and_save().
-        
-        @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2FlowNoRedirect
+        See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2FlowNoRedirect}
     
     oauth_authorise_redirect()
-        start redirect authorisation workflow (uses HTTP web server to simulate URL schema)
-        
-        Start the Oauth no-redirect workflow.
-        - This consists of the following steps:
-        - Delete the access token file if it exists.
-        - Start the workflow by calling DropboxWorkflow.redirect_client_start().
-        - Open a browser window at the URL returned by redirect_client_start().
-        - Wait for the access token file to be created by the HTTP server
-          (which is running the finish step of the workflow).
-        
-        @see https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow
+        start redirect authorisation workflow (uses HTTP web server to simulate URL schema).
+        See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow}
     
     oauth_debug(enable)
         enable / disable debugging
+        @type enable: boolean
+        @param enable: if true, enable debug messages, else disable debug messages
     
     oauth_delete_access_token_file()
         delete the access token file

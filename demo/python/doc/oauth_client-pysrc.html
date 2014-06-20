@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>oauth_client</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://localhost:55510/home">bcs_spa_2014</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Module&nbsp;oauth_client
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="oauth_client-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="oauth_client-module.html">Module oauth_client</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#! /usr/bin/python</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">oauth_client.py: Dropbox Python OAuth API demo client</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">This is the script which runs the Oauth demo client.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">It checks whether the access token file exists, and presents the user with a menu of relevant options.</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring">If the client has previously been authorised with Dropbox (ie the Dropbox token file exists),</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring">the options allow the user to manipulate files in the Dropbox app directory using Dropbox calls</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-docstring">(not using filesystem I/O).</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-docstring">If the client has not yet been authorised with Dropbox (ie the Dropbox token file does not exist),</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-docstring">the options allow the user to run either the no-redirect or redirect workflows.</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">logging</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module common_oauth=common_oauth-module.html"><a title="common_oauth" class="py-name" href="#" onclick="return doclink('link-0', 'common_oauth', 'link-0');">common_oauth</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">CO</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable common_oauth.logger=common_oauth-module.html#logger,Variable dropbox_tools.logger=dropbox_tools-module.html#logger,Variable dropbox_workflow.logger=dropbox_workflow-module.html#logger,Variable oauth_httpd.logger=oauth_httpd-module.html#logger"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-1', 'logger', 'link-1');">logger</a></tt> <tt class="py-op">=</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-2', 'logger', 'link-1');">logger</a></tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-string">used to log error, info and debug messages, for example::</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-string">    logger = CO.logger; logger('message')</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Module dropbox_workflow=dropbox_workflow-module.html"><a title="dropbox_workflow" class="py-name" href="#" onclick="return doclink('link-3', 'dropbox_workflow', 'link-3');">dropbox_workflow</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">DW</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name" targets="Module dropbox_tools=dropbox_tools-module.html"><a title="dropbox_tools" class="py-name" href="#" onclick="return doclink('link-4', 'dropbox_tools', 'link-4');">dropbox_tools</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"> </tt>
+<a name="__print_workflow_prompts"></a><div id="__print_workflow_prompts-def"><a name="L27"></a><tt class="py-lineno"> 27</tt> <a class="py-toggle" href="#" id="__print_workflow_prompts-toggle" onclick="return toggle('__print_workflow_prompts');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#__print_workflow_prompts">__print_workflow_prompts</a><tt class="py-op">(</tt><tt class="py-param">prompt</tt><tt class="py-op">,</tt> <tt class="py-param">additional_instructions</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="__print_workflow_prompts-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="__print_workflow_prompts-expanded"><a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-docstring">"""print prompts before starting the Dropbox workflow"""</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">"""When the browser window opens:</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-string"> 1. Log in to Dropbox if necessary (your user name and password are NOT visible to the client)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-string"> 2. If you have enabled two-factor authentication with Dropbox, enter the Dropbox security code</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt class="py-string">    which will have been sent to your mobile phone (this is not part of the OAuth workflow)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-string"> 3. Click 'Allow' to authorise the client with Dropbox"""</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">additional_instructions</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> <tt class="py-keyword">print</tt> <tt class="py-name">additional_instructions</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">raw_input</tt><tt class="py-op">(</tt><tt class="py-name">prompt</tt><tt class="py-op">+</tt><tt class="py-string">"..."</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"> </tt>
+<a name="__print_help_message"></a><div id="__print_help_message-def"><a name="L37"></a><tt class="py-lineno"> 37</tt> <a class="py-toggle" href="#" id="__print_help_message-toggle" onclick="return toggle('__print_help_message');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#__print_help_message">__print_help_message</a><tt class="py-op">(</tt><tt class="py-param">message</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="__print_help_message-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="__print_help_message-expanded"><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">    <tt class="py-docstring">"""print a help message"""</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">message</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> <tt class="py-name">message</tt> <tt class="py-op">=</tt> <tt class="py-string">'Command complete'</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-op">(</tt><tt class="py-string">'\n%s. Type oauth_help() for help:\n'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">message</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"><tt class="py-comment">###############################################</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"><tt class="py-comment"># AUTHORISE WITHOUT AUTOMATIC URL REDIRECTION #</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"><tt class="py-comment">###############################################</tt> </tt>
+<a name="oauth_authorise_no_redirect"></a><div id="oauth_authorise_no_redirect-def"><a name="L45"></a><tt class="py-lineno"> 45</tt> <a class="py-toggle" href="#" id="oauth_authorise_no_redirect-toggle" onclick="return toggle('oauth_authorise_no_redirect');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_authorise_no_redirect">oauth_authorise_no_redirect</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_authorise_no_redirect-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_authorise_no_redirect-expanded"><a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-docstring">    run noredirect authorisation workflow (requires auth code to be entered)</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-docstring">    See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2FlowNoRedirect}</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">    <tt class="py-comment"># EXERCISE:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">    <tt class="py-comment">#  - delete the access token file (use CO.AccessData.*)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">    <tt class="py-comment">#  - start the Dropbox no-redirect workflow (use DW.*)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">    <tt class="py-comment">#  - store the returned information in dropbox_status</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_START</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Class common_oauth.AccessData=common_oauth.AccessData-class.html"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-5', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Static Method common_oauth.AccessData.delete_access_token_file()=common_oauth.AccessData-class.html#delete_access_token_file"><a title="common_oauth.AccessData.delete_access_token_file" class="py-name" href="#" onclick="return doclink('link-6', 'delete_access_token_file', 'link-6');">delete_access_token_file</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">    <tt class="py-name">dropbox_status</tt> <tt class="py-op">=</tt> <tt class="py-name">DW</tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Function dropbox_workflow.no_redirect_client_start()=dropbox_workflow-module.html#no_redirect_client_start"><a title="dropbox_workflow.no_redirect_client_start" class="py-name" href="#" onclick="return doclink('link-7', 'no_redirect_client_start', 'link-7');">no_redirect_client_start</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_FINISH</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Function oauth_client.__print_workflow_prompts()=oauth_client-module.html#__print_workflow_prompts"><a title="oauth_client.__print_workflow_prompts" class="py-name" href="#" onclick="return doclink('link-8', '__print_workflow_prompts', 'link-8');">__print_workflow_prompts</a></tt><tt class="py-op">(</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">            <tt class="py-string">'Press Enter to start no_redirect() authorisation'</tt><tt class="py-op">,</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">            <tt class="py-string">' 4. Copy the provided authorisation code to the clipboard'</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">    <tt class="py-comment"># EXERCISE:</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">    <tt class="py-comment">#  - open a browser window at the URL returned by the Dropbox start step (use CO.HttpService)</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">    <tt class="py-comment">#  - prompt the user to enter the security code displayed by Dropbox</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">    <tt class="py-comment">#  - store the returned information in security_code</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">    <tt class="py-comment">#  - finish the Dropbox no-redirect workflow, passing it the security code entered by the user,</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">    <tt class="py-comment">#    and save the access token (use DW.*)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_START</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Class common_oauth.HttpServices=common_oauth.HttpServices-class.html"><a title="common_oauth.HttpServices" class="py-name" href="#" onclick="return doclink('link-9', 'HttpServices', 'link-9');">HttpServices</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Static Method common_oauth.HttpServices.open_browser_window()=common_oauth.HttpServices-class.html#open_browser_window"><a title="common_oauth.HttpServices.open_browser_window" class="py-name" href="#" onclick="return doclink('link-10', 'open_browser_window', 'link-10');">open_browser_window</a></tt><tt class="py-op">(</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">redirect_url</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">    <tt class="py-name">security_code</tt> <tt class="py-op">=</tt> <tt class="py-name">raw_input</tt><tt class="py-op">(</tt><tt class="py-string">'Enter the Dropbox security code: '</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-name">access_data</tt> <tt class="py-op">=</tt> <tt class="py-name">DW</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Function dropbox_workflow.no_redirect_client_finish_and_save()=dropbox_workflow-module.html#no_redirect_client_finish_and_save"><a title="dropbox_workflow.no_redirect_client_finish_and_save" class="py-name" href="#" onclick="return doclink('link-11', 'no_redirect_client_finish_and_save', 'link-11');">no_redirect_client_finish_and_save</a></tt><tt class="py-op">(</tt><tt class="py-name">security_code</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_FINISH</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">    <tt id="link-12" class="py-name" targets="Function oauth_client.__print_help_message()=oauth_client-module.html#__print_help_message"><a title="oauth_client.__print_help_message" class="py-name" href="#" onclick="return doclink('link-12', '__print_help_message', 'link-12');">__print_help_message</a></tt><tt class="py-op">(</tt><tt class="py-string">'NO-REDIRECT AUTHORISATION COMPLETED SUCCESSFULLY'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt class="py-comment">############################################</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-comment"># AUTHORISE WITH AUTOMATIC URL REDIRECTION #</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-comment">############################################</tt> </tt>
+<a name="oauth_authorise_redirect"></a><div id="oauth_authorise_redirect-def"><a name="L81"></a><tt class="py-lineno"> 81</tt> <a class="py-toggle" href="#" id="oauth_authorise_redirect-toggle" onclick="return toggle('oauth_authorise_redirect');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_authorise_redirect">oauth_authorise_redirect</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_authorise_redirect-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_authorise_redirect-expanded"><a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"><tt class="py-docstring">    start redirect authorisation workflow (uses HTTP web server to simulate URL schema).</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt class="py-docstring">    See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow}</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">    <tt class="py-comment"># EXERCISE:</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">    <tt class="py-comment">#  - delete the access token file (use CO.AccessData.*)</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">    <tt class="py-comment">#  - start the Dropbox redirect workflow (use DW.*)</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">    <tt class="py-comment">#  - store the returned information in dropbox_status</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_START</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-13', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name"><a title="common_oauth.AccessData.delete_access_token_file" class="py-name" href="#" onclick="return doclink('link-14', 'delete_access_token_file', 'link-6');">delete_access_token_file</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">    <tt class="py-name">dropbox_status</tt> <tt class="py-op">=</tt> <tt class="py-name">DW</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Function dropbox_workflow.redirect_client_start()=dropbox_workflow-module.html#redirect_client_start"><a title="dropbox_workflow.redirect_client_start" class="py-name" href="#" onclick="return doclink('link-15', 'redirect_client_start', 'link-15');">redirect_client_start</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_FINISH</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">    <tt id="link-16" class="py-name"><a title="oauth_client.__print_workflow_prompts" class="py-name" href="#" onclick="return doclink('link-16', '__print_workflow_prompts', 'link-8');">__print_workflow_prompts</a></tt><tt class="py-op">(</tt><tt class="py-string">'Ensure the HTTP server is running and press enter to start redirect() authorisation'</tt><tt class="py-op">)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">    <tt class="py-comment"># EXERCISE:</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">    <tt class="py-comment">#  - open a browser window at the URL returned by the Dropbox start step (use CO.HttpService)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">    <tt class="py-comment">#  - wait for the access token to be saved (use CO.AccessData)</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_START</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="common_oauth.HttpServices" class="py-name" href="#" onclick="return doclink('link-17', 'HttpServices', 'link-9');">HttpServices</a></tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="common_oauth.HttpServices.open_browser_window" class="py-name" href="#" onclick="return doclink('link-18', 'open_browser_window', 'link-10');">open_browser_window</a></tt><tt class="py-op">(</tt><tt class="py-name">dropbox_status</tt><tt class="py-op">.</tt><tt class="py-name">redirect_url</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-19', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Static Method common_oauth.AccessData.wait_for_access_token_file()=common_oauth.AccessData-class.html#wait_for_access_token_file"><a title="common_oauth.AccessData.wait_for_access_token_file" class="py-name" href="#" onclick="return doclink('link-20', 'wait_for_access_token_file', 'link-20');">wait_for_access_token_file</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">    <tt class="py-name">access_data</tt> <tt class="py-op">=</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-21', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">    <tt class="py-name">access_data</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name" targets="Method common_oauth.AccessData.load()=common_oauth.AccessData-class.html#load"><a title="common_oauth.AccessData.load" class="py-name" href="#" onclick="return doclink('link-22', 'load', 'link-22');">load</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">    <tt class="py-comment"># SPA14_OAUTH_FINISH</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">    <tt id="link-23" class="py-name"><a title="oauth_client.__print_help_message" class="py-name" href="#" onclick="return doclink('link-23', '__print_help_message', 'link-12');">__print_help_message</a></tt><tt class="py-op">(</tt><tt class="py-string">'REDIRECT AUTHORISATION COMPLETED SUCCESSFULLY'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"><tt class="py-comment">######################################################</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line"><tt class="py-comment"># UTILITY FUNCTIONS RUN  FROM THE PYTHON INTERPRETER #</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line"><tt class="py-comment">######################################################</tt> </tt>
+<a name="oauth_debug"></a><div id="oauth_debug-def"><a name="L113"></a><tt class="py-lineno">113</tt> <a class="py-toggle" href="#" id="oauth_debug-toggle" onclick="return toggle('oauth_debug');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_debug">oauth_debug</a><tt class="py-op">(</tt><tt class="py-param">enable</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_debug-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_debug-expanded"><a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"><tt class="py-docstring">    enable / disable debugging</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"><tt class="py-docstring">    @type enable: boolean</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"><tt class="py-docstring">    @param enable: if true, enable debug messages, else disable debug messages</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">    <tt class="py-keyword">global</tt> <tt id="link-24" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-24', 'logger', 'link-1');">logger</a></tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">enable</tt><tt class="py-op">:</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">        <tt id="link-25" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-25', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">setLevel</tt><tt class="py-op">(</tt><tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">DEBUG</tt><tt class="py-op">)</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">        <tt id="link-26" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-26', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'Debug messages will be displayed'</tt><tt class="py-op">)</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">        <tt id="link-27" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-27', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">setLevel</tt><tt class="py-op">(</tt><tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">INFO</tt><tt class="py-op">)</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">        <tt id="link-28" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-28', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'Debug messages will not be displayed'</tt><tt class="py-op">)</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">    <tt id="link-29" class="py-name"><a title="oauth_client.__print_help_message" class="py-name" href="#" onclick="return doclink('link-29', '__print_help_message', 'link-12');">__print_help_message</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"> </tt>
+<a name="oauth_access_token_file_exists"></a><div id="oauth_access_token_file_exists-def"><a name="L128"></a><tt class="py-lineno">128</tt> <a class="py-toggle" href="#" id="oauth_access_token_file_exists-toggle" onclick="return toggle('oauth_access_token_file_exists');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_access_token_file_exists">oauth_access_token_file_exists</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_access_token_file_exists-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_access_token_file_exists-expanded"><a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">    <tt class="py-docstring">"""print whether the access token file exists"""</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-30', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Static Method common_oauth.AccessData.access_token_file_exists()=common_oauth.AccessData-class.html#access_token_file_exists"><a title="common_oauth.AccessData.access_token_file_exists" class="py-name" href="#" onclick="return doclink('link-31', 'access_token_file_exists', 'link-31');">access_token_file_exists</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">    <tt id="link-32" class="py-name"><a title="oauth_client.__print_help_message" class="py-name" href="#" onclick="return doclink('link-32', '__print_help_message', 'link-12');">__print_help_message</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"> </tt>
+<a name="oauth_print_access_token_file"></a><div id="oauth_print_access_token_file-def"><a name="L133"></a><tt class="py-lineno">133</tt> <a class="py-toggle" href="#" id="oauth_print_access_token_file-toggle" onclick="return toggle('oauth_print_access_token_file');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_print_access_token_file">oauth_print_access_token_file</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_print_access_token_file-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_print_access_token_file-expanded"><a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">    <tt class="py-docstring">"""print the access token file"""</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-33', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-34" class="py-name" targets="Static Method common_oauth.AccessData.print_access_token_file()=common_oauth.AccessData-class.html#print_access_token_file"><a title="common_oauth.AccessData.print_access_token_file" class="py-name" href="#" onclick="return doclink('link-34', 'print_access_token_file', 'link-34');">print_access_token_file</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">    <tt id="link-35" class="py-name"><a title="oauth_client.__print_help_message" class="py-name" href="#" onclick="return doclink('link-35', '__print_help_message', 'link-12');">__print_help_message</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"> </tt>
+<a name="oauth_delete_access_token_file"></a><div id="oauth_delete_access_token_file-def"><a name="L138"></a><tt class="py-lineno">138</tt> <a class="py-toggle" href="#" id="oauth_delete_access_token_file-toggle" onclick="return toggle('oauth_delete_access_token_file');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_delete_access_token_file">oauth_delete_access_token_file</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_delete_access_token_file-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_delete_access_token_file-expanded"><a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">    <tt class="py-docstring">"""delete the access token file"""</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">    <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-36', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="common_oauth.AccessData.delete_access_token_file" class="py-name" href="#" onclick="return doclink('link-37', 'delete_access_token_file', 'link-6');">delete_access_token_file</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">    <tt id="link-38" class="py-name"><a title="oauth_client.__print_help_message" class="py-name" href="#" onclick="return doclink('link-38', '__print_help_message', 'link-12');">__print_help_message</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"> </tt>
+<a name="oauth_help"></a><div id="oauth_help-def"><a name="L143"></a><tt class="py-lineno">143</tt> <a class="py-toggle" href="#" id="oauth_help-toggle" onclick="return toggle('oauth_help');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="oauth_client-module.html#oauth_help">oauth_help</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="oauth_help-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="oauth_help-expanded"><a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">    <tt class="py-docstring">"""display a help message which shows what functions can be called"""</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-39', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-40" class="py-name"><a title="common_oauth.AccessData.access_token_file_exists" class="py-name" href="#" onclick="return doclink('link-40', 'access_token_file_exists', 'link-31');">access_token_file_exists</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line">        <tt id="link-41" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-41', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'The client is authorised with Dropbox (Dropbox token file exists)'</tt><tt class="py-op">)</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">"""</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line"><tt class="py-string">You can run these functions:</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-string"> - oauth_help()                      # display this help message</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-string"> - oauth_debug(True_or_False)        # enable / disable printing of log messages</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-string"> - db_list_directory(dirpath)        # list the contents of directory dirpath (default '/')</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"><tt class="py-string"> - db_print_file(filepath)           # eg '{account_info_file}' or '{review_file}'</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"><tt class="py-string"> - db_create_text_file(filename)     # create a file and enter some lines into it</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"><tt class="py-string"> - db_delete_file(filename)          # delete a file</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line"><tt class="py-string"> - db_disable_access_token()         # disable Dropbox access token (does not delete access file)</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"><tt class="py-string"> - oauth_access_token_file_exists()  # should return True</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line"><tt class="py-string"> - oauth_print_access_token_file()   # print the contents of the token file</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line"><tt class="py-string"> - oauth_delete_access_token_file()  # remove the token file (re-authorisation will be required)</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"><tt class="py-string">You can inspect or use these variables:</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"><tt class="py-string"> - dropbox_client                    # a dropbox.client.DropboxClient() - try help(dropbox_client)</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line"><tt class="py-string">"""</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">account_info_file</tt><tt class="py-op">=</tt><tt class="py-name">DW</tt><tt class="py-op">.</tt><tt id="link-42" class="py-name" targets="Variable dropbox_tools.ACCOUNT_INFO_FILE=dropbox_tools-module.html#ACCOUNT_INFO_FILE"><a title="dropbox_tools.ACCOUNT_INFO_FILE" class="py-name" href="#" onclick="return doclink('link-42', 'ACCOUNT_INFO_FILE', 'link-42');">ACCOUNT_INFO_FILE</a></tt><tt class="py-op">,</tt> <tt class="py-name">review_file</tt><tt class="py-op">=</tt><tt class="py-name">DW</tt><tt class="py-op">.</tt><tt id="link-43" class="py-name" targets="Variable dropbox_tools.REVIEW_FILE=dropbox_tools-module.html#REVIEW_FILE"><a title="dropbox_tools.REVIEW_FILE" class="py-name" href="#" onclick="return doclink('link-43', 'REVIEW_FILE', 'link-43');">REVIEW_FILE</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">        <tt id="link-44" class="py-name"><a title="common_oauth.logger
+dropbox_tools.logger
+dropbox_workflow.logger
+oauth_httpd.logger" class="py-name" href="#" onclick="return doclink('link-44', 'logger', 'link-1');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">'The client is not yet authorised with Dropbox (the Dropbox token file does not exist)'</tt><tt class="py-op">)</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">"""</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"><tt class="py-string">You can run these functions:</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line"><tt class="py-string"> - oauth_help()                      # display this help message</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"><tt class="py-string"> - oauth_debug(True_or_False)        # enable / disable printing of log messages</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line"><tt class="py-string"> - oauth_access_token_file_exists()  # should return False</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line"><tt class="py-string"> - oauth_authorise_no_redirect()     # authorisation requiring auth code to be entered</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"><tt class="py-string"> - oauth_authorise_redirect()        # authorisation using HTTP web server (simulates URL schema)</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line"><tt class="py-string">"""</tt> </tt>
+</div><a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line"> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">__name__</tt> <tt class="py-op">==</tt> <tt class="py-string">'__main__'</tt><tt class="py-op">:</tt> </tt>
+<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line">    <tt class="py-comment"># load access data into module variable for use in Python interpreter</tt> </tt>
+<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-45" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-45', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">.</tt><tt id="link-46" class="py-name"><a title="common_oauth.AccessData.access_token_file_exists" class="py-name" href="#" onclick="return doclink('link-46', 'access_token_file_exists', 'link-31');">access_token_file_exists</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">        <tt class="py-name">access_data</tt> <tt class="py-op">=</tt> <tt class="py-name">CO</tt><tt class="py-op">.</tt><tt id="link-47" class="py-name"><a title="common_oauth.AccessData" class="py-name" href="#" onclick="return doclink('link-47', 'AccessData', 'link-5');">AccessData</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">        <tt class="py-name">access_data</tt><tt class="py-op">.</tt><tt id="link-48" class="py-name"><a title="common_oauth.AccessData.load" class="py-name" href="#" onclick="return doclink('link-48', 'load', 'link-22');">load</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line">        <tt class="py-name">dropbox_client</tt> <tt class="py-op">=</tt> <tt class="py-name">dropbox</tt><tt class="py-op">.</tt><tt class="py-name">client</tt><tt class="py-op">.</tt><tt class="py-name">DropboxClient</tt><tt class="py-op">(</tt><tt class="py-name">access_data</tt><tt class="py-op">.</tt><tt class="py-name">access_token</tt><tt class="py-op">)</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">        <tt class="py-string">"""a dropbox.client.DropboxClient() which can be manipulated by the user"""</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line"> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line">    <tt id="link-49" class="py-name" targets="Function oauth_client.oauth_help()=oauth_client-module.html#oauth_help"><a title="oauth_client.oauth_help" class="py-name" href="#" onclick="return doclink('link-49', 'oauth_help', 'link-49');">oauth_help</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://localhost:55510/home">bcs_spa_2014</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Jun 20 07:15:34 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

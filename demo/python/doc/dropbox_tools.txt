@@ -7,28 +7,8 @@ FILE
     /Users/nick/Documents/Author/Conferences/2014-06-SPA/OAuth/demo/python/dropbox_tools.py
 
 DESCRIPTION
-    You should import this file as follows so you can call its methods directly:
+    You should import this file as follows so you can call its methods directly::
         from dropbox_tools import *
-    
-    Dependencies:
-        python 2.7
-        dropbox - Python Dropbox API (https://www.dropbox.com/developers/datastore/sdks/python)
-    
-    Global constants:
-        ACCOUNT_INFO_FILE: This file is created in the Dropbox app folder once the client has authorised with Dropbox
-            It contains information on the Dropbox user account
-        REVIEW_DIRECTORY: This folder is created in the Dropbox app folder once the client has authorised with Dropbox
-        REVIEW_FILE: This file is created in the Dropbox app folder once the client has authorised with Dropbox
-    
-    Global variables:
-        logger: used to log error, info and debug messages
-            example usage: logger = CO.logger; logger('message')
-    
-    Methods:
-        db_list_directory(): list the contents of the given Dropbox directory
-        db_print_file(): print the contents of the given file to stdout
-        db_create_text_file(): create a file and write some lines of text to it
-        db_create_sample_files(): create some files and directories in Dropbox directory
 
 FUNCTIONS
     db_create_sample_files()
@@ -36,18 +16,28 @@ FUNCTIONS
     
     db_create_text_file(file_path='', lines=[])
         create a file and write some lines of text to it from stdin or lines[]
+        @type file_path: string
+        @param file_path: Dropbox path of the file to create
+        @type lines: string[]
+        @param lines: lines to write in the file
     
     db_delete_file(file_path='')
         delete the given dropbox file
+        @type file_path: string
+        @param file_path: Dropbox path of the file
     
     db_disable_access_token()
         disable the dropbox access token (so authorisation will need to be run again
     
     db_list_directory(path='/')
         list the contents of the given Dropbox directory
+        @type path: string
+        @param path: Dropbox path of the directory
     
     db_print_file(file_path)
         print the contents of the given file to stdout
+        @type file_path: string
+        @param file_path: Dropbox path of the file
 
 DATA
     ACCOUNT_INFO_FILE = '/account_info.python.txt'

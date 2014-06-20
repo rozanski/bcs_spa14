@@ -8,34 +8,23 @@ FILE
 
 DESCRIPTION
     This class implements a simple HTTP server on the computer running the demo.
-    The server listens on host {@code HttpConfig.HTTP_SERVER} and port {@code HttpConfig.HTTP_PORT}.
+    The server listens on host C{HttpConfig.HTTP_SERVER} and port C{HttpConfig.HTTP_PORT}.
     It runs indefinitely until the user presses Enter or interrupts using control-C.
     
     It serves various URLs, including:
-    - HttpConfig.HOME_PAGE - display a home page (use this to test that the server is running ok)
-    - HttpConfig.FINISH_PAGE - run the finish step of the Dropbox redirect workflow.
+        - C{HttpConfig.HOME_PAGE} - display a home page (use this to test that the server is running ok)
+        - C{HttpConfig.FINISH_PAGE} - run the finish step of the Dropbox redirect workflow.
     
-    Global variables:
-        logger: used to log error, info and debug messages
-            example usage: logger = CO.logger; logger('message')
-    
-    @see http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python
+    See U{http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python}
 
 CLASSES
     BaseHTTPServer.BaseHTTPRequestHandler(SocketServer.StreamRequestHandler)
         OAuthHTTPRequestHandler
     
     class OAuthHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler)
-     |  request handler which will receive redirected OAuth replies
+     |  Request handler which will receive redirected OAuth replies.
      |  
      |  This class performs the necessary interactions between the web browser and the web server.
-     |  
-     |  Methods:
-     |      do_GET(): process an HTTP GET
-     |      handle_dropbox_status(): handle a Dropbox status for do_GET()
-     |      send_http_header(): send HTTP header, either 200 (success) or 301 (redirect) if url is not None
-     |                                also sends headers to prevent caching in the browser
-     |      send_html_content(): send HTML including the given page body to the browser
      |  
      |  Method resolution order:
      |      OAuthHTTPRequestHandler
@@ -50,15 +39,21 @@ CLASSES
      |  
      |  handle_dropbox_status(self, dropbox_status)
      |      handle a Dropbox status for do_GET()
+     |      @type dropbox_status: DropboxStatus
+     |      @param dropbox_status: Dropbox status
      |  
      |  home_page_body(self, request)
      |      return the body of the home page
      |  
      |  send_html_content(self, page_body)
      |      send HTML including the given page body to the browser
+     |      @type page_body: string
+     |      @param page_body: page body to send back to the browser (do not include <html> or <body> tags)
      |  
      |  send_http_header(self, url=None)
      |      send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+     |      @type url: boolean
+     |      @param url: optional redirect URL
      |  
      |  ----------------------------------------------------------------------
      |  Methods inherited from BaseHTTPServer.BaseHTTPRequestHandler:
