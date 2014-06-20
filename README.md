@@ -9,7 +9,7 @@ It uses Dropbox as an example cloud service.
 
 ## WHAT'S IN THE BOX
 ### Complete Implementation
-The `demo` directory contains two complete implementations of the code needed for the session, one in Python and one one Java.
+The `demo` directory contains two complete implementations of the code needed for the session, one in Python and one in Java.
 They are functionally equivalent, so you can use whichever language you prefer.
 Each of these directories has its own README with instructions on running the demo and unit tests.
 
