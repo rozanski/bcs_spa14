@@ -7,6 +7,7 @@ import logging
 from mock import Mock
 import types
 import urllib
+import uuid
 
 import unittest
 
@@ -20,13 +21,14 @@ import dropbox_tools as DT
 
 class TestDropboxTools(CustomAssertions):
 
-    TEST_DROPBOX_FILEPATH = '/unittest.%s.python.txt'
+    TEST_DROPBOX_FILEPATH = '/unittest.%s.%s.python.txt'
 
     def create_test_dropbox_file(self, number_of_lines, test_id):
         lines = []
         for line_count in range(0, number_of_lines):
             lines.append('%s line %d' % (self.TEST_DROPBOX_FILEPATH, line_count))
-        file_path = self.TEST_DROPBOX_FILEPATH % (test_id)
+        # ensure that filenames are unique since all testers are using my Dropbox
+        file_path = self.TEST_DROPBOX_FILEPATH % (test_id, uuid.uuid1())
         DT.db_create_text_file(file_path, lines)
         return (file_path, '\n'.join(lines) + '\n') # join doesn't put a \n at the end
 

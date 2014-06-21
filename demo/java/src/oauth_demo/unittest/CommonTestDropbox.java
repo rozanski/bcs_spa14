@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.Locale;
+import java.util.UUID;
 
 import com.dropbox.core.*;
 
@@ -24,7 +25,7 @@ public class CommonTestDropbox {
             }
         }
 
-    public static String TEST_DROPBOX_FILEPATH = "/unittest.%s.java.txt";
+    public static String TEST_DROPBOX_FILEPATH = "/unittest.%s.%s.java.txt";
 
     public static AccessData createTestTokenFile(String testName) throws IOException {
         AccessData saveAccessData = new AccessData(CommonTest.TEST_ACCESS_TOKEN, CommonTest.TEST_USER_ID, "TEST " + testName);
@@ -42,7 +43,7 @@ public class CommonTestDropbox {
     public DropboxFile createTestDropboxFile(int numberOfLines, String testName) throws IOException, DbxException {
         String fileContents = "";
         String tmpFilePath = File.createTempFile(AppData.APP_NAME, ".txt").getPath();
-        String dropboxPath = String.format(TEST_DROPBOX_FILEPATH, testName);
+        String dropboxPath = String.format(TEST_DROPBOX_FILEPATH, testName, UUID.randomUUID());
         BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFilePath));
         for (int i=1; i<11; i++) {
             String line = String.format(dropboxPath + " line %d", i) + "\n";

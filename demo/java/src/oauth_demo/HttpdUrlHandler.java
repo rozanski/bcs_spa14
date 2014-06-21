@@ -83,7 +83,7 @@ public class HttpdUrlHandler implements HttpHandler {
                     "<p>This is the local home page for the OAuth Demo.\n" +
                     "If you can read this your Java HTTP server is running successfully.</p>\n" +
                     "<h2>Configuration</h2>\n" +
-                    "APP_NAME: <code>%s</code>\n" +
+                    "APP_NAME: <code>%s</code><br>\n" +
                     "DEMO_DIRECTORY: <code>%s</code><br>\n" +
                     "FILES_DIRECTORY: <code>%s</code><br>\n" +
                     "APP_KEY: <code>%s</code><br>\n" +
