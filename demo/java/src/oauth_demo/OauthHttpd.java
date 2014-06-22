@@ -10,7 +10,7 @@ import com.sun.net.httpserver.*;
  * This class implements a simple HTTP server on the computer running the demo.
  *
  * <p>The server listens on host {@code HttpConfig.HTTP_SERVER} and port {@code HttpConfig.HTTP_PORT}.
- * It runs indefinitely until the user presses Enter or interrupts using control-C.
+ * It runs indefinitely until the user interrupts using control-C.
  *
  * It serves various URLs, including:
  * <ul>
@@ -43,7 +43,7 @@ public class OauthHttpd {
         ConsoleLogger.info("Browse to the home page '%s' to test the server", HttpConfig.HOME_URL.toString());
         httpd.start();
 
-        ConsoleLogger.info("Http server is running, press Enter to stop");
+        ConsoleLogger.info("Http server is running, press <Ctrl-C> to stop");
         BufferedReader buffer=new BufferedReader(new InputStreamReader(System.in));
         try {
             int waitCount = 0;

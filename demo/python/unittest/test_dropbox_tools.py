@@ -96,10 +96,6 @@ class TestDropboxTools(CustomAssertions):
         DT.db_delete_file(dropbox_file)
         self.assertDbFileHasBeenDeleted(dropbox_file)
 
-    @unittest.skip("don't know how to test this since can't re-enable a token in Dropbox")
-    def test_db_disable_access_token(self):
-        pass
-
 if __name__ == "__main__":
     test_outcome = TestOutcome(unittest.main(verbosity=TEST_VERBOSITY, exit=False), __file__)
     test_outcome.print_summary()

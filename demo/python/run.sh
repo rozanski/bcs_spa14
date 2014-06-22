@@ -5,10 +5,10 @@ run_help_and_exit() {
       cat <<EOF
 Run the OAUth demo scripts
 Usage: 
-    `basename $0` client [ debug ] # run the interpreter and start the client
-    `basename $0` httpd  [ debug ] # start the HTTP daemon and leave it running
-    `basename $0` unittest         # run unit tests
-    `basename $0` pydoc            # generate documentation for all modules
+    `basename $0` client [ debug ]   # run the interpreter and start the client
+    `basename $0` httpd  [ debug ]   # start the HTTP daemon and leave it running
+    `basename $0` unittest [ debug ] # run unit tests
+    `basename $0` pydoc              # generate documentation for all modules
 If second parameter is 'debug' then log debug as well as info messages
 EOF
     exit 1

@@ -3,14 +3,22 @@ package oauth_demo;
 import java.io.*;
 
 /**
- * URL handler for the HTTP server.
+ * Manage Latest URL File
  *
- * <p>This class performs the necessary actions when the server receives a request.
+ * <p>This writes data to the latest URL file, which contains the latest URL that has been requested of the browser
+ * It is primarily used for testing.
  *
  */
 public class HttpLatestUrlFile {
 
-    /** write the given URL to the latest URL file */
+    /**
+     * write the given URL to the latest URL file
+     *
+     * @param url the function writes this URL to the file
+     *
+     * @throws IOException if the file cannot be written
+     *
+     */
     public static void saveLatestUrl(String url) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(HttpConfig.LATEST_URL_FILE));
         bw.write(url+"\n");

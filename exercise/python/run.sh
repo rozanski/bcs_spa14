@@ -5,10 +5,10 @@ run_help_and_exit() {
       cat <<EOF
 Run the OAUth demo scripts
 Usage: 
-    `basename $0` client [ debug ] # run the interpreter and start the client
-    `basename $0` httpd  [ debug ] # start the HTTP daemon and leave it running
-    `basename $0` unittest         # run unit tests
-    `basename $0` pydoc            # generate documentation for all modules
+    `basename $0` client [ debug ]   # run the interpreter and start the client
+    `basename $0` httpd  [ debug ]   # start the HTTP daemon and leave it running
+    `basename $0` unittest [ debug ] # run unit tests
+    `basename $0` pydoc              # generate documentation for all modules
 If second parameter is 'debug' then log debug as well as info messages
 EOF
     exit 1
@@ -47,17 +47,12 @@ elif [ "$script" == unittest ]; then
 elif [ "$script" == pydoc ]; then
     echo GENERATING MODULE DOCUMENTATION
     echo ===============================
-    pwd="`pwd`"
     docdir="`dirname $0`/doc"
-    cd $docdir
-    pydoc -w ../*.py > /dev/null 2>&1
-    cd "$pwd"
+    rm $docdir/*
     for module in ./*.py; do pydoc $module > "$docdir/"`basename $module .py`.txt; done
-    rm ./*.pyc
-    echo Documentation files can be found in $docdir:
-    for file in "$docdir/"*.html; do echo "    $file"; done
-    echo ''
-    for file in "$docdir/"*.txt; do echo "    $file"; done
+    epydoc --html  -v --output="$docdir" --show-imports --name=bcs_spa_2014 --url 'http://localhost:55510/home' ./*.py
+    rm *.pyc
+    echo Documentation files can be found in $docdir
 else
     echo invalid option $script
     run_help_and_exit

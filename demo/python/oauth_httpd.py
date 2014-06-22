@@ -4,7 +4,7 @@ httpd.py: simple webserver for use in Dropbox Python OAuth API demo
 
 This class implements a simple HTTP server on the computer running the demo.
 The server listens on host C{HttpConfig.HTTP_SERVER} and port C{HttpConfig.HTTP_PORT}.
-It runs indefinitely until the user presses Enter or interrupts using control-C.
+It runs indefinitely until the user interrupts using control-C.
 
 It serves various URLs, including:
     - C{HttpConfig.HOME_PAGE} - display a home page (use this to test that the server is running ok)

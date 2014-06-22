@@ -3,18 +3,14 @@
 httpd.py: simple webserver for use in Dropbox Python OAuth API demo
 
 This class implements a simple HTTP server on the computer running the demo.
-The server listens on host {@code HttpConfig.HTTP_SERVER} and port {@code HttpConfig.HTTP_PORT}.
-It runs indefinitely until the user presses Enter or interrupts using control-C.
+The server listens on host C{HttpConfig.HTTP_SERVER} and port C{HttpConfig.HTTP_PORT}.
+It runs indefinitely until the user interrupts using control-C.
 
 It serves various URLs, including:
-- HttpConfig.HOME_PAGE - display a home page (use this to test that the server is running ok)
-- HttpConfig.FINISH_PAGE - run the finish step of the Dropbox redirect workflow.
+    - C{HttpConfig.HOME_PAGE} - display a home page (use this to test that the server is running ok)
+    - C{HttpConfig.FINISH_PAGE} - run the finish step of the Dropbox redirect workflow.
 
-Global variables:
-    logger: used to log error, info and debug messages
-        example usage: logger = CO.logger; logger('message')
-
-@see http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python
+See U{http://www.codeproject.com/Articles/462525/Simple-HTTP-Server-and-Client-in-Python}
 """
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
@@ -24,23 +20,24 @@ import glob, os.path
 import common_oauth as CO
 import logging
 logger = CO.logger
+"""
+used to log error, info and debug messages, for example::
+    logger = CO.logger; logger('message')
+"""
+
 import dropbox_workflow as DW
 
 class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
-    """ request handler which will receive redirected OAuth replies
-
-    This class performs the necessary interactions between the web browser and the web server.
-
-    Methods:
-        do_GET(): process an HTTP GET
-        handle_dropbox_status(): handle a Dropbox status for do_GET()
-        send_http_header(): send HTTP header, either 200 (success) or 301 (redirect) if url is not None
-                                  also sends headers to prevent caching in the browser
-        send_html_content(): send HTML including the given page body to the browser
+    """
+    Request handler which will receive redirected OAuth replies and other requests (eg home page).
     """
 
     def send_http_header(self, url=None):
-        """send HTTP header, either 200 (success) or 301 (redirect) if url is not None"""
+        """
+        Send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+        @type url: boolean
+        @param url: optional redirect URL
+        """
         if url is None:
             logger.debug('sending HTTP success (200) header')
             self.send_response(200)
@@ -56,7 +53,11 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def send_html_content(self, page_body):
-        """send HTML including the given page body to the browser"""
+        """
+        Send HTML including the given page body to the browser
+        @type page_body: string
+        @param page_body: page body to send back to the browser (do not include C{<html>} or C{<body>} tags)
+        """
         content="""<html>
 <head><title>BCS SPA 2014 OAuth Demo</title></head>
 <body>{body}<p><i>{time_now}</i></p></body>
@@ -64,7 +65,14 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(content)
 
     def handle_dropbox_status(self, dropbox_status):
-        """handle a Dropbox status for do_GET()"""
+        """
+        Handle a Dropbox status for do_GET().
+
+        If the status is 200, send a success page.
+        Otherwise, return the appropriate error page.
+        @type dropbox_status: DropboxStatus
+        @param dropbox_status: Dropbox status
+        """
         if dropbox_status.http_status == 200:
             logger.debug('do_GET.handle_dropbox_status: sending 200 response')
             self.send_http_header()
@@ -80,9 +88,9 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_error(dropbox_status.http_status, dropbox_status.message)
 
     def do_GET(self):
-        """process an HTTP GET"""
+        """Process an HTTP GET"""
 
-        logger.debug('do_GET: request is "%s"' % (self.path,))
+        logger.info('do_GET: request is "%s"' % (self.path,))
         http_services = CO.HttpServices()
         http_services.save_latest_url(self.path)
         try:
@@ -100,16 +108,16 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.handle_dropbox_status(dropbox_status)
 
             elif parsed_url.path.endswith('favicon.ico'):
-                logger.debug('do_GET: /favicon.ico (not found)')
+                logger.info('do_GET: /favicon.ico (not found)')
                 self.send_error(404, 'Not Found')
 
             elif parsed_url.path.endswith('home'):
-                logger.debug('do_GET: /home (send home page)')
+                logger.info('do_GET: /home (send home page)')
                 self.send_http_header()
-                self.send_html_content(self.home_page_body(self.path))
+                self.send_html_content(self.home_page_body())
 
             elif parsed_url.path.startswith('/doc/'):
-                logger.debug('do_GET: /doc (script documentation), path is %s')
+                logger.info('do_GET: /doc (script documentation), path is %s')
                 if (parsed_url.path == '/doc/'):
                     logger.debug('do_GET: invalid documentation URL %s, redirecting', parsed_url.path)
                     self.send_http_header('/home')
@@ -128,13 +136,17 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
                     self.wfile.write(file_content)
 
             else:
+                logger.info('do_GET: unsupported request {request}'.format(request=self.path))
                 self.send_error(404, 'unsupported request {request}'.format(request=self.path))
 
         except IOError:
+            logger.info('do_GET: internal server error (request={request})'.format(request=self.path))
             self.send_error(500, 'internal server error (request={request})'.format(request=self.path))
 
-    def home_page_body(self, request):
-        """return the body of the home page"""
+    def home_page_body(self):
+        """
+        Return the body of the home page
+        """
 
         def make_anchor(url, newWindow=True):
             """return an HTML <a> tag"""
@@ -168,24 +180,26 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
                     pythonref=make_anchor('https://docs.python.org/2/reference/index.html'),
                     APP_WEBSITE=make_anchor(CO.AppData.APP_WEBSITE)
           )
-        page_body += '<dl><dt>Pydoc HTML format:</dt><dd>'
-        for htmlfile in glob.glob('{doc_dir}{sep}*.html'.format(doc_dir=CO.DOC_DIRECTORY, sep=os.sep)):
-            page_body += '%s<br>' % (make_anchor('http://{server}:{port}/doc/{module_name}'.format(
-                                            server=http_services.OAUTH_HTTPD_SERVER,
-                                            port=http_services.OAUTH_HTTPD_PORT,
-                                            module_name=os.path.basename(htmlfile)), False))
-        page_body += '</dd><dt>Pydoc text format:</dt><dd>'
+        page_body += '<h3>ePydoc HTML Format</h3>'
+        page_body += '&nbsp;%s<br>' % (make_anchor('http://{server}:{port}/doc/{index}'.format(
+            server=http_services.OAUTH_HTTPD_SERVER,
+            port=http_services.OAUTH_HTTPD_PORT,
+            index='index.html'), False))
+        page_body += '<h3>Pydoc Text Format</h3>'
         for txtfile in glob.glob('{doc_dir}{sep}*.txt'.format(doc_dir=CO.DOC_DIRECTORY, sep=os.sep)):
-            page_body += '%s<br>' % (make_anchor('http://{server}:{port}/doc/{module_name}'.format(
+            # api-objects.txt is generated by epydoc
+            if os.path.basename(txtfile) <> 'api-objects.txt':
+                page_body += '&nbsp;%s<br>' % (make_anchor('http://{server}:{port}/doc/{module_name}'.format(
                                             server=http_services.OAUTH_HTTPD_SERVER,
                                             port=http_services.OAUTH_HTTPD_PORT,
                                             module_name=os.path.basename(txtfile)), False))
-        page_body += '</dd><p>'
         return page_body
 
 if __name__ == '__main__':
     http_services = CO.HttpServices()
+    """Defines all the config information about the local website, and also the CSRF session token"""
     httpd = HTTPServer((http_services.OAUTH_HTTPD_SERVER, http_services.OAUTH_HTTPD_PORT), OAuthHTTPRequestHandler)
+    """the object used to run the HTTP server"""
     logger.info('About to start the httpd server on "{server}" listening on port {port}...'.format(
         server=http_services.OAUTH_HTTPD_SERVER, port=http_services.OAUTH_HTTPD_PORT))
     logger.info('Browse to the home page "%s" to test the server' % http_services.OAUTH_HOME_URL)

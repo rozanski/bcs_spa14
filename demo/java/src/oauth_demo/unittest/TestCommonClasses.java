@@ -46,13 +46,6 @@ public class TestCommonClasses {
         assertTrue("FILES_DIRECTORY not writeable", (f.exists() && f.isDirectory()));
     }
 
-    @Ignore("doc directory not set up for exercise")
-    @Test
-    public void docDirectoryWriteable() {
-        File f = new File(CommonConfig.DOC_DIRECTORY);
-        assertTrue("DOC_DIRECTORY not writeable", (f.exists() && f.isDirectory()));
-    }
-
     /*
        =================
        TESTS FOR AppData

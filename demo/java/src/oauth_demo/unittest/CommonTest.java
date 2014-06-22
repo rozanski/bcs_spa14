@@ -48,8 +48,8 @@ public class CommonTest {
     public static void assertUrlReachable(String url) throws MalformedURLException, IOException, ProtocolException {
         try{
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setConnectTimeout(5);
-            connection.setReadTimeout(5);
+            connection.setConnectTimeout(10);
+            connection.setReadTimeout(10);
             connection.setRequestMethod("HEAD");
             connection.connect();
         } catch(final IOException e){

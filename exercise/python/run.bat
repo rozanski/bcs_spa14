@@ -10,11 +10,12 @@ if X%1==X (
    echo Usage:
    echo run.bat client [ debug ]
    echo run.bat httpd [ debug ]
+   echo run.bat unittest [ debug ]
    exit /b
 )
 
 if X%2==Xdebug (
-set OAUTH_DEBUG
+   set OAUTH_DEBUG=1
 )
 
 if X%1==Xclient (

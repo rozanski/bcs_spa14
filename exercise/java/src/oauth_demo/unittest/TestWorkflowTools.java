@@ -89,6 +89,16 @@ public class TestWorkflowTools {
         }
     }
 
+    @Test
+    public void dbDeleteFile() throws IOException, DbxException {
+        dropboxFile = commonTestDropbox.createTestDropboxFile(6, currentTestName.getMethodName());
+        assertTrue(String.format("failed to create test dropbox file %s", dropboxFile.filepath),
+                commonTestDropbox.dropboxPathExists(dropboxFile.filepath));
+        commonTestDropbox.deleteDropboxFile(dropboxFile.filepath);
+        assertFalse(String.format("failed to delete test dropbox file %s", dropboxFile.filepath),
+                commonTestDropbox.dropboxPathExists(dropboxFile.filepath));
+    }
+
     private CommonTest commonTest;
     private CommonTestDropbox commonTestDropbox;
     private CommonTestDropbox.DropboxFile dropboxFile;

@@ -12,8 +12,10 @@ import common_oauth as CO
 
 TEST_USER_ID = '1014682'
 TEST_ACCESS_TOKEN = '9gu6UWQLjvEAAAAAAAAGBBfj-0YRipPAIzkElaJwh1HncZDUF4wodCIH3yfK7b7l'
-# TEST_VERBOSITY = 1 # displays only a period when a test runs
-TEST_VERBOSITY = 2 # gives more detail on tests as they are run
+if os.environ.get('OAUTH_DEBUG') is None:
+    TEST_VERBOSITY = 1 # displays only a period when a test runs
+else:
+    TEST_VERBOSITY = 2 # gives more detail on tests as they are run
 
 def touch_file(filepath):
     if os.path.exists(filepath):

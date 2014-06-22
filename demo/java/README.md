@@ -32,9 +32,10 @@ Run the following command in the java directory:
 ### Verify your Setup
 You should run the Java unit tests to make sure everything is installed correctly.
 
-Start the Demo HTTP server as described below, and then in another console run the following command.
+Start the Demo HTTP server as described below, and then in another console run one of the following commands.
 
     ant -e unittest
+    ant -e unittest-debug
 
 Note that the Dropbox tests take 10 seconds or so to complete.
 

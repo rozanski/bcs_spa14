@@ -7,7 +7,7 @@
             ant -e client          start the demo client (client-debug to start in debug mode)
             ant -e httpd           start the demo HTTP server (httpd-debug to start in debug mode)
             ant -e compile         build the software (clean to delete all build files)
-            ant -e unittest        run the unit tests (unittest-verbose to run in verbose mode)
+            ant -e unittest        run the unit tests (unittest-debug to run in debug mode)
         </echo>
     </target>
 
@@ -33,8 +33,8 @@
         </antcall>
     </target>
 
-    <target name="unittest-verbose" depends="compile" description="Run the unit tests in verbose mode">
-        <echo message="${line.separator}RUNNING JAVA UNIT TESTS (verbose)${line.separator}================================="/>
+    <target name="unittest-debug" depends="compile" description="Run the unit tests in debug mode">
+        <echo message="${line.separator}RUNNING JAVA UNIT TESTS (debug)${line.separator}==============================="/>
         <antcall target="run-all-tests">
             <param name="formatter" value="plain"/>
         </antcall>
