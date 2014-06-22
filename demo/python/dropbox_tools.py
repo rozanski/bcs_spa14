@@ -15,17 +15,31 @@ used to log error, info and debug messages, for example::
     logger = CO.logger; logger('message')
 """
 
-ACCOUNT_INFO_FILE = '/account_info.python.txt'
+DB_ACCOUNT_INFO_FILE = '/account_info.python.txt'
 """
 This file is created in the Dropbox app folder once the client has authorised with Dropbox.
-It contains information on the Dropbox user account
+It contains information on the Dropbox user account.
+It is a Dropbox file path so uses forward-slash as directory separator, even on Windows
 """
 
-REVIEW_DIRECTORY = '/oauth_session_python'
-"""This folder is created in the Dropbox app folder once the client has authorised with Dropbox"""
+DB_REVIEW_DIRECTORY = '/oauth_session_python'
+"""
+This folder is created in the Dropbox app folder once the client has authorised with Dropbox.
+It is a Dropbox file path so uses forward-slash as directory separator, even on Windows
+"""
 
-REVIEW_FILE = '%s/oauth_session_review.python.md' % REVIEW_DIRECTORY
-"""This file is created in the Dropbox app folder once the client has authorised with Dropbox"""
+DB_REVIEW_FILE = '%s/oauth_session_review.python.md' % DB_REVIEW_DIRECTORY
+"""
+This file is created in the Dropbox app folder once the client has authorised with Dropbox.
+It is a Dropbox file path so uses forward-slash as directory separator, even on Windows
+"""
+
+suppress_help_message = False
+def __print_help_message():
+    """Print a help message"""
+    global suppress_help_message
+    if not suppress_help_message:
+        print ('\nCommand complete. Type oauth_help() for help:\n')
 
 def __create_dropbox_client():
     """Create and return a Dropbox client for use in the functions below"""
@@ -41,6 +55,7 @@ def __create_dropbox_client():
     access_data.load()
     return dropbox.client.DropboxClient(access_data.access_token), access_data
     # SPA14_OAUTH_FINISH
+    __print_help_message()
 
 def db_list_directory(path='/'):
     """
@@ -62,6 +77,7 @@ def db_list_directory(path='/'):
     print 'FILES IN %s:' % (path,)
     for entry in folder_metadata['contents']:
         if not entry['is_dir']: print ' %s   %s (%s)' % (entry['modified'], entry['path'][1:], entry['size'])
+    __print_help_message()
 
 def db_print_file(file_path):
     """
@@ -77,6 +93,7 @@ def db_print_file(file_path):
         for line in f.readlines():
             print '{num:>2}: {line}'.format(num=line_count, line=line.strip('\n'))
             line_count += 1
+    __print_help_message()
 
 def db_create_text_file(file_path='', lines=[]):
     """
@@ -112,6 +129,7 @@ def db_create_text_file(file_path='', lines=[]):
     client.put_file(file_path, tempfile, overwrite=True)
     logger.debug('created file %s' % file_path)
     # SPA14_OAUTH_FINISH
+    __print_help_message()
 
 def db_delete_file(file_path=''):
     """Delete the given Dropbox file
@@ -124,6 +142,7 @@ def db_delete_file(file_path=''):
 
     client.file_delete(file_path)
     logger.debug('deleted file %s' % file_path)
+    __print_help_message()
 
 def db_disable_access_token():
     """
@@ -134,6 +153,7 @@ def db_disable_access_token():
 
     client.disable_access_token()
     logger.info('disabled Dropbox access token (access file not deleted)')
+    __print_help_message()
 
 def db_create_sample_files():
     """Create some files and directories in Dropbox directory"""
@@ -149,17 +169,17 @@ def db_create_sample_files():
         tempfile.write("{parameter} = {value}\n".format(parameter=info, value=str(account_info[info])))
     tempfile.close()
     tempfile = open(fname)
-    logger.debug('uploading account info file %s' % ACCOUNT_INFO_FILE)
-    client.put_file(ACCOUNT_INFO_FILE, tempfile, overwrite=True)
-    logger.info('uploaded account info file %s' % ACCOUNT_INFO_FILE)
+    logger.debug('uploading account info file %s' % DB_ACCOUNT_INFO_FILE)
+    client.put_file(DB_ACCOUNT_INFO_FILE, tempfile, overwrite=True)
+    logger.info('uploaded account info file %s' % DB_ACCOUNT_INFO_FILE)
 
     # create review subdirectory
     try:
-        client.file_delete(REVIEW_DIRECTORY)
+        client.file_delete(DB_REVIEW_DIRECTORY)
     except dropbox.rest.ErrorResponse as e:
         if e.status <> 404: raise e
-    client.file_create_folder(REVIEW_DIRECTORY)
-    logger.info('created review directory %s' % REVIEW_DIRECTORY)
+    client.file_create_folder(DB_REVIEW_DIRECTORY)
+    logger.info('created review directory %s' % DB_REVIEW_DIRECTORY)
 
     # save file containing session review
     tempfile = NamedTemporaryFile(delete=False)
@@ -171,7 +191,9 @@ def db_create_sample_files():
     tempfile.close()
     tempfile = open(fname)
 
-    logger.debug('uploaded session review file %s' % REVIEW_FILE)
-    client.put_file(REVIEW_FILE, tempfile, overwrite=True)
-    logger.info('uploaded session review file %s' % REVIEW_FILE)
+    logger.debug('uploaded session review file %s' % DB_REVIEW_FILE)
+    client.put_file(DB_REVIEW_FILE, tempfile, overwrite=True)
+    logger.info('uploaded session review file %s' % DB_REVIEW_FILE)
+
+    __print_help_message()
 

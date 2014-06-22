@@ -90,7 +90,7 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         """Process an HTTP GET"""
 
-        logger.debug('do_GET: request is "%s"' % (self.path,))
+        logger.info('do_GET: request is "%s"' % (self.path,))
         http_services = CO.HttpServices()
         http_services.save_latest_url(self.path)
         try:
@@ -108,16 +108,16 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.handle_dropbox_status(dropbox_status)
 
             elif parsed_url.path.endswith('favicon.ico'):
-                logger.debug('do_GET: /favicon.ico (not found)')
+                logger.info('do_GET: /favicon.ico (not found)')
                 self.send_error(404, 'Not Found')
 
             elif parsed_url.path.endswith('home'):
-                logger.debug('do_GET: /home (send home page)')
+                logger.info('do_GET: /home (send home page)')
                 self.send_http_header()
                 self.send_html_content(self.home_page_body())
 
             elif parsed_url.path.startswith('/doc/'):
-                logger.debug('do_GET: /doc (script documentation), path is %s')
+                logger.info('do_GET: /doc (script documentation), path is %s')
                 if (parsed_url.path == '/doc/'):
                     logger.debug('do_GET: invalid documentation URL %s, redirecting', parsed_url.path)
                     self.send_http_header('/home')
@@ -136,9 +136,11 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
                     self.wfile.write(file_content)
 
             else:
+                logger.info('do_GET: unsupported request {request}'.format(request=self.path))
                 self.send_error(404, 'unsupported request {request}'.format(request=self.path))
 
         except IOError:
+            logger.info('do_GET: internal server error (request={request})'.format(request=self.path))
             self.send_error(500, 'internal server error (request={request})'.format(request=self.path))
 
     def home_page_body(self):

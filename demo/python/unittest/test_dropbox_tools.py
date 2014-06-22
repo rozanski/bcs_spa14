@@ -18,6 +18,7 @@ import common_oauth as CO
 
 # module under test
 import dropbox_tools as DT
+DT.suppress_help_message = True
 
 class TestDropboxTools(CustomAssertions):
 
@@ -95,7 +96,7 @@ class TestDropboxTools(CustomAssertions):
         DT.db_delete_file(dropbox_file)
         self.assertDbFileHasBeenDeleted(dropbox_file)
 
-    @unittest.skip("don't know how to test this since can't re-enable a token in Dropbox ")
+    @unittest.skip("don't know how to test this since can't re-enable a token in Dropbox")
     def test_db_disable_access_token(self):
         pass
 

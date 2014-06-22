@@ -158,7 +158,7 @@ You can run these functions:
  - oauth_delete_access_token_file()  # remove the token file (re-authorisation will be required)
 You can inspect or use these variables:
  - dropbox_client                    # a dropbox.client.DropboxClient() - try help(dropbox_client)
-""".format(account_info_file=DW.ACCOUNT_INFO_FILE, review_file=DW.REVIEW_FILE)
+""".format(account_info_file=DW.DB_ACCOUNT_INFO_FILE, review_file=DW.DB_REVIEW_FILE)
     else:
         logger.info('The client is not yet authorised with Dropbox (the Dropbox token file does not exist)')
         print """

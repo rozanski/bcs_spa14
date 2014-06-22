@@ -22,19 +22,21 @@ public class DropboxTools {
     /**
      * This file is created in the Dropbox app folder once the client has authorised with Dropbox.
      * It contains information on the Dropbox user account.
+     * It is a Dropbox file path so uses forward-slash as directory separator, even on Windows.
      */
-    static String ACCOUNT_INFO_FILE = String.format("%saccount_info.java.txt", File.separator);
+    static String DB_ACCOUNT_INFO_FILE = "/account_info.java.txt";
 
     /**
      * This folder is created in the Dropbox app folder once the client has authorised with Dropbox.
+     * It is a Dropbox file path so uses forward-slash as directory separator, even on Windows.
      */
-    static String REVIEW_DIRECTORY = String.format("%soauth_session_java", File.separator);
+    static String DB_REVIEW_DIRECTORY = "/oauth_session_java";
 
     /**
      * This file is created in the Dropbox app folder once the client has authorised with Dropbox.
+     * It is a Dropbox file path so uses forward-slash as directory separator, even on Windows.
      */
-    static String REVIEW_FILE = String.format("%s%s%soauth_session_review.java.md",
-            File.separator, REVIEW_DIRECTORY, File.separator);
+    static String DB_REVIEW_FILE = String.format("%s/oauth_session_review.java.md", DB_REVIEW_DIRECTORY);
 
     /** we don't ever instantiate this class but just call its methods statically */
     private DropboxTools() {};
@@ -184,9 +186,9 @@ public class DropboxTools {
      *
      * <p>The method creates the following files:
      * <ul>
-     *    <li>{@code ACCOUNT_INFO_FILE} - contains information on the Dropbox user account
-     *    <li>{@code REVIEW_DIRECTORY} - a directory for REVIEW_FILE
-     *    <li>{@code REVIEW_FILE} - contains a review of the session
+     *    <li>{@code DB_ACCOUNT_INFO_FILE} - contains information on the Dropbox user account
+     *    <li>{@code DB_REVIEW_DIRECTORY} - a directory for DB_REVIEW_FILE
+     *    <li>{@code DB_REVIEW_FILE} - contains a review of the session
      * </ul>
      *
      * @throws IOException if there is an error creating temporary files
@@ -207,17 +209,17 @@ public class DropboxTools {
         bw.close();
         ConsoleLogger.debug("wrote temporary account info file '%s'", tmpFilePath);
         File f = new File(tmpFilePath);
-        ConsoleLogger.debug("uploading temporary account info file '%s' to Dropbox path '%s'", tmpFilePath, ACCOUNT_INFO_FILE);
-        client.uploadFile(ACCOUNT_INFO_FILE, DbxWriteMode.force(), f.length(), new FileInputStream(f));
-        ConsoleLogger.info("uploaded account info file '%s' to Dropbox path '%s'", tmpFilePath, ACCOUNT_INFO_FILE);
+        ConsoleLogger.debug("uploading temporary account info file '%s' to Dropbox path '%s'", tmpFilePath, DB_ACCOUNT_INFO_FILE);
+        client.uploadFile(DB_ACCOUNT_INFO_FILE, DbxWriteMode.force(), f.length(), new FileInputStream(f));
+        ConsoleLogger.info("uploaded account info file '%s' to Dropbox path '%s'", tmpFilePath, DB_ACCOUNT_INFO_FILE);
         f.delete();
         // create Dropbox review directory if it doesn't already exist
-        DbxEntry.Folder folderMetatada = client.createFolder(REVIEW_DIRECTORY);
+        DbxEntry.Folder folderMetatada = client.createFolder(DB_REVIEW_DIRECTORY);
         if (folderMetatada == null) {
-            ConsoleLogger.debug("review folder %s already exists", REVIEW_DIRECTORY);
+            ConsoleLogger.debug("review folder %s already exists", DB_REVIEW_DIRECTORY);
         }
         else {
-            ConsoleLogger.debug("created review folder %s", REVIEW_DIRECTORY);
+            ConsoleLogger.debug("created review folder %s", DB_REVIEW_DIRECTORY);
         }
         // save file containing session review
         tmpFilePath = File.createTempFile(AppData.APP_NAME, "txt").getPath();
@@ -228,9 +230,9 @@ public class DropboxTools {
         bw.close();
         ConsoleLogger.debug("wrote temporary review file '%s'", tmpFilePath);
         f = new File(tmpFilePath);
-        ConsoleLogger.debug("uploading temporary review file '%s' to Dropbox path '%s'", tmpFilePath, REVIEW_FILE);
-        client.uploadFile(REVIEW_FILE, DbxWriteMode.force(), f.length(), new FileInputStream(f));
-        ConsoleLogger.info("uploaded review file '%s' to Dropbox path '%s'", tmpFilePath, REVIEW_FILE);
+        ConsoleLogger.debug("uploading temporary review file '%s' to Dropbox path '%s'", tmpFilePath, DB_REVIEW_FILE);
+        client.uploadFile(DB_REVIEW_FILE, DbxWriteMode.force(), f.length(), new FileInputStream(f));
+        ConsoleLogger.info("uploaded review file '%s' to Dropbox path '%s'", tmpFilePath, DB_REVIEW_FILE);
     }
 
     /**
