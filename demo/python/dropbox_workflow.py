@@ -16,7 +16,7 @@ used to log error, info and debug messages, for example::
 """
 
 class DropboxStatus(object):
-    """simple class for returning Dropbox status"""
+    """Simple class for returning Dropbox status"""
 
     def __init__(self, http_status, message='', redirect_url=''):
         """
@@ -28,9 +28,13 @@ class DropboxStatus(object):
         @param redirect_url: optional parameter containing a redirection URL
         """
         self.http_status = http_status
+        """the HTTP status code (eg 200 for success)"""
         self.message = message
+        """an information message"""
         self.redirect_url = redirect_url
+        """optional parameter containing a redirection URL"""
         self.time_now = CO.time_now()
+        """set to the time the object was created"""
 
 ###############################################
 # AUTHORISE WITHOUT AUTOMATIC URL REDIRECTION #
@@ -38,10 +42,9 @@ class DropboxStatus(object):
 
 def no_redirect_client_start():
     """
-    This function implements the C{start()} portion of the Dropbox OAuth no-redirect flow
+    This function implements the C{start()} portion of the Dropbox OAuth no-redirect flow.
 
-    It passes the necessary parameters to C{DropboxOAuth2FlowNoRedirect.start()}
-    and returns the generated URL to the caller.
+    It passes the necessary parameters to Dropbox C{start()} and returns the generated URL to the caller.
     """
     logger.debug('starting Dropbox authorisation (no-redirect mode)')
     logger.debug('creating DropboxOAuth2FlowNoRedirect client for app "{app_name}" with key "{key}" and secret "{secret}"'.format(
@@ -64,11 +67,10 @@ def no_redirect_client_start():
 
 def no_redirect_client_finish_and_save(security_code):
     """
-    This function implements the C{finish()} portion of the Dropbox OAuth no_redirect flow
+    This function implements the C{finish()} portion of the Dropbox OAuth no-redirect flow.
 
-    It calls C{dropbox.client.DropboxOAuth2FlowNoRedirect.finish()} to finish the Oauth workflow.
-    It then saves the access token returned by C{dropbox.client.DropboxOAuth2FlowNoRedirect.finish()}
-    and creates some sample files in the Dropbox app folder.
+    It calls Dropbox C{finish()} to finish the Oauth workflow.
+    It then saves the access token returned by C{finish()} and creates some sample files in the Dropbox app folder.
     """
     logger.info('finishing Dropbox authorisation (no-redirect mode), security code ="%s"' %(security_code,))
     logger.debug('creating DropboxOAuth2FlowNoRedirect client for app "{app_name}" with key "{key}" and secret "{secret}"'.format(
@@ -101,8 +103,7 @@ def redirect_client_start():
     """
     This function implements the C{start()} portion of the Dropbox OAuth redirect flow.
 
-    It passes the necessary parameters to C{DropboxOAuth2Flow.start()}
-    and returns the generated URL to the caller.
+    It passes the necessary parameters to dropbox C{start()} and returns the generated URL to the caller.
     """
     logger.debug('starting Dropbox authorisation (redirect mode)')
     logger.debug('creating DropboxOAuth2Flow client for app "{app_name}" with key "{key}" and secret "{secret}"'.format(
@@ -135,9 +136,8 @@ def httpd_handle_finish_and_save(request_path, query_dict):
     """
     This httpd handler implements the finish() portion of the Dropbox OAuth server (redirect) flow.
 
-    It calls C{dropbox.client.DropboxOAuth2Flow.finish()} to finish the Oauth workflow.
-    It then saves the access token returned by C{dropbox.client.DropboxOAuth2Flow.finish()} and
-    creates some sample files in the Dropbox app folder.
+    It calls Dropbox C{finish()} to finish the Oauth workflow.
+    It then saves the access token returned by C{finish()} and creates some sample files in the Dropbox app folder.
     """
     httpd_services = CO.HttpServices()
     httpd_services.load_httpd_session()

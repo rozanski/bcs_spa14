@@ -11,7 +11,7 @@ CLASSES
         DropboxStatus
     
     class DropboxStatus(__builtin__.object)
-     |  simple class for returning Dropbox status
+     |  Simple class for returning Dropbox status
      |  
      |  Methods defined here:
      |  
@@ -36,28 +36,24 @@ FUNCTIONS
     httpd_handle_finish_and_save(request_path, query_dict)
         This httpd handler implements the finish() portion of the Dropbox OAuth server (redirect) flow.
         
-        It calls C{dropbox.client.DropboxOAuth2Flow.finish()} to finish the Oauth workflow.
-        It then saves the access token returned by C{dropbox.client.DropboxOAuth2Flow.finish()} and
-        creates some sample files in the Dropbox app folder.
+        It calls Dropbox C{finish()} to finish the Oauth workflow.
+        It then saves the access token returned by C{finish()} and creates some sample files in the Dropbox app folder.
     
     no_redirect_client_finish_and_save(security_code)
-        This function implements the C{finish()} portion of the Dropbox OAuth no_redirect flow
+        This function implements the C{finish()} portion of the Dropbox OAuth no-redirect flow.
         
-        It calls C{dropbox.client.DropboxOAuth2FlowNoRedirect.finish()} to finish the Oauth workflow.
-        It then saves the access token returned by C{dropbox.client.DropboxOAuth2FlowNoRedirect.finish()}
-        and creates some sample files in the Dropbox app folder.
+        It calls Dropbox C{finish()} to finish the Oauth workflow.
+        It then saves the access token returned by C{finish()} and creates some sample files in the Dropbox app folder.
     
     no_redirect_client_start()
-        This function implements the C{start()} portion of the Dropbox OAuth no-redirect flow
+        This function implements the C{start()} portion of the Dropbox OAuth no-redirect flow.
         
-        It passes the necessary parameters to C{DropboxOAuth2FlowNoRedirect.start()}
-        and returns the generated URL to the caller.
+        It passes the necessary parameters to Dropbox C{start()} and returns the generated URL to the caller.
     
     redirect_client_start()
         This function implements the C{start()} portion of the Dropbox OAuth redirect flow.
         
-        It passes the necessary parameters to C{DropboxOAuth2Flow.start()}
-        and returns the generated URL to the caller.
+        It passes the necessary parameters to dropbox C{start()} and returns the generated URL to the caller.
 
 DATA
     ACCOUNT_INFO_FILE = '/account_info.python.txt'

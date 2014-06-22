@@ -12,30 +12,31 @@ DESCRIPTION
 
 FUNCTIONS
     db_create_sample_files()
-        create some files and directories in Dropbox directory
+        Create some files and directories in Dropbox directory
     
     db_create_text_file(file_path='', lines=[])
-        create a file and write some lines of text to it from stdin or lines[]
+        Create a dropbox file and write some lines of text to it from stdin or lines[]
         @type file_path: string
-        @param file_path: Dropbox path of the file to create
+        @param file_path: Dropbox path of the file to create (if empty, prompt from console)
         @type lines: string[]
-        @param lines: lines to write in the file
+        @param lines: lines to write in the file (if empty, prompt from console)
     
     db_delete_file(file_path='')
-        delete the given dropbox file
+        Delete the given Dropbox file
         @type file_path: string
         @param file_path: Dropbox path of the file
     
     db_disable_access_token()
-        disable the dropbox access token (so authorisation will need to be run again
+        Disable the dropbox access token (so authorisation will need to be run again
+        See U{https://www.dropbox.com/developers/core/docs#disable-token}
     
     db_list_directory(path='/')
-        list the contents of the given Dropbox directory
+        List the contents of the given Dropbox directory
         @type path: string
         @param path: Dropbox path of the directory
     
     db_print_file(file_path)
-        print the contents of the given file to stdout
+        Print the contents of the given Dropbox file to stdout
         @type file_path: string
         @param file_path: Dropbox path of the file
 

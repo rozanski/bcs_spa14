@@ -33,11 +33,6 @@ Run the following command in the java directory:
 You should run the Java unit tests to make sure everything is installed correctly.
 
 Start the Demo HTTP server as described below, and then in another console run the following command.
-For Mac / Linux run:
-
-    ant -e unittest
-
-For Windows run one of:
 
     ant -e unittest
 

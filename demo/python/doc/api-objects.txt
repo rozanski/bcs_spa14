@@ -91,6 +91,10 @@ common_oauth.HttpServices.save_httpd_session	common_oauth.HttpServices-class.htm
 common_oauth.HttpServices.httpd_session	common_oauth.HttpServices-class.html#httpd_session
 common_oauth.HttpServices.wait_for_latest_url_file	common_oauth.HttpServices-class.html#wait_for_latest_url_file
 dropbox_workflow.DropboxStatus	dropbox_workflow.DropboxStatus-class.html
+dropbox_workflow.DropboxStatus.http_status	dropbox_workflow.DropboxStatus-class.html#http_status
+dropbox_workflow.DropboxStatus.time_now	dropbox_workflow.DropboxStatus-class.html#time_now
+dropbox_workflow.DropboxStatus.redirect_url	dropbox_workflow.DropboxStatus-class.html#redirect_url
+dropbox_workflow.DropboxStatus.message	dropbox_workflow.DropboxStatus-class.html#message
 dropbox_workflow.DropboxStatus.__init__	dropbox_workflow.DropboxStatus-class.html#__init__
 mimetools.Message	mimetools.Message-class.html
 mimetools.Message.getmaintype	mimetools.Message-class.html#getmaintype

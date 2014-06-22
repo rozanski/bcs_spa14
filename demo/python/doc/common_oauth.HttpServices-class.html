@@ -68,8 +68,9 @@ object --+
 <p>HTTP data and service functions</p>
   <p>This class defines URLs and associated data needed to interact with 
   Dropbox. It includes methods to manage the HTTPD session and to open a 
-  web browser for the user. NOTE THAT THIS DATA MUST MATCH THE INFORMATION 
-  ENTERED AT THE dROPBOX DEVELOPER CONSOLE FOR THE APP</p>
+  web browser for the user.</p>
+  <p><b>THIS DATA MUST MATCH THE INFORMATION ENTERED AT THE DROPBOX 
+  DEVELOPER CONSOLE FOR THE APP.</b></p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -167,7 +168,7 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="delete_httpd_session_file"></a><span class="summary-sig-name">delete_httpd_session_file</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      Delete the access token file and other control files</td>
+      Delete the session files</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="common_oauth-pysrc.html#HttpServices.delete_httpd_session_file">source&nbsp;code</a></span>
             
@@ -185,7 +186,7 @@ object --+
         <tr>
           <td><span class="summary-sig"><a href="common_oauth.HttpServices-class.html#save_latest_url" class="summary-sig-name">save_latest_url</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">url</span>)</span><br />
-      Save latest URL requested of HTTP server to latest URL file.</td>
+      Save the latest URL requested of HTTP server to latest URL file.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="common_oauth-pysrc.html#HttpServices.save_latest_url">source&nbsp;code</a></span>
             
@@ -325,7 +326,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="OAUTH_HTTPD_SERVER"></a><span class="summary-name">OAUTH_HTTPD_SERVER</span><br />
-      hostname for the local HTTPD server
+      Hostname for the local HTTPD server
     </td>
   </tr>
 <tr>
@@ -333,7 +334,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="OAUTH_HTTPD_PORT"></a><span class="summary-name">OAUTH_HTTPD_PORT</span><br />
-      port the local HTTPD server is listening on
+      Port the local HTTPD server is listening on
     </td>
   </tr>
 <tr>
@@ -341,7 +342,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="OAUTH_CSRF_SESSION_KEY"></a><span class="summary-name">OAUTH_CSRF_SESSION_KEY</span><br />
-      index into the session structure which contains the session key
+      Index into the session structure which contains the session key
     </td>
   </tr>
 <tr>
@@ -349,7 +350,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="OAUTH_HOME_URL"></a><span class="summary-name">OAUTH_HOME_URL</span><br />
-      name of the home page for the local HTTPD server
+      Name of the home page for the local HTTPD server
     </td>
   </tr>
 <tr>
@@ -357,7 +358,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="OAUTH_FINISH_PAGE"></a><span class="summary-name">OAUTH_FINISH_PAGE</span><br />
-      name of the finish page for the local HTTPD server
+      Name of the finish page for the local HTTPD server
     </td>
   </tr>
 <tr>
@@ -373,7 +374,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="httpd_session"></a><span class="summary-name">httpd_session</span><br />
-      session variable for use by httpd
+      Session variable for use by httpd
     </td>
   </tr>
 <tr>
@@ -381,7 +382,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="HTTPD_SESSION_FILE"></a><span class="summary-name">HTTPD_SESSION_FILE</span><br />
-      full pathname of the JSON file in which the session token is stored
+      Full pathname of the JSON file in which the session token is stored
     </td>
   </tr>
 <tr>
@@ -389,7 +390,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="HTTPD_SESSION_FILE_EXPIRED"></a><span class="summary-name">HTTPD_SESSION_FILE_EXPIRED</span><br />
-      once the session token is cleared, the session file is renamed to 
+      Once the session token is cleared, the session file is renamed to 
       this pathname
     </td>
   </tr>
@@ -398,7 +399,8 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="HTTPD_LATEST_URL_FILE"></a><span class="summary-name">HTTPD_LATEST_URL_FILE</span><br />
-      contains the latest URL requested of the HTTP server
+      Path to file which contains the latest URL requested of the HTTP 
+      server
     </td>
   </tr>
 </table>
@@ -489,7 +491,7 @@ object --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>expire_session</code></strong> (boolean) - if True, also expire (rename) the session file</li>
+        <li><strong class="pname"><code>expire_session</code></strong> (boolean) - if True, also expire the session file (rename it to ..._EXPIRED)</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -509,8 +511,8 @@ object --+
     </td>
   </tr></table>
   
-  <p>Save latest URL requested of HTTP server to latest URL file. This is 
-  used in testing to see if a URL has been requested of the server</p>
+  <p>Save the latest URL requested of HTTP server to latest URL file. This 
+  is used in testing to see if a URL has been requested of the server</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -598,7 +600,7 @@ object --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 21 04:09:23 2014
+    Generated by Epydoc 3.0.1 on Sun Jun 22 07:07:51 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

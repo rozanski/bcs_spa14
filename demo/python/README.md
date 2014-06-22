@@ -28,7 +28,7 @@ For Windows, run:
 
 ### Install Mock
 You may need to install Mock to run the unit tests.
-You can install Mock using `pip` or `easy_install` (see above)
+You can install Mock using `pip` or `easy_install` (see above).
 
 ### Install the Dropbox Python Library
 Install the Dropbox Python library.  For Mac / Linux, run the following at the command line:
@@ -50,7 +50,7 @@ For Mac / Linux run:
 
     ./run.sh unittest
 
-For Windows run one of:
+For Windows run:
 
     run.bat unittest
 

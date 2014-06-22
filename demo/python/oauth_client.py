@@ -25,7 +25,7 @@ import dropbox_workflow as DW
 from dropbox_tools import *
 
 def __print_workflow_prompts(prompt, additional_instructions=None):
-    """print prompts before starting the Dropbox workflow"""
+    """Print the user prompts before starting the Dropbox workflow"""
     print """When the browser window opens:
  1. Log in to Dropbox if necessary (your user name and password are NOT visible to the client)
  2. If you have enabled two-factor authentication with Dropbox, enter the Dropbox security code
@@ -35,7 +35,7 @@ def __print_workflow_prompts(prompt, additional_instructions=None):
     response = raw_input(prompt+"...")
 
 def __print_help_message(message = None):
-    """print a help message"""
+    """Print a help message"""
     if message is None: message = 'Command complete'
     print ('\n%s. Type oauth_help() for help:\n' % (message))
 
@@ -44,8 +44,8 @@ def __print_help_message(message = None):
 ###############################################
 def oauth_authorise_no_redirect():
     """
-    run noredirect authorisation workflow (requires auth code to be entered)
-    See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2FlowNoRedirect}
+    Start the no-redirect authorisation workflow.
+    See U{https://www.dropbox.com/developers/core/start/python}
     """
 
     # EXERCISE:
@@ -80,7 +80,7 @@ def oauth_authorise_no_redirect():
 ############################################
 def oauth_authorise_redirect():
     """
-    start redirect authorisation workflow (uses HTTP web server to simulate URL schema).
+    Start the redirect authorisation workflow.
     See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow}
     """
 
@@ -112,7 +112,7 @@ def oauth_authorise_redirect():
 ######################################################
 def oauth_debug(enable):
     """
-    enable / disable debugging
+    Enable / disable debugging
     @type enable: boolean
     @param enable: if true, enable debug messages, else disable debug messages
     """
@@ -126,22 +126,22 @@ def oauth_debug(enable):
     __print_help_message()
 
 def oauth_access_token_file_exists():
-    """print whether the access token file exists"""
+    """Print whether the access token file exists"""
     print CO.AccessData.access_token_file_exists()
     __print_help_message()
 
 def oauth_print_access_token_file():
-    """print the access token file"""
+    """Print the access token file"""
     CO.AccessData.print_access_token_file()
     __print_help_message()
 
 def oauth_delete_access_token_file():
-    """delete the access token file"""
+    """Delete the access token file"""
     CO.AccessData.delete_access_token_file()
     __print_help_message()
 
 def oauth_help():
-    """display a help message which shows what functions can be called"""
+    """Display a help message which shows what functions can be called"""
     if CO.AccessData.access_token_file_exists():
         logger.info('The client is authorised with Dropbox (Dropbox token file exists)')
         print """

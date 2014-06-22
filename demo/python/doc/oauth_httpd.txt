@@ -22,9 +22,7 @@ CLASSES
         OAuthHTTPRequestHandler
     
     class OAuthHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler)
-     |  Request handler which will receive redirected OAuth replies.
-     |  
-     |  This class performs the necessary interactions between the web browser and the web server.
+     |  Request handler which will receive redirected OAuth replies and other requests (eg home page).
      |  
      |  Method resolution order:
      |      OAuthHTTPRequestHandler
@@ -35,23 +33,26 @@ CLASSES
      |  Methods defined here:
      |  
      |  do_GET(self)
-     |      process an HTTP GET
+     |      Process an HTTP GET
      |  
      |  handle_dropbox_status(self, dropbox_status)
-     |      handle a Dropbox status for do_GET()
+     |      Handle a Dropbox status for do_GET().
+     |      
+     |      If the status is 200, send a success page.
+     |      Otherwise, return the appropriate error page.
      |      @type dropbox_status: DropboxStatus
      |      @param dropbox_status: Dropbox status
      |  
-     |  home_page_body(self, request)
-     |      return the body of the home page
+     |  home_page_body(self)
+     |      Return the body of the home page
      |  
      |  send_html_content(self, page_body)
-     |      send HTML including the given page body to the browser
+     |      Send HTML including the given page body to the browser
      |      @type page_body: string
-     |      @param page_body: page body to send back to the browser (do not include <html> or <body> tags)
+     |      @param page_body: page body to send back to the browser (do not include C{<html>} or C{<body>} tags)
      |  
      |  send_http_header(self, url=None)
-     |      send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+     |      Send HTTP header, either 200 (success) or 301 (redirect) if url is not None
      |      @type url: boolean
      |      @param url: optional redirect URL
      |  

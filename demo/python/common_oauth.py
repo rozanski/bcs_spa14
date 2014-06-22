@@ -26,8 +26,7 @@ DEMO_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 """
 Pathname of demo directory (the directory containing this file).
 You should not need to change this, but if this does not work, you can enter it explicitly below.
-It looks like realpath() may have some issues depending on how Python is invoked.
-See http://stackoverflow.com/questions/4934806/python-how-to-find-scripts-directory
+See U{http://stackoverflow.com/questions/4934806/python-how-to-find-scripts-directory}
 """
 # DEMO_DIRECTORY = '/path/to/this/script'
 
@@ -66,7 +65,7 @@ def time_now():
 
 def wait_for_file(file_path, message_interval=5, timeout=0):
     """
-    wait (indefinitely or with timeout) until file_path is found
+    wait (indefinitely or with timeout) until file_path exists
     @rtype:  void
     @type file_path: string
     @param file_path: full path of file to wait for
@@ -101,7 +100,7 @@ class AppData(object):
 
     This class defines the Dropbox app key and secret for the demo app.
     It also defines some other useful information and URLs.
-    See https://www.dropbox.com/developers/apps.
+    See U{https://www.dropbox.com/developers/apps}
     """
 
     # EXERCISE:
@@ -127,7 +126,7 @@ class AccessData(object):
 
     This class is used to store and manage the Dropbox Oauth access data.
     It includes methods to save the information to disk, and load previously-saved access data.
-    It also includes methods to check for the presence of the file on disk.
+    It also includes methods to check for the presence of the token file on disk.
     """
 
     ACCESS_TOKEN_FILE = os.path.join(FILES_DIRECTORY, 'access_token.json')
@@ -145,7 +144,6 @@ class AccessData(object):
         self.access_token = None
         self.user_id = None
         self.save_message = save_message
-
 
     def load(self):
         """Load and return access data from access token file (which must exist) """
@@ -185,7 +183,11 @@ class AccessData(object):
 
     @staticmethod
     def access_token_file_exists(silent=False):
-        """Check whether access token data exists (file has previously been saved with access token)"""
+        """
+        Check whether access token data exists (file has previously been saved with access token)
+        @type silent: string
+        @param silent: don't log debug messages if True
+        """
         if os.path.isfile(AccessData.ACCESS_TOKEN_FILE):
             if not silent: logger.debug('access token file %s exists' % (AccessData.ACCESS_TOKEN_FILE))
             return True
@@ -226,33 +228,34 @@ class HttpServices(object):
 
     This class defines URLs and associated data needed to interact with Dropbox.
     It includes methods to manage the HTTPD session and to open a web browser for the user.
-    NOTE THAT THIS DATA MUST MATCH THE INFORMATION ENTERED AT THE dROPBOX DEVELOPER CONSOLE FOR THE APP
+
+    B{THIS DATA MUST MATCH THE INFORMATION ENTERED AT THE DROPBOX DEVELOPER CONSOLE FOR THE APP.}
     """
     def __init__(self):
         self.OAUTH_HTTPD_SERVER='localhost'
-        """hostname for the local HTTPD server"""
+        """Hostname for the local HTTPD server"""
         self.OAUTH_HTTPD_PORT = 55510
-        """port the local HTTPD server is listening on"""
+        """Port the local HTTPD server is listening on"""
         self.OAUTH_CSRF_SESSION_KEY = 'csrf_token_session_key'
-        """index into the session structure which contains the session key"""
+        """Index into the session structure which contains the session key"""
         self.OAUTH_HOME_URL = 'http://{server}:{port}/home'.format(server=self.OAUTH_HTTPD_SERVER, port=self.OAUTH_HTTPD_PORT)
-        """name of the home page for the local HTTPD server"""
+        """Name of the home page for the local HTTPD server"""
         self.OAUTH_FINISH_PAGE = 'dropbox-auth-finish'
-        """name of the finish page for the local HTTPD server"""
+        """Name of the finish page for the local HTTPD server"""
         self.OAUTH_FINISH_URL = 'http://{server}:{port}/{page}'.format(
                 server=self.OAUTH_HTTPD_SERVER, port=self.OAUTH_HTTPD_PORT, page=self.OAUTH_FINISH_PAGE)
         """URL of the finish page for the local HTTPD server"""
         logger.debug('Dropbox finish URL is "{finish_url}"'.format(finish_url=self.OAUTH_FINISH_URL))
 
         self.httpd_session = {}
-        """session variable for use by httpd"""
+        """Session variable for use by httpd"""
 
         self.HTTPD_SESSION_FILE = os.path.join(FILES_DIRECTORY, 'httpd_session.json')
-        """full pathname of the JSON file in which the session token is stored"""
+        """Full pathname of the JSON file in which the session token is stored"""
         self.HTTPD_SESSION_FILE_EXPIRED = os.path.join(FILES_DIRECTORY, 'httpd_session.EXPIRED.json')
-        """once the session token is cleared, the session file is renamed to this pathname"""
+        """Once the session token is cleared, the session file is renamed to this pathname"""
         self.HTTPD_LATEST_URL_FILE = os.path.join(FILES_DIRECTORY, 'httpd_latest_url.log')
-        """contains the latest URL requested of the HTTP server"""
+        """Path to file which contains the latest URL requested of the HTTP server"""
 
     def save_httpd_session(self):
         """Save HTTPD session data to session data file (which will be overwritten)"""
@@ -276,7 +279,7 @@ class HttpServices(object):
         """
         Load and return HTTPD session data from session data file (which must exist)
         @type expire_session: boolean
-        @param expire_session: if True, also expire (rename) the session file
+        @param expire_session: if True, also expire the session file (rename it to ..._EXPIRED)
         """
         # EXERCISE:
         #  - load self.httpd_session from session data file self.HTTPD_SESSION_FILE
@@ -299,7 +302,7 @@ class HttpServices(object):
             os.rename(self.HTTPD_SESSION_FILE, self.HTTPD_SESSION_FILE_EXPIRED)
 
     def delete_httpd_session_file(self):
-        """Delete the access token file and other control files"""
+        """Delete the session files"""
         for filepath in (self.HTTPD_SESSION_FILE, self.HTTPD_SESSION_FILE_EXPIRED):
             if os.path.isfile(filepath):
                 os.remove(filepath)
@@ -307,7 +310,7 @@ class HttpServices(object):
 
     def save_latest_url(self, url):
         """
-        Save latest URL requested of HTTP server to latest URL file.
+        Save the latest URL requested of HTTP server to latest URL file.
         This is used in testing to see if a URL has been requested of the server
         @type url: string
         @param url: this URL will be saved in the latest URL file

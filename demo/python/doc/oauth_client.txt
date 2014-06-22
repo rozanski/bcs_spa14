@@ -19,29 +19,29 @@ DESCRIPTION
 
 FUNCTIONS
     oauth_access_token_file_exists()
-        print whether the access token file exists
+        Print whether the access token file exists
     
     oauth_authorise_no_redirect()
-        run noredirect authorisation workflow (requires auth code to be entered)
-        See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2FlowNoRedirect}
+        Start the no-redirect authorisation workflow.
+        See U{https://www.dropbox.com/developers/core/start/python}
     
     oauth_authorise_redirect()
-        start redirect authorisation workflow (uses HTTP web server to simulate URL schema).
+        Start the redirect authorisation workflow.
         See U{https://www.dropbox.com/developers/core/docs/python#DropboxOAuth2Flow}
     
     oauth_debug(enable)
-        enable / disable debugging
+        Enable / disable debugging
         @type enable: boolean
         @param enable: if true, enable debug messages, else disable debug messages
     
     oauth_delete_access_token_file()
-        delete the access token file
+        Delete the access token file
     
     oauth_help()
-        display a help message which shows what functions can be called
+        Display a help message which shows what functions can be called
     
     oauth_print_access_token_file()
-        print the access token file
+        Print the access token file
 
 DATA
     ACCOUNT_INFO_FILE = '/account_info.python.txt'

@@ -29,14 +29,12 @@ import dropbox_workflow as DW
 
 class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
     """
-    Request handler which will receive redirected OAuth replies.
-
-    This class performs the necessary interactions between the web browser and the web server.
+    Request handler which will receive redirected OAuth replies and other requests (eg home page).
     """
 
     def send_http_header(self, url=None):
         """
-        send HTTP header, either 200 (success) or 301 (redirect) if url is not None
+        Send HTTP header, either 200 (success) or 301 (redirect) if url is not None
         @type url: boolean
         @param url: optional redirect URL
         """
@@ -56,9 +54,9 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def send_html_content(self, page_body):
         """
-        send HTML including the given page body to the browser
+        Send HTML including the given page body to the browser
         @type page_body: string
-        @param page_body: page body to send back to the browser (do not include <html> or <body> tags)
+        @param page_body: page body to send back to the browser (do not include C{<html>} or C{<body>} tags)
         """
         content="""<html>
 <head><title>BCS SPA 2014 OAuth Demo</title></head>
@@ -68,7 +66,10 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def handle_dropbox_status(self, dropbox_status):
         """
-        handle a Dropbox status for do_GET()
+        Handle a Dropbox status for do_GET().
+
+        If the status is 200, send a success page.
+        Otherwise, return the appropriate error page.
         @type dropbox_status: DropboxStatus
         @param dropbox_status: Dropbox status
         """
@@ -87,7 +88,7 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_error(dropbox_status.http_status, dropbox_status.message)
 
     def do_GET(self):
-        """process an HTTP GET"""
+        """Process an HTTP GET"""
 
         logger.debug('do_GET: request is "%s"' % (self.path,))
         http_services = CO.HttpServices()
@@ -113,7 +114,7 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
             elif parsed_url.path.endswith('home'):
                 logger.debug('do_GET: /home (send home page)')
                 self.send_http_header()
-                self.send_html_content(self.home_page_body(self.path))
+                self.send_html_content(self.home_page_body())
 
             elif parsed_url.path.startswith('/doc/'):
                 logger.debug('do_GET: /doc (script documentation), path is %s')
@@ -140,9 +141,9 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
         except IOError:
             self.send_error(500, 'internal server error (request={request})'.format(request=self.path))
 
-    def home_page_body(self, request):
+    def home_page_body(self):
         """
-        return the body of the home page
+        Return the body of the home page
         """
 
         def make_anchor(url, newWindow=True):
@@ -194,7 +195,9 @@ class OAuthHTTPRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     http_services = CO.HttpServices()
+    """Defines all the config information about the local website, and also the CSRF session token"""
     httpd = HTTPServer((http_services.OAUTH_HTTPD_SERVER, http_services.OAUTH_HTTPD_PORT), OAuthHTTPRequestHandler)
+    """the object used to run the HTTP server"""
     logger.info('About to start the httpd server on "{server}" listening on port {port}...'.format(
         server=http_services.OAUTH_HTTPD_SERVER, port=http_services.OAUTH_HTTPD_PORT))
     logger.info('Browse to the home page "%s" to test the server' % http_services.OAUTH_HOME_URL)

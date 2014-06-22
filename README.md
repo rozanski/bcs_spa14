@@ -41,7 +41,7 @@ Create a user-owned and writeable directory into which you will install the soft
 eg `C:\OAUTH_SESSION` or `~/oauth_session`.
 
 Download the files in my git repository <https://github.com/rozanski/bcs_spa14> into this directory.
-You can download the files directly from the website (click _Download Zip_) or retrieve them using a `git` tool.
+You can download the files directly from the website (click _Download Zip_) or clone the repository using a `git` tool.
 
 You also need to download the Dropbox library and perform other setup tasks for your chosen language.
 The READMEs in the `demo/python` and `demo/java` directories have detailed installation instructions .

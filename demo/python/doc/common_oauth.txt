@@ -17,7 +17,7 @@ CLASSES
      |  
      |  This class is used to store and manage the Dropbox Oauth access data.
      |  It includes methods to save the information to disk, and load previously-saved access data.
-     |  It also includes methods to check for the presence of the file on disk.
+     |  It also includes methods to check for the presence of the token file on disk.
      |  
      |  Methods defined here:
      |  
@@ -37,6 +37,8 @@ CLASSES
      |  
      |  access_token_file_exists(silent=False)
      |      Check whether access token data exists (file has previously been saved with access token)
+     |      @type silent: string
+     |      @param silent: don't log debug messages if True
      |  
      |  delete_access_token_file()
      |      Delete the access token file and other control files
@@ -68,7 +70,7 @@ CLASSES
      |  
      |  This class defines the Dropbox app key and secret for the demo app.
      |  It also defines some other useful information and URLs.
-     |  See https://www.dropbox.com/developers/apps.
+     |  See U{https://www.dropbox.com/developers/apps}
      |  
      |  Data descriptors defined here:
      |  
@@ -94,7 +96,8 @@ CLASSES
      |  
      |  This class defines URLs and associated data needed to interact with Dropbox.
      |  It includes methods to manage the HTTPD session and to open a web browser for the user.
-     |  NOTE THAT THIS DATA MUST MATCH THE INFORMATION ENTERED AT THE dROPBOX DEVELOPER CONSOLE FOR THE APP
+     |  
+     |  B{THIS DATA MUST MATCH THE INFORMATION ENTERED AT THE DROPBOX DEVELOPER CONSOLE FOR THE APP.}
      |  
      |  Methods defined here:
      |  
@@ -104,7 +107,7 @@ CLASSES
      |      Clear latest URL requested of HTTP server so next call returns empty string (delete latest URL file)
      |  
      |  delete_httpd_session_file(self)
-     |      Delete the access token file and other control files
+     |      Delete the session files
      |  
      |  expire_httpd_session(self)
      |      Expire the sesssion by renaming the session file to HTTPD_SESSION_FILE_EXPIRED
@@ -112,7 +115,7 @@ CLASSES
      |  load_httpd_session(self, expire_session=True)
      |      Load and return HTTPD session data from session data file (which must exist)
      |      @type expire_session: boolean
-     |      @param expire_session: if True, also expire (rename) the session file
+     |      @param expire_session: if True, also expire the session file (rename it to ..._EXPIRED)
      |  
      |  load_latest_url(self)
      |      Load latest URL requested of HTTP server from latest URL file
@@ -121,7 +124,7 @@ CLASSES
      |      Save HTTPD session data to session data file (which will be overwritten)
      |  
      |  save_latest_url(self, url)
-     |      Save latest URL requested of HTTP server to latest URL file.
+     |      Save the latest URL requested of HTTP server to latest URL file.
      |      This is used in testing to see if a URL has been requested of the server
      |      @type url: string
      |      @param url: this URL will be saved in the latest URL file
@@ -156,7 +159,7 @@ FUNCTIONS
         @return: human-readable representation of the current date and time
     
     wait_for_file(file_path, message_interval=5, timeout=0)
-        wait (indefinitely or with timeout) until file_path is found
+        wait (indefinitely or with timeout) until file_path exists
         @rtype:  void
         @type file_path: string
         @param file_path: full path of file to wait for

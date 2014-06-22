@@ -28,7 +28,7 @@ REVIEW_FILE = '%s/oauth_session_review.python.md' % REVIEW_DIRECTORY
 """This file is created in the Dropbox app folder once the client has authorised with Dropbox"""
 
 def __create_dropbox_client():
-    """create and return a Dropbox client for use in the functions below"""
+    """Create and return a Dropbox client for use in the functions below"""
     # EXERCISE:
     #  - create a Dropbox OAuth client object with which to make Dropbox calls
     #    hint: class is dropbox.client.DropboxClient()
@@ -44,7 +44,7 @@ def __create_dropbox_client():
 
 def db_list_directory(path='/'):
     """
-    list the contents of the given Dropbox directory
+    List the contents of the given Dropbox directory
     @type path: string
     @param path: Dropbox path of the directory
     """
@@ -65,7 +65,7 @@ def db_list_directory(path='/'):
 
 def db_print_file(file_path):
     """
-    print the contents of the given file to stdout
+    Print the contents of the given Dropbox file to stdout
     @type file_path: string
     @param file_path: Dropbox path of the file
     """
@@ -80,11 +80,11 @@ def db_print_file(file_path):
 
 def db_create_text_file(file_path='', lines=[]):
     """
-    create a file and write some lines of text to it from stdin or lines[]
+    Create a dropbox file and write some lines of text to it from stdin or lines[]
     @type file_path: string
-    @param file_path: Dropbox path of the file to create
+    @param file_path: Dropbox path of the file to create (if empty, prompt from console)
     @type lines: string[]
-    @param lines: lines to write in the file
+    @param lines: lines to write in the file (if empty, prompt from console)
     """
     client, access_data = __create_dropbox_client()
 
@@ -114,7 +114,7 @@ def db_create_text_file(file_path='', lines=[]):
     # SPA14_OAUTH_FINISH
 
 def db_delete_file(file_path=''):
-    """delete the given dropbox file
+    """Delete the given Dropbox file
     @type file_path: string
     @param file_path: Dropbox path of the file
     """
@@ -126,14 +126,17 @@ def db_delete_file(file_path=''):
     logger.debug('deleted file %s' % file_path)
 
 def db_disable_access_token():
-    """disable the dropbox access token (so authorisation will need to be run again"""
+    """
+    Disable the dropbox access token (so authorisation will need to be run again
+    See U{https://www.dropbox.com/developers/core/docs#disable-token}
+    """
     client, access_data = __create_dropbox_client()
 
     client.disable_access_token()
     logger.info('disabled Dropbox access token (access file not deleted)')
 
 def db_create_sample_files():
-    """create some files and directories in Dropbox directory"""
+    """Create some files and directories in Dropbox directory"""
     client, access_data = __create_dropbox_client()
 
     # save file containing account information

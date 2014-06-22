@@ -89,7 +89,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__create_dropbox_client"></a><span class="summary-sig-name">__create_dropbox_client</span>()</span><br />
-      create and return a Dropbox client for use in the functions below</td>
+      Create and return a Dropbox client for use in the functions below</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#__create_dropbox_client">source&nbsp;code</a></span>
             
@@ -106,7 +106,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="dropbox_tools-module.html#db_list_directory" class="summary-sig-name">db_list_directory</a>(<span class="summary-sig-arg">path</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">/</code><code class="variable-quote">'</code></span>)</span><br />
-      list the contents of the given Dropbox directory</td>
+      List the contents of the given Dropbox directory</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#db_list_directory">source&nbsp;code</a></span>
             
@@ -123,7 +123,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="dropbox_tools-module.html#db_print_file" class="summary-sig-name">db_print_file</a>(<span class="summary-sig-arg">file_path</span>)</span><br />
-      print the contents of the given file to stdout</td>
+      Print the contents of the given Dropbox file to stdout</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#db_print_file">source&nbsp;code</a></span>
             
@@ -141,8 +141,8 @@
         <tr>
           <td><span class="summary-sig"><a href="dropbox_tools-module.html#db_create_text_file" class="summary-sig-name">db_create_text_file</a>(<span class="summary-sig-arg">file_path</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">lines</span>=<span class="summary-sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span><br />
-      create a file and write some lines of text to it from stdin or 
-      lines[]</td>
+      Create a dropbox file and write some lines of text to it from stdin 
+      or lines[]</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#db_create_text_file">source&nbsp;code</a></span>
             
@@ -159,7 +159,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="dropbox_tools-module.html#db_delete_file" class="summary-sig-name">db_delete_file</a>(<span class="summary-sig-arg">file_path</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      delete the given dropbox file</td>
+      Delete the given Dropbox file</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#db_delete_file">source&nbsp;code</a></span>
             
@@ -176,8 +176,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="db_disable_access_token"></a><span class="summary-sig-name">db_disable_access_token</span>()</span><br />
-      disable the dropbox access token (so authorisation will need to be 
-      run again</td>
+      Disable the dropbox access token (so authorisation will need to be 
+      run again See <a 
+      href="https://www.dropbox.com/developers/core/docs#disable-token" 
+      target="_top">https://www.dropbox.com/developers/core/docs#disable-token</a></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#db_disable_access_token">source&nbsp;code</a></span>
             
@@ -194,7 +196,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="db_create_sample_files"></a><span class="summary-sig-name">db_create_sample_files</span>()</span><br />
-      create some files and directories in Dropbox directory</td>
+      Create some files and directories in Dropbox directory</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="dropbox_tools-pysrc.html#db_create_sample_files">source&nbsp;code</a></span>
             
@@ -302,7 +304,7 @@
     </td>
   </tr></table>
   
-  <p>list the contents of the given Dropbox directory</p>
+  <p>List the contents of the given Dropbox directory</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -325,7 +327,7 @@
     </td>
   </tr></table>
   
-  <p>print the contents of the given file to stdout</p>
+  <p>Print the contents of the given Dropbox file to stdout</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -349,13 +351,14 @@
     </td>
   </tr></table>
   
-  <p>create a file and write some lines of text to it from stdin or 
+  <p>Create a dropbox file and write some lines of text to it from stdin or
   lines[]</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>file_path</code></strong> (string) - Dropbox path of the file to create</li>
-        <li><strong class="pname"><code>lines</code></strong> (string[]) - lines to write in the file</li>
+        <li><strong class="pname"><code>file_path</code></strong> (string) - Dropbox path of the file to create (if empty, prompt from 
+          console)</li>
+        <li><strong class="pname"><code>lines</code></strong> (string[]) - lines to write in the file (if empty, prompt from console)</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -374,7 +377,7 @@
     </td>
   </tr></table>
   
-  <p>delete the given dropbox file</p>
+  <p>Delete the given Dropbox file</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -491,7 +494,7 @@ CO.logger
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 21 04:09:23 2014
+    Generated by Epydoc 3.0.1 on Sun Jun 22 07:07:51 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

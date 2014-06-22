@@ -69,9 +69,8 @@ SocketServer.BaseRequestHandler --+
 </pre>
 
 <hr />
-<p>Request handler which will receive redirected OAuth replies.</p>
-  <p>This class performs the necessary interactions between the web browser
-  and the web server.</p>
+<p>Request handler which will receive redirected OAuth replies and other 
+  requests (eg home page).</p>
 
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
@@ -123,7 +122,7 @@ SocketServer.BaseRequestHandler --+
         <tr>
           <td><span class="summary-sig"><a href="oauth_httpd.OAuthHTTPRequestHandler-class.html#send_http_header" class="summary-sig-name">send_http_header</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">url</span>=<span class="summary-sig-default">None</span>)</span><br />
-      send HTTP header, either 200 (success) or 301 (redirect) if url is 
+      Send HTTP header, either 200 (success) or 301 (redirect) if url is 
       not None</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="oauth_httpd-pysrc.html#OAuthHTTPRequestHandler.send_http_header">source&nbsp;code</a></span>
@@ -142,7 +141,7 @@ SocketServer.BaseRequestHandler --+
         <tr>
           <td><span class="summary-sig"><a href="oauth_httpd.OAuthHTTPRequestHandler-class.html#send_html_content" class="summary-sig-name">send_html_content</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">page_body</span>)</span><br />
-      send HTML including the given page body to the browser</td>
+      Send HTML including the given page body to the browser</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="oauth_httpd-pysrc.html#OAuthHTTPRequestHandler.send_html_content">source&nbsp;code</a></span>
             
@@ -160,7 +159,7 @@ SocketServer.BaseRequestHandler --+
         <tr>
           <td><span class="summary-sig"><a href="oauth_httpd.OAuthHTTPRequestHandler-class.html#handle_dropbox_status" class="summary-sig-name">handle_dropbox_status</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">dropbox_status</span>)</span><br />
-      handle a Dropbox status for do_GET()</td>
+      Handle a Dropbox status for do_GET().</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="oauth_httpd-pysrc.html#OAuthHTTPRequestHandler.handle_dropbox_status">source&nbsp;code</a></span>
             
@@ -177,7 +176,7 @@ SocketServer.BaseRequestHandler --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="do_GET"></a><span class="summary-sig-name">do_GET</span>(<span class="summary-sig-arg">self</span>)</span><br />
-      process an HTTP GET</td>
+      Process an HTTP GET</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="oauth_httpd-pysrc.html#OAuthHTTPRequestHandler.do_GET">source&nbsp;code</a></span>
             
@@ -193,9 +192,8 @@ SocketServer.BaseRequestHandler --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="home_page_body"></a><span class="summary-sig-name">home_page_body</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">request</span>)</span><br />
-      return the body of the home page</td>
+          <td><span class="summary-sig"><a name="home_page_body"></a><span class="summary-sig-name">home_page_body</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return the body of the home page</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="oauth_httpd-pysrc.html#OAuthHTTPRequestHandler.home_page_body">source&nbsp;code</a></span>
             
@@ -305,7 +303,7 @@ SocketServer.BaseRequestHandler --+
     </td>
   </tr></table>
   
-  <p>send HTTP header, either 200 (success) or 301 (redirect) if url is not
+  <p>Send HTTP header, either 200 (success) or 301 (redirect) if url is not
   None</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -330,12 +328,12 @@ SocketServer.BaseRequestHandler --+
     </td>
   </tr></table>
   
-  <p>send HTML including the given page body to the browser</p>
+  <p>Send HTML including the given page body to the browser</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>page_body</code></strong> (string) - page body to send back to the browser (do not include 
-          &lt;html&gt; or &lt;body&gt; tags)</li>
+          <code>&lt;html&gt;</code> or <code>&lt;body&gt;</code> tags)</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -355,7 +353,9 @@ SocketServer.BaseRequestHandler --+
     </td>
   </tr></table>
   
-  <p>handle a Dropbox status for do_GET()</p>
+  <p>Handle a Dropbox status for do_GET().</p>
+  <p>If the status is 200, send a success page. Otherwise, return the 
+  appropriate error page.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -393,7 +393,7 @@ SocketServer.BaseRequestHandler --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 21 04:09:23 2014
+    Generated by Epydoc 3.0.1 on Sun Jun 22 07:07:51 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
