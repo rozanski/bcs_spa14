@@ -71,6 +71,7 @@ def db_list_directory(path='/'):
     #    @see https://www.dropbox.com/developers/core/docs/python (search for metadata())
     # SPA14_OAUTH_START
     folder_metadata = client.metadata(path)
+    # SPA14_OAUTH_FINISH
     print 'DIRECTORIES in %s:' % (path,)
     for entry in folder_metadata['contents']:
         if entry['is_dir']: print ' %s   %s/' % (entry['modified'], entry['path'][1:])
