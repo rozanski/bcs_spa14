@@ -40,7 +40,7 @@ For Windows, run:
     python -m pip install -U dropbox
 
 ### Configure the Demo (Optional)
-Edit the file `python/common_classes.py` if you want to change the browser which is used to run the authorisation workflow.
+Edit the file `python/common_oauth.py` if you want to change the browser which is used to run the authorisation workflow.
 
 ### Verify Your Setup
 You should run the Python unit tests to make sure everything is installed correctly.
