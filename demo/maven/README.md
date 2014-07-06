@@ -12,10 +12,10 @@ For Windows, use Control Panel to set the environment variable `JAVA_HOME` to th
 (something like `C:\Progra~1\Java\jdk8`).
 
 ### Install Maven
-Install Ant as described here: <http://maven.apache.org/download.cgi>.
+Install Maven as described here: <http://maven.apache.org/download.cgi>.
 There are installation instructions for Windows, Mac and Linux.
 
-There are some setup instructions here: <http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html>.
+There are some Maven setup instructions here: <http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html>.
 
 ### Install the Dropbox Java Library
 Install the Dropbox Java library from the [Dropbox website] (<https://www.dropbox.com/developers/core/sdks/java>).
@@ -27,15 +27,14 @@ Run the following command in the java directory:
 
 ### Verify your Setup
 You should run the Java unit tests to make sure everything is installed correctly.
+Run one of the following commands at the terminal:
 
-**HERE!!!**
-
-Start the Demo HTTP server as described below, and then in another console run one of the following commands.
-
-    ant -e unittest
-    ant -e unittest-debug
+    maven test
+    maven test -Ddebug='debug'
 
 Note that the Dropbox tests take 10 seconds or so to complete.
+
+**HERE!!**
 
 ## RUNNING THE DEMO
 ### Starting the Demo Client

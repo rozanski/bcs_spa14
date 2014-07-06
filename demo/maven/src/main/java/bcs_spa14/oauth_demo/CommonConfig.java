@@ -13,7 +13,7 @@ public class CommonConfig {
      *
      * <p>You should not need to change this (although you can if you want files to be stored elsewhere).
      */
-    public static final String DEMO_DIRECTORY = (new File(System.getProperty("user.dir"))).getParent();
+    public static final String DEMO_DIRECTORY = System.getProperty("user.dir");
 
     /**
      * Pathname of files directory (which stores the access token file and session file)
