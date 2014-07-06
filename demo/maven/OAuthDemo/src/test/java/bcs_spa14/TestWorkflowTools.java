@@ -35,13 +35,18 @@ public class TestWorkflowTools {
             HttpdServer.startServer();
         }
         catch (IOException e) {
-            ConsoleLogger.info("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
+            ConsoleLogger.error("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
         }
     }
 
     @AfterClass
     public static void tearDownClass() throws IOException {
-        // I don't think there is anything to do here
+        try {
+            HttpdServer.stopServer();
+        }
+        catch (IOException e) {
+            ConsoleLogger.error("fatal error: failed to stop HTTP server, error='%s'", e.getMessage());
+        }
     }
 
     @Before

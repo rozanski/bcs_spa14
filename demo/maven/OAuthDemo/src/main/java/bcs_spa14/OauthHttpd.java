@@ -44,6 +44,7 @@ public class OauthHttpd {
         ConsoleLogger.info("running HTTP server from the command line");
         HttpdServer.startServer();
         HttpdServer.watchServer();
+        HttpdServer.stopServer();
     }
 
 }

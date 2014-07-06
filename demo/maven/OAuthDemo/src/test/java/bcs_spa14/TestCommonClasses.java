@@ -28,15 +28,20 @@ public class TestCommonClasses {
         public static void setUpClass() {
         try {
             HttpdServer.startServer();
-        }   
+        }
         catch (IOException e) {
-            ConsoleLogger.info("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
-        }   
-    }   
+            ConsoleLogger.error("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
+        }
+    }
 
     @AfterClass
     public static void tearDownClass() throws IOException {
-        // I don't think there is anything to do here
+        try {
+            HttpdServer.stopServer();
+        }
+        catch (IOException e) {
+            ConsoleLogger.error("fatal error: failed to stop HTTP server, error='%s'", e.getMessage());
+        }
     }
 
     @Before
@@ -118,6 +123,7 @@ public class TestCommonClasses {
     @Test
     public void sessionDataClear() {
         CommonTest.csrfTokenStore.clear();
+        ConsoleLogger.info("TestCommonClasses.sessionDataClear(): about to call CommonTest.csrfTokenStore.get(), ignore any error message");
         String csrfToken = CommonTest.csrfTokenStore.get();
         assertEquals("Session token '%s' not cleared", csrfToken, null);
     }
@@ -138,7 +144,6 @@ public class TestCommonClasses {
     @Test
         public void httpConfigUrls() {
             CommonTest.assertUrlValid(HttpConfig.HOME_URL.toString()); // these are pointless...
-            // CommonTest.assertUrlValid(HttpConfig.START_URL.toString());
             CommonTest.assertUrlValid(HttpConfig.FINISH_URL.toString());
         }
 

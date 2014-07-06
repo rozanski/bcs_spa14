@@ -72,7 +72,8 @@ public class CsrfTokenStore implements DbxSessionStore {
             ConsoleLogger.debug("CSRF token successfully loaded from token file %s", HTTPD_SESSION_FILE);
         }
         catch (IOException e) {
-            ConsoleLogger.info("fatal error: failed to load CSRF token from token file %s, error='%s'", HTTPD_SESSION_FILE, e.getMessage());
+            // depending on context, this may or may not be an error
+            ConsoleLogger.info("possible error: failed to load CSRF token from token file %s, error='%s'", HTTPD_SESSION_FILE, e.getMessage());
             return null; // no way to return an error in this interface
         }
         // @see https://code.google.com/p/json-simple/wiki/DecodingExamples

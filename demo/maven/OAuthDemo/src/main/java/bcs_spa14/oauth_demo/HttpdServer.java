@@ -73,6 +73,16 @@ public class HttpdServer {
         }
         catch (InterruptedException e) { }
 
+    }
+
+    /**
+     *
+     * This function stops the HTTP server and returns.
+     *
+     * @throws IOException if a console I/O error occurs
+     */
+    public static void stopServer() throws IOException {
+
         ConsoleLogger.info("\nStopping httpd server...");
         httpd.stop(0);
     }
