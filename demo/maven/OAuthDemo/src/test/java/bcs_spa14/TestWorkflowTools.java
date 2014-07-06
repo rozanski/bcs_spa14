@@ -9,7 +9,16 @@ import java.util.Locale;
 import java.io.*;
 
 import com.dropbox.core.*;
+import oauth_demo.*;
 
+/**
+ * This class implements unit tests for the WorkflowTools class.
+ *
+ * Run unit tests from the command line as follows:
+ *    mvn test                 # print INFO messages only
+ *    mvn test -Ddebug='debug' # print INFO and DEBUG messages
+ *
+ */
 public class TestWorkflowTools {
 
     @Rule public TestName currentTestName = new TestName();
@@ -19,9 +28,25 @@ public class TestWorkflowTools {
      TEST FIXTURES
      =============
     */
+
+    @BeforeClass
+    public static void setUpClass() {
+        try {
+            HttpdServer.startServer();
+        }
+        catch (IOException e) {
+            ConsoleLogger.info("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
+        }
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws IOException {
+        // I don't think there is anything to do here
+    }
+
     @Before
     public void setUp() throws IOException {
-        ConsoleLogger.setLevel(Level.SEVERE);
+        ConsoleLogger.setLevel((System.getProperty("debug") == null)?Level.INFO:Level.FINE);
         commonTest = new CommonTest();
         commonTest.deleteOauthFiles();
         commonTestDropbox = new CommonTestDropbox();

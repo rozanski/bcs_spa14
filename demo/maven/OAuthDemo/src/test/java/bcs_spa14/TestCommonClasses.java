@@ -9,6 +9,14 @@ import java.nio.file.*;
 import java.net.*;
 import java.awt.Desktop;
 
+/**
+ * This class implements unit tests for the CommonClasses class.
+ *
+ * Run unit tests from the command line as follows:
+ *    mvn test                 # print INFO messages only
+ *    mvn test -Ddebug='debug' # print INFO and DEBUG messages
+ *
+ */
 public class TestCommonClasses {
 
     /*
@@ -16,9 +24,24 @@ public class TestCommonClasses {
      * TEST FIXTURES
      * =============
      */
+    @BeforeClass
+        public static void setUpClass() {
+        try {
+            HttpdServer.startServer();
+        }   
+        catch (IOException e) {
+            ConsoleLogger.info("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
+        }   
+    }   
+
+    @AfterClass
+    public static void tearDownClass() throws IOException {
+        // I don't think there is anything to do here
+    }
+
     @Before
     public void setUp() {
-        ConsoleLogger.setLevel(Level.SEVERE);
+        ConsoleLogger.setLevel((System.getProperty("debug") == null)?Level.INFO:Level.FINE);
         commonTest = new CommonTest();
         commonTest.deleteOauthFiles();
     }

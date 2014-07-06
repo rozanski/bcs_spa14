@@ -15,6 +15,8 @@ For Windows, use Control Panel to set the environment variable `JAVA_HOME` to th
 Install Ant as described here: <http://maven.apache.org/download.cgi>.
 There are installation instructions for Windows, Mac and Linux.
 
+There are some setup instructions here: <http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html>.
+
 ### Install the Dropbox Java Library
 Install the Dropbox Java library from the [Dropbox website] (<https://www.dropbox.com/developers/core/sdks/java>).
 

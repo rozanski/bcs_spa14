@@ -21,51 +21,29 @@ import oauth_demo.*;
  */
 public class OauthHttpd {
 
+    /**
+     *
+     * This function is invoked when the HTTP server is started from the command line.
+     * It runs the server indefinitely.
+     *
+     * For example:
+     *     $ export CLASSPATH=...
+     *     $ java OauthHttpd
+     *
+     * @param args arguments passed to the command line (the only valid argument is the string 'debug')
+     *
+     * @throws IOException if server cannot start
+     */
     public static void main(String[] args) throws IOException {
-
-        int SLEEP_TIME = 5; // how often to display a message to say the server is till running
 
         // run in debug mode if debug has been included in the command line
         for (String arg: args) {
-            if (arg.toLowerCase().equals("debug")) {
-                ConsoleLogger.enableDebug(true);
-            }
+            if (arg.toLowerCase().equals("debug")) { ConsoleLogger.enableDebug(true); }
         }
 
-        InetSocketAddress inetSocketAddress = new InetSocketAddress(HttpConfig.HTTP_SERVER, HttpConfig.HTTP_PORT);
-        HttpServer httpd = HttpServer.create(inetSocketAddress, 0);
-
-        HttpdUrlHandler httpHandler = new HttpdUrlHandler();
-        httpd.createContext("/", httpHandler);
-        ConsoleLogger.debug("initialised HTTP server, finish URL is '%s'", HttpConfig.FINISH_URL.toString());
-
-        ConsoleLogger.info("About to start the httpd server on '%s' listening on port %d...", HttpConfig.HTTP_SERVER, HttpConfig.HTTP_PORT);
-        ConsoleLogger.info("Browse to the home page '%s' to test the server", HttpConfig.HOME_URL.toString());
-        httpd.start();
-
-        ConsoleLogger.info("Http server is running, press <Ctrl-C> to stop");
-        BufferedReader buffer=new BufferedReader(new InputStreamReader(System.in));
-        try {
-            int waitCount = 0;
-            while(true) {
-                Thread.sleep(1000);
-                waitCount ++;
-                if (!buffer.ready()) {
-                    if (waitCount > SLEEP_TIME) {
-                        ConsoleLogger.info("Http server is still running, press Enter to stop");
-                        waitCount = 0;
-                    }
-                }
-                else {
-                    String line=buffer.readLine();
-                    break;
-                }
-            }
-        }
-        catch (InterruptedException e) { }
-
-        ConsoleLogger.info("\nStopping httpd server...");
-        httpd.stop(0);
+        ConsoleLogger.info("running HTTP server from the command line");
+        HttpdServer.startServer();
+        HttpdServer.watchServer();
     }
 
 }
