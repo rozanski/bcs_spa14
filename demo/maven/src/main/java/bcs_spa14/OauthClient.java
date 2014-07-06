@@ -29,6 +29,15 @@ public class OauthClient {
                 ConsoleLogger.enableDebug(true);
             }
         }
+
+        // start the HTTP server
+        try {
+            HttpdServer.startServer();
+        }
+        catch (IOException e) {
+            ConsoleLogger.error("fatal error: failed to start HTTP server, error='%s'", e.getMessage());
+        }
+
         outerloop:
         while(true) {
             if (AccessData.accessTokenFileExists()) {
@@ -100,6 +109,15 @@ public class OauthClient {
             }
 
         }
+
+        // stop the HTTP server
+        try {
+            HttpdServer.stopServer();
+        }
+        catch (IOException e) {
+            ConsoleLogger.error("fatal error: failed to stop HTTP server, error='%s'", e.getMessage());
+        }
+
     }
 
     /**
@@ -168,7 +186,7 @@ public class OauthClient {
         // SPA14_OAUTH_FINISH
 
         printWorkflowPrompts("");
-        readLine("Ensure the HTTP server is running and press enter to start redirect authorisation");
+        // readLine("Ensure the HTTP server is running and press enter to start redirect authorisation");
 
         Browser.openBrowserWindow(dropboxStatus.redirectUrl.toString());
         if (AccessData.waitForAccessTokenFile()) {
@@ -176,6 +194,7 @@ public class OauthClient {
             accessData.load();
             System.out.println("\nREDIRECT AUTHORISATION COMPLETED SUCCESSFULLY\n");
         }
+
     }
 
     /** print prompts for the user telling them what to do next */

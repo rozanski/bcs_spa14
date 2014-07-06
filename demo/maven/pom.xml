@@ -36,4 +36,28 @@
     </dependency>
   </dependencies>
 
+
+  <!-- the integration test goal is used to run the demo  -->
+  <!-- see http://mojo.codehaus.org/exec-maven-plugin/usage.html -->
+  <build>
+   <plugins>
+     <plugin>
+       <groupId>org.codehaus.mojo</groupId>
+       <artifactId>exec-maven-plugin</artifactId>
+       <version>1.3.1</version>
+       <executions>
+         <execution>
+           <phase>integration-test</phase>
+             <goals>
+               <goal>java</goal>
+             </goals>
+           <configuration>
+             <mainClass>OauthClient</mainClass>
+           </configuration>
+         </execution>
+       </executions>
+     </plugin>
+   </plugins>
+ </build>
+
 </project>
