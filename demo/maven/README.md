@@ -34,26 +34,20 @@ Run one of the following commands at the terminal:
 
 Note that the Dropbox tests take 10 seconds or so to complete.
 
-**HERE!!**
-
 ## RUNNING THE DEMO
 ### Starting the Demo Client
 Change to the `java` directory and start the client by typing one of the following at the terminal:
 
-    ant -e client
-    ant -e client-debug
+    mvn integration-test
+    mvn integration-test -Ddebug='debug'
 
 This will run some initialisation code and display a menu.
 
 ### Starting the Demo HTTP Server (Redirect Mode Only)
-Open up a second console window, change to the `java` directory 
-and start the HTTP server by typing one of the following at the terminal:
+This is no longer necessary as the client starts the HTTP server in a separate thread.
 
-    ant -e httpd 
-    ant -e httpd-debug
-
-The HTTP server will start and respond to any HTTP requests sent to it.
-Test it by browsing to the home page (the HTTP server logs the home page URL to the console in an INFO message).
+While the test is running, you can test it by browsing to the home page
+(the HTTP server logs the home page URL to the console in an INFO message).
 
 ## RUNNING DEMO TASKS
 From the client, select one of the redirect menu options to authorise with Dropbox.
