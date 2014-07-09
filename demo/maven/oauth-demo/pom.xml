@@ -4,7 +4,7 @@
 
   <!-- core settings -->
   <groupId>uk.org.rozanski</groupId>
-  <artifactId>oauth-demo</artifactId>
+  <artifactId>oauth_demo</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
