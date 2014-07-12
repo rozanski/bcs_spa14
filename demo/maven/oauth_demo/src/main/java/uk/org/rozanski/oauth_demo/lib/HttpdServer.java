@@ -45,7 +45,7 @@ public class HttpdServer {
 
     /**
      *
-     * This function waits for the user to press the enter key, after which it stops the HTTP server and returns.
+     * This function waits for the user to press <Ctrl-C>, after which it stops the HTTP server and returns.
      *
      * @throws IOException if a console I/O error occurs
      */
@@ -61,7 +61,7 @@ public class HttpdServer {
                 waitCount ++;
                 if (!buffer.ready()) {
                     if (waitCount > SLEEP_TIME) {
-                        ConsoleLogger.info("Http server is still running, press Enter to stop");
+                        ConsoleLogger.info("Http server is still running, press <Ctrl-C> to stop");
                         waitCount = 0;
                     }
                 }

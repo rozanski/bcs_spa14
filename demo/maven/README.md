@@ -23,14 +23,14 @@ Install the Dropbox Java library from the [Dropbox website] (<https://www.dropbo
 ### Build the Demo Software
 Run the following command in the java directory:
 
-    maven clean compile
+    mvn clean compile
 
 ### Verify your Setup
 You should run the Java unit tests to make sure everything is installed correctly.
 Run one of the following commands at the terminal:
 
-    maven test
-    maven test -Ddebug='debug'
+    mvn test
+    mvn test -Ddebug='debug'
 
 Note that the Dropbox tests take 10 seconds or so to complete.
 

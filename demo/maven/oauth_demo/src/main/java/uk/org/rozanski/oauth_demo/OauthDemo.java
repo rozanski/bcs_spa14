@@ -151,7 +151,7 @@ public class OauthDemo {
         // SPA14_OAUTH_FINISH
 
         printWorkflowPrompts( "4. Copy the provided authorisation code to the clipboard");
-        readLine("Press Enter to start no-redirect authorisation");
+        // readLine("Press Enter to start no-redirect authorisation");
 
         Browser.openBrowserWindow(dropboxStatus.redirectUrl.toString());
         String securityCode = readLine("Enter the Dropbox security code");
