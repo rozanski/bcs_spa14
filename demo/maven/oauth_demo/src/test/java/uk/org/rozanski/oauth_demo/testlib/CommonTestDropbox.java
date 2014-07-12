@@ -1,4 +1,4 @@
-package uk.org.rozanski.oauth_demo;
+package uk.org.rozanski.oauth_demo.testlib;
 
 import java.io.*;
 import static org.junit.Assert.*;
@@ -12,12 +12,12 @@ import java.util.UUID;
 
 import com.dropbox.core.*;
 
-import uk.org.rozanski.oauth_demo.*;
+// import uk.org.rozanski.oauth_demo.*;
 import uk.org.rozanski.oauth_demo.lib.*;
 
 public class CommonTestDropbox {
 
-    class DropboxFile {
+    public class DropboxFile {
         public String filepath;
         public String fileContentsString;
         public String[] fileContentsArray;

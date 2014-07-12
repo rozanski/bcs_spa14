@@ -66,6 +66,7 @@ public class HttpdUrlHandler implements HttpHandler {
      * @return a DropboxStatus containing the HTTP status code and other information
      *
      * @throws IOException if there is an error reading the file
+     * @throws MalformedURLException if a malformed URL is received
      *
      * @see DropboxStatus
      */
@@ -85,11 +86,12 @@ public class HttpdUrlHandler implements HttpHandler {
                     "<h2>Configuration</h2>\n" +
                     "APP_NAME: <code>%s</code><br>\n" +
                     "DEMO_DIRECTORY: <code>%s</code><br>\n" +
+                    "DOC_DIRECTORY: <code>%s</code><br>\n" +
                     "FILES_DIRECTORY: <code>%s</code><br>\n" +
                     "APP_KEY: <code>%s</code><br>\n" +
                     "APP_SECRET: <code>%s</code><br>\n" +
                     "ACCESS_TOKEN_FILE: <code>%s</code>\n",
-                   AppData.APP_NAME, CommonConfig.DEMO_DIRECTORY, CommonConfig.FILES_DIRECTORY,
+                   AppData.APP_NAME, CommonConfig.DEMO_DIRECTORY, CommonConfig.DOC_DIRECTORY, CommonConfig.FILES_DIRECTORY,
                    AppData.APP_KEY, AppData.APP_SECRET, AccessData.ACCESS_TOKEN_FILE);
             response += String.format(
                     "<h2>Help</h2>\n" +
@@ -125,7 +127,8 @@ public class HttpdUrlHandler implements HttpHandler {
             }
             else {
                 ConsoleLogger.debug("DOCUMENTATION FILE NOT FOUND - URL=%s, file path=%s", uriPath, docFullPath);
-                return new DropboxStatus(404, "Not Found");
+                ConsoleLogger.debug("You must run 'mvn site' to view the documentation");
+                return new DropboxStatus(404,  String.format("Not Found (file path=%s) - you must run 'mvn site' to view the documentation", docFullPath));
 
             }
 
@@ -140,15 +143,28 @@ public class HttpdUrlHandler implements HttpHandler {
         }
     }
 
-    /** return an HTML anchor tag for the given URL */
+    /**
+     * return an HTML anchor tag for the given URL
+     *
+     * @param url the URL in the tag
+     * @param newWindow if true, open the link in a new browser window
+     * @return HTML anchor tag
+     */
     private static String makeAnchor(String url, boolean newWindow) {
         return String.format("<a href='%s' %s>%s</a>", url, (newWindow? "target='_blank'": ""), url);
     }
 
-    /** return an HTML anchor tag for the given URL */
+    /**
+     * {@inheritDoc}
+     */
     private static String makeAnchor(String url) { return makeAnchor(url, true); }
 
-    /** return the URL for the documentation page */
+    /**
+     * return the URL for the documentation page
+     *
+     * @throws MalformedURLException if a malformed URL is received
+     * @return URL for the documentation page
+     */
     private static String getDocumentationRootUrl()  throws MalformedURLException {
         String rootUrl = new URL("http", HttpConfig.HTTP_SERVER, HttpConfig.HTTP_PORT, "/doc/index.html").toExternalForm();
         ConsoleLogger.info("documentation URL is %s", rootUrl);

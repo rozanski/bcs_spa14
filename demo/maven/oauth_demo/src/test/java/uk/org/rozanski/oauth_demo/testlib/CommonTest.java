@@ -1,4 +1,4 @@
-package uk.org.rozanski.oauth_demo;
+package uk.org.rozanski.oauth_demo.testlib;
 
 import java.io.*;
 import static org.junit.Assert.*;
@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 
-import uk.org.rozanski.oauth_demo.*;
+// import uk.org.rozanski.oauth_demo.*;
 import uk.org.rozanski.oauth_demo.lib.*;
 
 // import com.dropbox.core.*;

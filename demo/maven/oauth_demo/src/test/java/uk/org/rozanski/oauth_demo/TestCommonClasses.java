@@ -10,6 +10,7 @@ import java.net.*;
 import java.awt.Desktop;
 
 import uk.org.rozanski.oauth_demo.lib.*;
+import uk.org.rozanski.oauth_demo.testlib.*;
 
 /**
  * This class implements unit tests for the CommonClasses class.

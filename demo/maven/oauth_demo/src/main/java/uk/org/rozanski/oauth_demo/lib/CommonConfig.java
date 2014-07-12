@@ -26,7 +26,7 @@ public class CommonConfig {
      * Pathname of doc directory (which stores the documentation)
      *
      */
-    public static final String DOC_DIRECTORY = DEMO_DIRECTORY + File.separator + "doc";
+    public static final String DOC_DIRECTORY = DEMO_DIRECTORY + File.separator + "oauth_demo/target/site";
 
 }
 

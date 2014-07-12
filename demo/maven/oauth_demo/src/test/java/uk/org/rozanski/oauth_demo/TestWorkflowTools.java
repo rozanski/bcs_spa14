@@ -11,6 +11,7 @@ import java.io.*;
 import com.dropbox.core.*;
 
 import uk.org.rozanski.oauth_demo.lib.*;
+import uk.org.rozanski.oauth_demo.testlib.*;
 
 /**
  * This class implements unit tests for the WorkflowTools class.

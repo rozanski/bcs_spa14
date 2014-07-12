@@ -8,8 +8,37 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
+  <!-- project information -->
   <name>BCS SPA 2104 OAuth Demo</name>
+  <description>
+    This directory contains Java code for the BCS SPA 2014 OAuth session 
+    (http://spaconference.org/spa2014/sessions/session576.html).
+    Please refer to the project README for more information and installation instructions.
+  </description>
+  <inceptionYear>2014</inceptionYear>
+  <licenses>
+    <license>
+      <name>UNLICENSE</name>
+      <url>http://unlicense.org/</url>
+      <distribution>This is free and unencumbered software released into the public domain</distribution>
+      <comments/>
+    </license>
+  </licenses>
   <url>https://github.com/rozanski/bcs_spa14</url>
+
+  <!-- developer information -->
+  <scm>
+    <url>https://github.com/rozanski/bcs_spa14</url>
+    <connection>scm:git:git://github.com/rozanski/bcs_spa14</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>nickrozanski</id>
+      <name>Nick Rozanski</name>
+      <email>nick@rozanski.org.uk</email>
+      <url>http://www.nick.rozanski.org.uk</url>
+    </developer>
+  </developers>
 
   <!-- properties (prevents encoding error message) -->
   <properties>
@@ -40,8 +69,7 @@
 
   </dependencies>
 
-  <!-- the integration test goal is used to run the demo  -->
-  <!-- see http://mojo.codehaus.org/exec-maven-plugin/usage.html -->
+  <!-- the integration test phase is used to run the demo  -->
   <!-- command: mvn integration-test -->
   <build>
    <plugins>
@@ -56,7 +84,7 @@
                <goal>java</goal>
              </goals>
            <configuration>
-             <mainClass>uk.org.rozanski.oauth_demo.OauthClient</mainClass>
+             <mainClass>uk.org.rozanski.oauth_demo.OauthDemo</mainClass>
            </configuration>
          </execution>
        </executions>
@@ -69,10 +97,6 @@
  <reporting>
    <plugins>
      <plugin>
-       <!--
-       <groupId>uk.org.rozanski</groupId>
-       <artifactId>oauth-demo</artifactId>
-       -->
        <groupId>org.apache.maven.plugins</groupId>
        <artifactId>maven-javadoc-plugin</artifactId>
        <version>2.9.1</version>
@@ -80,7 +104,7 @@
           <sourceFileIncludes>
               <include>**/*.java</include>
           </sourceFileIncludes>
-          <!-- <show>private</show> -->
+          <show>private</show>
        </configuration>
      </plugin>
    </plugins>

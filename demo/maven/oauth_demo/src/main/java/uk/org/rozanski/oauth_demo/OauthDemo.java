@@ -8,7 +8,7 @@ import com.dropbox.core.DbxException;
 import uk.org.rozanski.oauth_demo.lib.*;
 
 /**
- * This is the class which runs the Oauth demo client.
+ * This is the class which runs the Oauth demo.
  *
  * <p>It checks whether the access token file exists, and presents the user with a menu of relevant options.
  *
@@ -20,7 +20,7 @@ import uk.org.rozanski.oauth_demo.lib.*;
  * the options allow the user to run either the no-redirect or redirect workflows.
  *
  */
-public class OauthClient {
+public class OauthDemo {
 
     public static void main(String[] args) {
 
@@ -198,7 +198,11 @@ public class OauthClient {
 
     }
 
-    /** print prompts for the user telling them what to do next */
+    /**
+     * print prompts for the user telling them what to do next
+     *
+     * @param additionalInstructions additional instructions to display
+     */
     private static void printWorkflowPrompts(String additionalInstructions) {
         System.out.println("When the browser window opens:");
         System.out.println("1. Log in to Dropbox if necessary (your user name and password are NOT visible to the client)");
@@ -210,21 +214,38 @@ public class OauthClient {
         if (additionalInstructions.length() > 0) { System.out.println(additionalInstructions); }
     }
 
-    /** read input from the console */
+    /**
+     * read input from the console
+     *
+     * @param prompt prompt to display before reading input
+     * @return console input
+     */
     private static String readLine(String prompt) {
         System.out.println(prompt + ": ");
         return System.console().readLine();
     }
 
-    /** read a Dropbox path from the console */
+    /**
+     * read a Dropbox path from the console
+     *
+     * @param prompt prompt to display before reading input
+     * @return console input
+     */
     private static String readDropboxPath(String prompt) {
         return fixDropboxPath(readLine(prompt));
     }
-    /** read a Dropbox path from the console */
+    /**
+     * {@inheritDoc}
+     */
     private static String readDropboxPath(String prompt, String defaultPath) {
         return fixDropboxPath(readLine(prompt + " (default='" + defaultPath + "')"));
     }
-    /** read a Dropbox path from the console */
+    /**
+     * fix an entered dropbox path (prepend /, remove trailing /)
+     *
+     * @param dropboxPath path to fix
+     * @return fixed path
+     */
     private static String fixDropboxPath(String dropboxPath) {
         if (!dropboxPath.startsWith("/")) {
             dropboxPath = "/" + dropboxPath;
