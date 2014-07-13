@@ -58,13 +58,7 @@ public class DropboxWorkflowRedirect {
         //  - call start() to start the redirect workflow
         //  - store the authorise URL returned by start() in authoriseUrl
         //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxWebAuth.html
-        //  SPA14_OAUTH_START
-        DbxAppInfo appInfo = new DbxAppInfo(AppData.APP_KEY, AppData.APP_SECRET);
-        DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION, Locale.getDefault().toString());
-        DbxWebAuth redirectClient = new DbxWebAuth(config, appInfo, HttpConfig.FINISH_URL.toString(), csrfTokenStore);
-        ConsoleLogger.debug("created DbxWebAuth client, running start() to generate Dropbox authorisation URL");
-        String authoriseUrl = redirectClient.start();
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         ConsoleLogger.info("Dropbox authorisation start successful, got authorisation URL %s", authoriseUrl);
         return new DropboxStatus(301, DropboxStatus.makeUrl(authoriseUrl));
@@ -109,15 +103,7 @@ public class DropboxWorkflowRedirect {
             //  - clear the CSRF token store
             //  - create an AccessData object from the token and user id returned by finish()
             //  - save() this AccessData
-            //  SPA14_OAUTH_START
-            DbxAppInfo appInfo = new DbxAppInfo(AppData.APP_KEY, AppData.APP_SECRET);
-            DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION, Locale.getDefault().toString());
-            DbxWebAuth redirectClient = new DbxWebAuth(config, appInfo, HttpConfig.FINISH_URL.toString(), csrfTokenStore);
-            DbxAuthFinish authFinish = redirectClient.finish(queryParams);
-            csrfTokenStore.clear();
-            AccessData accessData = new AccessData(authFinish.accessToken, authFinish.userId, "created using Java dropbox.client.DbxWebAuth()");
-            accessData.save();
-            // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
             DropboxTools.createSampleFiles();
             return new DropboxStatus(200, DropboxStatus.makePage(

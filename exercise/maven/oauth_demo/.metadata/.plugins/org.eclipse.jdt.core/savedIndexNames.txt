@@ -1,1 +1,0 @@
-INDEX VERSION 1.127+/Users/nick/Documents/Author/Conferences/2014-06-SPA/OAuth/demo/maven/oauth_demo/.metadata/.plugins/org.eclipse.jdt.core

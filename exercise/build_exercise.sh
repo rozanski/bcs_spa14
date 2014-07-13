@@ -1,9 +1,8 @@
 #!/bin/bash
 
 function create_skeleton {
-    echo IN: $1
-    echo OUT: $2
-    return
+    echo input file: $1
+    echo output file: $2
     # input line count
     wc1="`wc -l $1 | sed -e 's/ *//' -e 's/ .*//'`"
     echo " processing $filename ($wc1 lines)..."
@@ -42,7 +41,6 @@ mkdir -p $exercise_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo
 echo Copying Java files...
 cp $demo_dir/maven/jar/*.jar $exercise_dir/maven/jar
 cp $demo_dir/maven/files/* $exercise_dir/maven/files
-cp $demo_dir/maven/build.xml $exercise_dir/maven/build.xml
 
 echo Processing Java main source...
 for srcfile in $demo_dir/maven/oauth_demo/src/main/java/uk/org/rozanski/oauth_demo/*.java
@@ -63,13 +61,12 @@ do
     filename=`basename $srcfile`
     create_skeleton $srcfile $exercise_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/$filename
 done
-echo Processing Java library source...
+echo Processing Java test library source...
 for srcfile in $demo_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/testlib/*.java
 do
     filename=`basename $srcfile`
     create_skeleton $srcfile $exercise_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/testlib/$filename
 done
-
 
 echo Java complete.
 

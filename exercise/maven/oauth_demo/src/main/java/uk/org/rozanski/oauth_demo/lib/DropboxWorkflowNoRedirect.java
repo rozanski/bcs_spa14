@@ -52,13 +52,7 @@ public class DropboxWorkflowNoRedirect {
         // - call start() to start the no-redirect workflow
         //   @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxWebAuthNoRedirect.html
         // - store the authorise URL returned by start() in authoriseUrl
-        // SPA14_OAUTH_START
-        DbxAppInfo appInfo = new DbxAppInfo(AppData.APP_KEY, AppData.APP_SECRET);
-        DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION, Locale.getDefault().toString());
-        noredirectClient = new DbxWebAuthNoRedirect(config, appInfo);
-        ConsoleLogger.debug("created DbxWebAuthNoRedirect client, running start() to generate Dropbox authorisation URL");
-        String authoriseUrl = noredirectClient.start();
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         ConsoleLogger.info("Dropbox authorisation start successful, got authorisation URL %s", authoriseUrl);
         return new DropboxStatus(301, DropboxStatus.makeUrl(authoriseUrl));
@@ -90,14 +84,7 @@ public class DropboxWorkflowNoRedirect {
         //   @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxWebAuthNoRedirect.html
         // - create an AccessData object from the token and user id returned by finish()
         // - save() this AccessData
-        // SPA14_OAUTH_START
-        DbxAuthFinish authFinish = noredirectClient.finish(securityCode);
-        ConsoleLogger.info("Dropbox authorisation finish successful, access token=%s, user id=%s",
-                authFinish.accessToken, authFinish.userId);
-        AccessData accessData = new AccessData(authFinish.accessToken, authFinish.userId,
-                "created using Java dropbox.client.DbxWebAuthNoRedirect()");
-        accessData.save();
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         DropboxTools.createSampleFiles();
         return accessData;

@@ -145,10 +145,7 @@ public class OauthDemo {
         //  - delete the access token file (use AccessData)
         //  - start the Dropbox no-redirect workflow (use DropboxWorkflowNoRedirect)
         //    store the returned information in dropboxStatus
-        // SPA14_OAUTH_START
-        AccessData.deleteAccessTokenFile();
-        DropboxStatus dropboxStatus = DropboxWorkflowNoRedirect.noRedirectClientStart();
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         printWorkflowPrompts( "4. Copy the provided authorisation code to the clipboard");
         // readLine("Press Enter to start no-redirect authorisation");
@@ -181,10 +178,7 @@ public class OauthDemo {
         //  - delete the access token file (use AccessData)
         //  - start the Dropbox no-redirect workflow (use DropboxWorkflowRedirect)
         //    store the returned information in dropboxStatus
-        // SPA14_OAUTH_START
-        AccessData.deleteAccessTokenFile();
-        DropboxStatus dropboxStatus = DropboxWorkflowRedirect.redirectClientStart();
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         printWorkflowPrompts("");
         // readLine("Ensure the HTTP server is running and press enter to start redirect authorisation");

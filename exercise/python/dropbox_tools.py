@@ -66,6 +66,60 @@ def db_list_directory(path='/'):
     #    hint: Dropbox calls this "folder metadata"
     #    @see https://www.dropbox.com/developers/core/docs/python (search for metadata())
 # TODO ==> INSERT CODE HERE <==
+    print 'DIRECTORIES in %s:' % (path,)
+    for entry in folder_metadata['contents']:
+        if entry['is_dir']: print ' %s   %s/' % (entry['modified'], entry['path'][1:])
+    print 'FILES IN %s:' % (path,)
+    for entry in folder_metadata['contents']:
+        if not entry['is_dir']: print ' %s   %s (%s)' % (entry['modified'], entry['path'][1:], entry['size'])
+    __print_help_message()
+
+def db_print_file(file_path):
+    """
+    Print the contents of the given Dropbox file to stdout
+    @type file_path: string
+    @param file_path: Dropbox path of the file
+    """
+    client, access_data = __create_dropbox_client()
+
+    print 'CONTENTS OF %s:' % (file_path,)
+    line_count = 1
+    with client.get_file(file_path) as f:
+        for line in f.readlines():
+            print '{num:>2}: {line}'.format(num=line_count, line=line.strip('\n'))
+            line_count += 1
+    __print_help_message()
+
+def db_create_text_file(file_path='', lines=[]):
+    """
+    Create a dropbox file and write some lines of text to it from stdin or lines[]
+    @type file_path: string
+    @param file_path: Dropbox path of the file to create (if empty, prompt from console)
+    @type lines: string[]
+    @param lines: lines to write in the file (if empty, prompt from console)
+    """
+    client, access_data = __create_dropbox_client()
+
+    if file_path == '':
+        file_path = raw_input('Enter the name of a file to create: ').strip()
+    tempfile = NamedTemporaryFile(delete=False)
+    fname = tempfile.name
+    if len(lines) ==0:
+        while True:
+            line = raw_input('Enter some text (blank to finish): ').strip('\n')
+            if line.strip() == '': break
+            tempfile.write('%s\n' % (line,))
+    else:
+        for line in lines:
+            tempfile.write('%s\n' % (line,))
+    tempfile.close()
+    logger.debug('creating file %s...' % file_path)
+
+    # EXERCISE:
+    #  - open() the temporary file fname for read
+    #  - pass this file handle to Dropbox put_file() to upload the file
+    #    @see https://www.dropbox.com/developers/core/docs/python (search for put_file())
+# TODO ==> INSERT CODE HERE <==
     __print_help_message()
 
 def db_delete_file(file_path=''):

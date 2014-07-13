@@ -58,10 +58,7 @@ public class DropboxTools {
         //  - create a Dropbox metada object which you will use to get the directory contents
         //    hint: the Dropbox class is DbxEntry.WithChildren
         //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxEntry.WithChildren.html
-        // SPA14_OAUTH_START
-        createDbxClient();
-        DbxEntry.WithChildren metadata = client.getMetadataWithChildren(directory);
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
         if (metadata == null) {
             output += "\n<none>";
         }
@@ -70,9 +67,7 @@ public class DropboxTools {
             //  - create a Dropbox metada iterator object which you will use to iterate over the sub-directories of this one
             //    hint: you need to iterate over metadata.children (which are all of type DbxEntry)
             //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxEntry.WithChildren.html
-            // SPA14_OAUTH_START
-            Iterator<DbxEntry> directoryIterator = metadata.children.iterator();
-            // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
             while (directoryIterator.hasNext()) {
                 DbxEntry nextEntry = directoryIterator.next();
                 if (nextEntry instanceof DbxEntry.Folder) {
@@ -83,9 +78,7 @@ public class DropboxTools {
             // EXERCISE:
             //  - create a Dropbox metada iterator object which you will use to iterate over the files in this directory
             //    hint: same as above
-            // SPA14_OAUTH_START
-            directoryIterator = metadata.children.iterator();
-            // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
             while (directoryIterator.hasNext()) {
                 DbxEntry nextEntry = directoryIterator.next();
                 if (nextEntry instanceof DbxEntry.File) {
@@ -112,12 +105,7 @@ public class DropboxTools {
         //  - get the Dropbox file at printpath using client.getFile()
         //    hint: you need to create a temporary file into which you will download the Dropbox file
         //    @see http://dropbox.github.io/dropbox-sdk-java/api-docs/v1.7.x/com/dropbox/core/DbxClient.html#getFile(java.lang.String, java.lang.String, java.io.OutputStream)
-        // SPA14_OAUTH_START
-        createDbxClient();
-        File tmpfile = File.createTempFile(AppData.APP_NAME, "txt");
-        ConsoleLogger.debug("requested path is %s", printpath);
-        client.getFile(printpath, null, new FileOutputStream(tmpfile));
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         ConsoleLogger.debug("saved file contents to temporary file '%s'", tmpfile.getPath());
         BufferedReader br = new BufferedReader(new FileReader(tmpfile.getPath()));
@@ -158,11 +146,7 @@ public class DropboxTools {
         //    hint: a helper function to create the Dropbox client is at the end of this file
         //  - upload the temporary file you created above into the Dropbox location createpath
         //    hint: use Dropbox force mode to overwrite the file if it exists
-        // SPA14_OAUTH_START
-        createDbxClient();
-        File f = new File(tmpFilePath);
-        client.uploadFile(createpath, DbxWriteMode.force(), f.length(), new FileInputStream(f));
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
         ConsoleLogger.debug("copied temporary file '%s' to Dropbox path '%s'", tmpFilePath, createpath);
         f.delete(); 
     }
@@ -266,12 +250,7 @@ public class DropboxTools {
         //   hint: use the app name/version from AppData and the default Locale
         // - return this client to the caller
         // note how you have not had to provide any user credentials during this process!
-        // SPA14_OAUTH_START
-        AccessData accessData = new AccessData();
-        accessData.load();
-        DbxRequestConfig config = new DbxRequestConfig(AppData.APP_NAME_VERSION,  Locale.getDefault().toString());
-        client = new DbxClient(config, accessData.accessToken);
-        // SPA14_OAUTH_FINISH
+// TODO ==> INSERT CODE HERE <==
 
         ConsoleLogger.debug("created DbxClient() object for config %s, access token %s", AppData.APP_NAME_VERSION, accessData.accessToken);
     }
