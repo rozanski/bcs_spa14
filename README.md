@@ -44,14 +44,14 @@ Download the files in my git repository <https://github.com/rozanski/bcs_spa14> 
 You can download the files directly from the website (click _Download Zip_) or clone the repository using a `git` tool.
 
 You also need to download the Dropbox library and perform other setup tasks for your chosen language.
-The READMEs in the `demo/python` and `demo/java` directories have detailed installation instructions .
+The READMEs in the `demo/python` and `demo/maven` directories have detailed installation instructions .
 
 ### Running the Unit Tests
 Once you have completed all the installation tasks,
 you should then run the unit tests for your chosen language to make sure everything is working correctly.
 
 ### Viewing the Demo Documentation
-The `python/doc` and `java/doc` directories contain documentation for the demo code.
+The `python/doc` and `maven/target/site/apidocs` directories contain documentation for the demo code.
 You can open the HTML files in a web browser or view them from the home page of the demo HTTP server.
 
 ## HOW THE DEMO WORKS

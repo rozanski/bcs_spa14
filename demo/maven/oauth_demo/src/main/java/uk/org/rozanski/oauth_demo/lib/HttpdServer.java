@@ -45,7 +45,7 @@ public class HttpdServer {
 
     /**
      *
-     * This function waits for the user to press <Ctrl-C>, after which it stops the HTTP server and returns.
+     * This function waits for the user to press Ctrl-C, after which it stops the HTTP server and returns.
      *
      * @throws IOException if a console I/O error occurs
      */
