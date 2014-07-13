@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+  <name>oauth_demo</name>
+  <comment>This directory contains Java code for the BCS SPA 2014 OAuth session 
+    (http://spaconference.org/spa2014/sessions/session576.html).
+    Please refer to the project README for more information and installation instructions. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

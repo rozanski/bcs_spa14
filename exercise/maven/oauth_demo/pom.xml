@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- core settings -->
+  <groupId>uk.org.rozanski.oauth_demo</groupId>
+  <artifactId>oauth_demo</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <!-- project information -->
+  <name>BCS SPA 2104 OAuth Demo</name>
+  <description>
+    This directory contains Java code for the BCS SPA 2014 OAuth session 
+    (http://spaconference.org/spa2014/sessions/session576.html).
+    Please refer to the project README for more information and installation instructions.
+  </description>
+  <inceptionYear>2014</inceptionYear>
+  <licenses>
+    <license>
+      <name>UNLICENSE</name>
+      <url>http://unlicense.org/</url>
+      <distribution>This is free and unencumbered software released into the public domain</distribution>
+      <comments/>
+    </license>
+  </licenses>
+  <url>https://github.com/rozanski/bcs_spa14</url>
+
+  <!-- developer information -->
+  <scm>
+    <url>https://github.com/rozanski/bcs_spa14</url>
+    <connection>scm:git:git://github.com/rozanski/bcs_spa14</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>nickrozanski</id>
+      <name>Nick Rozanski</name>
+      <email>nick@rozanski.org.uk</email>
+      <url>http://www.nick.rozanski.org.uk</url>
+    </developer>
+  </developers>
+
+  <!-- properties (prevents encoding error message) -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <!-- dependencies -->
+  <dependencies>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.dropbox.core</groupId>
+      <artifactId>dropbox-core-sdk</artifactId>
+      <version>[1.7,1.8)</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+  </dependencies>
+
+  <!-- the integration test phase is used to run the demo  -->
+  <!-- command: mvn integration-test -->
+  <build>
+   <plugins>
+     <plugin>
+       <groupId>org.codehaus.mojo</groupId>
+       <artifactId>exec-maven-plugin</artifactId>
+       <version>1.3.1</version>
+       <executions>
+         <execution>
+           <phase>integration-test</phase>
+             <goals>
+               <goal>java</goal>
+             </goals>
+           <configuration>
+             <mainClass>uk.org.rozanski.oauth_demo.OauthDemo</mainClass>
+           </configuration>
+         </execution>
+       </executions>
+     </plugin>
+   </plugins>
+ </build>
+
+  <!-- generate Javadoc documentation -->
+  <!-- command: mvn site -->
+ <reporting>
+   <plugins>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-javadoc-plugin</artifactId>
+       <version>2.9.1</version>
+       <configuration>
+          <sourceFileIncludes>
+              <include>**/*.java</include>
+          </sourceFileIncludes>
+          <show>private</show>
+       </configuration>
+     </plugin>
+   </plugins>
+ </reporting>
+
+</project>

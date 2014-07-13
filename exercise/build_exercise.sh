@@ -1,6 +1,9 @@
 #!/bin/bash
 
 function create_skeleton {
+    echo IN: $1
+    echo OUT: $2
+    return
     # input line count
     wc1="`wc -l $1 | sed -e 's/ *//' -e 's/ .*//'`"
     echo " processing $filename ($wc1 lines)..."
@@ -26,31 +29,47 @@ echo Demo Directory is $demo_dir
 echo Exercise Directory is $exercise_dir
 
 echo Removing Exercise directories...
-rm -rf $exercise_dir/java
+rm -rf $exercise_dir/maven
 rm -rf $exercise_dir/python
 
 # Java setup
 echo Creating Java directories...
-mkdir -p $exercise_dir/java/files
-mkdir -p $exercise_dir/java/jar
-mkdir -p $exercise_dir/java/src/oauth_demo/unittest
+mkdir -p $exercise_dir/maven/files
+mkdir -p $exercise_dir/maven/jar
+mkdir -p $exercise_dir/maven/oauth_demo/src/main/java/uk/org/rozanski/oauth_demo/lib
+mkdir -p $exercise_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/testlib
 
 echo Copying Java files...
-cp $demo_dir/java/jar/*.jar $exercise_dir/java/jar
-cp $demo_dir/java/files/* $exercise_dir/java/files
-cp $demo_dir/java/build.xml $exercise_dir/java/build.xml
+cp $demo_dir/maven/jar/*.jar $exercise_dir/maven/jar
+cp $demo_dir/maven/files/* $exercise_dir/maven/files
+cp $demo_dir/maven/build.xml $exercise_dir/maven/build.xml
 
-echo Processing Java source...
-for srcfile in $demo_dir/java/src/oauth_demo/*.java
+echo Processing Java main source...
+for srcfile in $demo_dir/maven/oauth_demo/src/main/java/uk/org/rozanski/oauth_demo/*.java
 do
     filename=`basename $srcfile`
-    create_skeleton $srcfile $exercise_dir/java/src/oauth_demo/$filename
+    create_skeleton $srcfile $exercise_dir/maven/oauth_demo/src/main/java/uk/org/rozanski/oauth_demo/$filename
 done
-for testfile in $demo_dir/java/src/oauth_demo/unittest/*.java
+echo Processing Java library source...
+for srcfile in $demo_dir/maven/oauth_demo/src/main/java/uk/org/rozanski/oauth_demo/lib/*.java
 do
-    filename=`basename $testfile`
-    create_skeleton $testfile $exercise_dir/java/src/oauth_demo/unittest/$filename
+    filename=`basename $srcfile`
+    create_skeleton $srcfile $exercise_dir/maven/oauth_demo/src/main/java/uk/org/rozanski/oauth_demo/lib/$filename
 done
+
+echo Processing Java test source...
+for srcfile in $demo_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/*.java
+do
+    filename=`basename $srcfile`
+    create_skeleton $srcfile $exercise_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/$filename
+done
+echo Processing Java library source...
+for srcfile in $demo_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/testlib/*.java
+do
+    filename=`basename $srcfile`
+    create_skeleton $srcfile $exercise_dir/maven/oauth_demo/src/test/java/uk/org/rozanski/oauth_demo/testlib/$filename
+done
+
 
 echo Java complete.
 
